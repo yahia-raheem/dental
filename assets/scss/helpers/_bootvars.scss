@@ -1,0 +1,32 @@
+$dir: "ltr";
+
+// html {
+//   &[dir="ltr"] {
+//     $dir: "ltr" !global;
+//   }
+//   &[dir="rtl"] {
+//     $dir: "rtl" !global;
+//   }
+// }
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1300px
+);
+
+$primary: #3959a8;
+$secondary: #ffba5b;
+$theme-colors: (
+  "sec-light": #f9f9f9,
+  "primary-dark": #88300c,
+  "cta-yellow": #fdc800
+);
+
+$enable-shadows: true;
+$paragraph-margin-bottom: 0;
+$headings-margin-bottom: 15px;
+$headings-font-weight: 600;
+$font-size-base: 1rem;
+$body-color: #5d5d5d;
+$headings-color: black;

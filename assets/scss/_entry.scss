@@ -1,0 +1,25 @@
+@use "sass:meta";
+@use "helpers" as *;
+// .sec-title {
+//   &.marked {
+//     position: relative;
+//     &::after {
+//       bottom: -$headings-margin-bottom;
+//       @include h.center("h");
+//       width: 70px;
+//       height: 6px;
+//       border-radius: 10px;
+//       background-color: $secondary;
+//       content: "";
+//     }
+//     &.side::after {
+//       @include h.appDirAuto($start: 0);
+//       transform: none;
+//     }
+//   }
+// }
+
+@import "./helpers/helpers";
+@import "./helpers/splide";
+@import "./helpers/dropdown_menu";
+@import "./helpers/sidenav";
