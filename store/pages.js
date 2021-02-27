@@ -8,7 +8,7 @@ export const getters = {
     return state.pages;
   },
   pageById: state => pageId => {
-    return state.pages.filters(page => page.id == pageId);
+    return state.pages.find(page => page.id == pageId);
   },
   pageIsFetched: state => pageId => {
     return state.pages.some(p => p.id == pageId);

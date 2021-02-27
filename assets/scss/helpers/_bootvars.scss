@@ -1,13 +1,3 @@
-$dir: "ltr";
-
-// html {
-//   &[dir="ltr"] {
-//     $dir: "ltr" !global;
-//   }
-//   &[dir="rtl"] {
-//     $dir: "rtl" !global;
-//   }
-// }
 $container-max-widths: (
   sm: 540px,
   md: 720px,
@@ -28,5 +18,6 @@ $paragraph-margin-bottom: 0;
 $headings-margin-bottom: 15px;
 $headings-font-weight: 600;
 $font-size-base: 1rem;
-$body-color: #5d5d5d;
-$headings-color: black;
+$body-color: #727272;
+$headings-color: #303030;
+$font-family-base: 'sans-serif';

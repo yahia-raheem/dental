@@ -1,39 +1,36 @@
 <template>
   <section class="home-slider">
-    <div class="slider-container">
-      <div class="splide" id="homeslider">
-        <div class="splide__track">
-          <ul class="splide__list">
-            <li
-              class="splide__slide"
-              v-for="(item, key) in imgs"
-              :key="key"
-              v-html="item"
-            ></li>
-          </ul>
+    <div class="slider-data">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <h1 class="title">{{ title }}</h1>
+            <h2 class="subtitle">{{ subtitle }}</h2>
+          </div>
         </div>
+        <slider-filter />
       </div>
     </div>
+    <VueSlickCarousel v-bind="settings">
+      <div class="slide" v-for="(item, key) in slideImgs" :key="key">
+        <get-img :imgid="item.ID" responsive="xl:100vw,lg:700px" />
+      </div>
+    </VueSlickCarousel>
   </section>
 </template>
 <script>
-import { mapActions } from "vuex";
+import SliderFilter from "./SliderFilter.vue";
 export default {
-  mounted() {
-    this.slideImgs.forEach(element => {
-      this.getImage({
-        id: element.ID,
-        size: "full",
-        classes: "slide-image"
-      }).then(res => {
-        this.imgs.push(res.image);
-      });
-    });
-  },
+  components: { SliderFilter },
   data() {
     return {
-      imgs: []
-    };
+      settings: {
+        dots: false,
+        arrows: false,
+        autoplay: true,
+        fade: true
+      }
+    }
   },
   props: {
     slideImgs: {
@@ -41,17 +38,40 @@ export default {
       default() {
         return [];
       }
+    },
+    title: {
+      type: String,
+      default: ""
+    },
+    subtitle: {
+      type: String,
+      default: ""
     }
-  },
-  methods: {
-    ...mapActions({
-      getImage: "general/getImage"
-    })
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+@use "~/assets/scss/helpers" as h with(
+  $dir: $dir
+);
 section.home-slider {
-    padding: 0;
+  padding: 0;
+  @include h.slick($use-arrows: false, $use-dots: false) {
+    .slide {
+      height: 800px;
+    }
+  }
+  .slider-data {
+    @include h.center();
+    width: 100%;
+    z-index: 1;
+    .title,
+    .subtitle {
+      text-align: center;
+    }
+    .title {
+      font-weight: 700;
+    }
+  }
 }
 </style>

@@ -1,9 +1,5 @@
-@use 'mixins' as *;
-@use "bootvars" as *;
-
 html,
 body {
-  @include appDir(direction, ltr, direction, rtl);
   *,
   *::before,
   *::after {
@@ -101,10 +97,6 @@ section {
 
 .slick-slide:focus {
   outline: none;
-}
-
-div.pagination {
-  @include my-pagination();
 }
 
 .slick-prev,

@@ -11,12 +11,16 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/style-resources": "^1.0.0",
-    "@splidejs/splide": "^2.4.21",
+    "animate.css": "^4.1.1",
     "bootstrap": "^4.6.0",
     "core-js": "^3.8.3",
-    "nuxt": "^2.14.12"
+    "nuxt": "^2.14.12",
+    "vue-select": "^3.11.2",
+    "vue-slick-carousel": "^1.0.6",
+    "vuelidate": "^0.7.6"
   },
   "devDependencies": {
+    "@nuxt/image": "^0.4.1",
     "fibers": "^5.0.0",
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1"

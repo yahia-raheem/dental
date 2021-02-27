@@ -1,25 +1,10 @@
 @use "sass:meta";
-@use "helpers" as *;
-// .sec-title {
-//   &.marked {
-//     position: relative;
-//     &::after {
-//       bottom: -$headings-margin-bottom;
-//       @include h.center("h");
-//       width: 70px;
-//       height: 6px;
-//       border-radius: 10px;
-//       background-color: $secondary;
-//       content: "";
-//     }
-//     &.side::after {
-//       @include h.appDirAuto($start: 0);
-//       transform: none;
-//     }
-//   }
-// }
+@use "helpers" as h with(
+    $dir: $dir,
+);
 
+@import "../../node_modules/vue-select/src/scss/vue-select.scss";
+// @import "../../node_modules/animate.css/animate.min.css";
 @import "./helpers/helpers";
-@import "./helpers/splide";
 @import "./helpers/dropdown_menu";
 @import "./helpers/sidenav";

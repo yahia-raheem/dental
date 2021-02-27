@@ -2,7 +2,10 @@ import axios from "axios";
 export const state = () => ({
   headerOptions: {},
   socialMedia: [],
-  images: []
+  images: [],
+  headerMenu: [],
+  footerMenus: {},
+  metabox: []
 });
 
 export const getters = {
@@ -20,6 +23,18 @@ export const getters = {
   },
   isImageFetched: state => imageId => {
     return state.images.some(e => e.id === imageId);
+  },
+  headerMenu: state => {
+    return state.headerMenu;
+  },
+  footerMenus: state => {
+    return state.footerMenus;
+  },
+  getMetabox: state => key => {
+    return state.metabox.find(meta => meta.key == key);
+  },
+  isMetaboxFetched: state => key => {
+    return state.metabox.some(m => m.key == key);
   }
 };
 
@@ -35,10 +50,63 @@ export const mutations = {
   },
   ADD_IMAGE(state, image) {
     state.images.push(image);
+  },
+  SET_HEADERMENU(state, menu) {
+    state.headerMenu = menu;
+  },
+  SET_FOOTERMENUS(state, menus) {
+    state.footerMenus = menus;
+  },
+  ADD_METABOX(state, meta) {
+    state.metabox.push(meta);
   }
 };
 
 export const actions = {
+  async getHeaderMenu(vcontext) {
+    try {
+      const { data } = await axios.get(
+        `${process.env.baseUrl}/wp-json/wp/v2/menus`
+      );
+      vcontext.commit("SET_HEADERMENU", data["header-menu"]);
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async getFooterMenus(vcontext) {
+    try {
+      
+      if (Object.keys(vcontext.getters.footerMenus).length !== 0) {
+        return vcontext.getters.footerMenus;
+      } else {
+        const { data } = await axios.get(
+          `${process.env.baseUrl}/wp-json/wp/v2/widgets`
+        );
+        vcontext.commit("SET_FOOTERMENUS", data);
+        return data;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async getMetaField(vcontext, options) {
+    try {
+      if (vcontext.getters.isMetaboxFetched(options.key)) {
+        return vcontext.getters.getMetabox(options.key);
+      } else {
+        const { data } = await axios.get(
+          `${process.env.baseUrl}/wp-json/generaldata/v1/meta_box/get_item`,
+          {
+            params: {
+              ...options
+            }
+          }
+        );
+        vcontext.commit("ADD_METABOX", data);
+        return data;
+      }
+    } catch (error) {}
+  },
   async getHeaderOptions(vcontext) {
     try {
       const { data } = await axios.get(
@@ -57,18 +125,10 @@ export const actions = {
       for (const key in data) {
         if (Object.hasOwnProperty.call(data, key)) {
           const element = data[key];
-          if (element["link"]) {
-            const imgoptions = {
-              id: element["imgid"],
-              icon: false,
-              classes: "style-svg"
-            };
-            const image = await vcontext.dispatch("getImage", imgoptions);
-            const modified = {};
-            modified["link"] = element["link"];
+          if (element["link"] && element["imgid"]) {
             vcontext.commit("ADD_SOCIAL_LINK", {
-              ...modified,
-              image: image.image
+              link: element["link"],
+              image: element["imgid"]
             });
           }
         }
@@ -80,17 +140,13 @@ export const actions = {
   async getImage(vcontext, options) {
     try {
       if (vcontext.getters.isImageFetched(options.id)) {
-        console.log(`got the ${options.id} image from the store`);
         return vcontext.getters.image(options.id);
       } else {
-        console.log(`had to fetch the ${options.id} image`);
         const { data } = await axios.get(
           `${process.env.baseUrl}/wp-json/generaldata/v1/getimage/${options.id}`,
           {
             params: {
-              size: options.size ? options.size : false,
-              icon: options.icon ? options.icon : false,
-              classes: options.classes ? options.classes : false
+              size: options.size ? options.size : false
             }
           }
         );

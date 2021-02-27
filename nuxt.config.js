@@ -1,7 +1,8 @@
 import Sass from "sass";
-
+import { WP_PAGES_IDS } from "./constants/pageConstants";
 const customSass = {
-  implementation: Sass
+  implementation: Sass,
+  additionalData: '$dir: "ltr";'
 };
 
 export default {
@@ -23,13 +24,31 @@ export default {
   css: ["@/assets/scss/bundle.scss"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: "~/plugins/helpers", mode: "client" }],
+  plugins: [
+    { src: "~/plugins/helpers", mode: "client" },
+    { src: "~/plugins/vue-slick-slider.js" },
+    { src: "~/plugins/global-components.js" },
+    { src: "~/plugins/vuelidate.js" }
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [],
+  buildModules: ["@nuxt/image"],
+
+  image: {
+    domains: ["http://dental.local/"],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536
+    },
+    sizes: [320, 420, 768, 1024, 1200]
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -41,7 +60,8 @@ export default {
   axios: {},
 
   env: {
-    baseUrl: process.env.BASE_URL || "http://dental.local"
+    baseUrl: process.env.BASE_URL || "http://dental.local",
+    ...WP_PAGES_IDS
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

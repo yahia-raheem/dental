@@ -8,23 +8,8 @@ import "./components/sidebar";
 import "./components/shared";
 
 // import $ from "jquery";
-import Splide from "@splidejs/splide";
 
 document.addEventListener("DOMContentLoaded", () => {
-    if (document.getElementById("homeslider") != null) {
-        new Splide("#homeslider", {
-          type: "fade",
-          width: "100vw",
-          height: "700px",
-          arrows: false,
-          autoplay: true,
-          breakpoints: {
-              992: {
-                  height: "450px"
-              }
-          }
-        }).mount();
-      }
 });
 
 // $(function () {

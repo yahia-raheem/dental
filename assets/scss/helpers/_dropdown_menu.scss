@@ -1,12 +1,9 @@
-@use 'mixins' as *;
-@use "bootvars" as *;
-
 $menu-border-radius: 5px;
 .dropdown-toggle {
   cursor: pointer;
 }
 .dropdown-menu {
-  @include center('h');
+  @include h.center('h');
   background-color: white;
   position: absolute;
   min-width: 260px;
@@ -17,9 +14,9 @@ $menu-border-radius: 5px;
   display: none;
   border-radius: $menu-border-radius;
   &::after {
-    @include arrow('up', white, 5px, 5px, 'solid');
+    @include h.arrow('up', white, 5px, 5px, 'solid');
     content: "";
-    @include center('h');
+    @include h.center('h');
     top: -5px;
   }
   box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
@@ -38,7 +35,7 @@ $menu-border-radius: 5px;
     img {
       max-height: 50px;
       max-width: 30px;
-      @include appDirAuto($margin-end: 10px, $margin-start: 15px);
+      @include h.appDirAuto($margin-end: 10px, $margin-start: 15px);
     }
     &:first-of-type {
       border-top-left-radius: $menu-border-radius;
@@ -53,7 +50,7 @@ $menu-border-radius: 5px;
     }
   }
   .dropdown-menu {
-    @include appDirAuto($start: 160px);
+    @include h.appDirAuto($start: 160px);
     top: 0;
     box-shadow: none;
     &::after {
@@ -70,11 +67,11 @@ $menu-border-radius: 5px;
 .dropdown {
   position: relative;
   display: inline-block;
-  @include appDirAuto($padding-end: 15px);
+  @include h.appDirAuto($padding-end: 15px);
   &::after {
     position: absolute;
     top: 10px;
-    @include appDirAuto($end: 5px);
+    @include h.appDirAuto($end: 5px);
     content: "\002B";
     color: $secondary;
   }
