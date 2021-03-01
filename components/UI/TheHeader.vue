@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-container">
+  <div :class="{'nav-container': true, 'home-header': $route.fullPath == '/'}">
     <div class="white-gradient">
       <get-img :imgid="navBgGradient" />
     </div>
@@ -39,9 +39,9 @@
       <div class="row">
         <div class="col-12">
           <nav class="navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" to="/">
+            <nuxt-link class="navbar-brand" to="/">
             <get-img :imgid="siteLogo" :classes="'site-logo'" :size="['130', 'auto']" />
-            </a>
+            </nuxt-link>
             <button
               class="navbar-toggler"
               type="button"
@@ -90,7 +90,7 @@ export default {
     getOption(optionId) {
       return this.$store.getters["general/headerOption"](optionId);
     },
-  }
+  },
 };
 </script>
 

@@ -1,6 +1,7 @@
 import axios from "axios";
 export const state = () => ({
-  pages: []
+  pages: [],
+  currPage: null
 });
 
 export const getters = {
@@ -12,12 +13,18 @@ export const getters = {
   },
   pageIsFetched: state => pageId => {
     return state.pages.some(p => p.id == pageId);
+  },
+  currentPage: state => {
+    return state.currPage
   }
 };
 
 export const mutations = {
   ADD_PAGE(state, page) {
     state.pages.push(page);
+  },
+  SET_CURRENT(state, page) {
+    state.currPage = page
   }
 };
 
@@ -36,5 +43,10 @@ export const actions = {
         console.log(error);
       }
     }
+  },
+  async setCurrentPage(vcontext, pageId) {
+    const page = await vcontext.dispatch('getPage', pageId)
+    vcontext.commit('SET_CURRENT', page)
+    return page
   }
 };

@@ -90,7 +90,6 @@ export const hideOnClickOutside = (element, callback, check) => {
 
 export const imgTosvg = (options) => {
   const img = options["element"];
-  const index = options["index"];
   const imgURL = img.getAttribute("src");
   const imgID = img.getAttribute("id");
   const imgClasses = img.getAttribute("class");
@@ -103,8 +102,6 @@ export const imgTosvg = (options) => {
       const svg = parentDiv.querySelector('svg');
       if (imgID != null) {
         svg.setAttribute("id", imgID);
-      } else {
-        svg.setAttribute("id", `replaced-svg-${index}`);
       }
       svg.removeAttribute("xmlns:a");
       svg.setAttribute("class", imgClasses)

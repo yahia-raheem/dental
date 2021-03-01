@@ -98,14 +98,14 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
   data() {
     return {
-      labsvgId: null,
-      docsvgId: null,
+      // labsvgId: null,
+      // docsvgId: null,
       dentistActive: true,
       labActive: false,
       servicedd: null,
@@ -132,15 +132,21 @@ export default {
       minLength: minLength(4)
     }
   },
-  async fetch() {
-    const data = await this.getPage(process.env.homepageId);
-    this.labsvgId = data.meta_box.lab_svg.ID;
-    this.docsvgId = data.meta_box.doctor_svg.ID;
+  computed: {
+    ...mapGetters({
+      pageById: 'pages/pageById'
+    }),
+    labsvgId() {
+      return this.pageById(process.env.homepageId).meta_box.lab_svg.ID
+    },
+    docsvgId() {
+      return this.pageById(process.env.homepageId).meta_box.doctor_svg.ID
+    }
+    // const data = await this.getPage(process.env.homepageId);
+    // this.labsvgId = data.meta_box.lab_svg.ID;
+    // this.docsvgId = data.meta_box.doctor_svg.ID;
   },
   methods: {
-    ...mapActions({
-      getPage: "pages/getPage"
-    }),
     activateTab(e) {
       if (e.target.classList.contains("dentist")) {
         this.dentistActive = true;

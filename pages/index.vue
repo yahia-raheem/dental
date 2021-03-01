@@ -30,7 +30,7 @@ import HomeWgTabs from "~/components/home/HomeWgTabs.vue";
 export default {
   async asyncData(context) {
     const pageData = await context.store.dispatch(
-      "pages/getPage",
+      "pages/setCurrentPage",
       process.env.homepageId
     );
     return {

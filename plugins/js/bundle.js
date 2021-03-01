@@ -5,7 +5,7 @@
 // import "./components/widgets";
 import "./components/helpers";
 import "./components/sidebar";
-import "./components/shared";
+// import "./components/shared";
 
 // import $ from "jquery";
 
