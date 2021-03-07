@@ -9,6 +9,7 @@
       :fit="fit"
       :alt="imgAlt"
       loading="lazy"
+      v-if="$fetchState.pending == false"
     />
   </div>
 </template>
@@ -23,7 +24,7 @@ export default {
   },
   props: {
     imgid: {
-      required: true
+      required: false
     },
     size: {
       required: false
@@ -43,18 +44,33 @@ export default {
       default: null,
       required: false
     },
+    imgobj: {
+      required: false,
+      default: null
+    }
   },
   async fetch() {
-    const data = await this.getImage({
-      id: this.imgid,
-      size: this.size ? this.size : null
-    });
-    this.img = data.image;
-    this.imgAlt = data.alt;
+    if (this.imgobj == null) {
+      const data = await this.getImage({
+        id: this.imgid,
+        size: this.size ? this.size : null
+      });
+      this.img = data.image;
+      this.imgAlt = data.alt;
+    } else {
+      this.img = this.imgobj.full_url
+      this.imgAlt = this.imgobj.alt
+      this.addImg({
+        alt: this.imgobj.alt,
+        id: this.imgobj.ID,
+        image: this.imgobj.full_url
+      })
+    }
   },
   methods: {
     ...mapActions({
-      getImage: "general/getImage"
+      getImage: "general/getImage",
+      addImg: "general/addImg",
     })
   }
 };

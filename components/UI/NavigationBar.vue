@@ -28,7 +28,7 @@ export default {
     &:hover {
       color: h.$secondary;
     }
-    &.nuxt-link-active {
+    &.nuxt-link-exact-active {
       color: h.$secondary;
     }
   }

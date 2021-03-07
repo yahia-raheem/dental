@@ -1,6 +1,8 @@
 <template>
-  <div :class="{'nav-container': true, 'home-header': $route.fullPath == '/'}">
-    <div class="white-gradient">
+  <div
+    :class="{ 'nav-container': true, 'home-header': $route.fullPath == '/' }"
+  >
+    <div class="white-gradient" v-if="$route.fullPath == '/'">
       <get-img :imgid="navBgGradient" />
     </div>
     <div class="container-fluid">
@@ -40,7 +42,11 @@
         <div class="col-12">
           <nav class="navbar navbar-expand-lg navbar-dark">
             <nuxt-link class="navbar-brand" to="/">
-            <get-img :imgid="siteLogo" :classes="'site-logo'" :size="['130', 'auto']" />
+              <get-img
+                :imgid="siteLogo"
+                :classes="'site-logo'"
+                :size="['130', 'auto']"
+              />
             </nuxt-link>
             <button
               class="navbar-toggler"
@@ -89,8 +95,8 @@ export default {
   methods: {
     getOption(optionId) {
       return this.$store.getters["general/headerOption"](optionId);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -99,23 +105,6 @@ export default {
   $dir: $dir
 );
 .nav-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 2;
-  .white-gradient {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    img {
-      width: 100%;
-      height: auto;
-    }
-  }
   .social {
     padding: 0;
     list-style: none;
@@ -174,6 +163,25 @@ export default {
   nav.navbar {
     padding-left: 0;
     padding-right: 0;
+  }
+  &.home-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    .white-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
   }
 }
 </style>

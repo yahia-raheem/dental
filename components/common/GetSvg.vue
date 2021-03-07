@@ -1,35 +1,51 @@
 <template>
   <div>
-    <img :src="svg" class="style-svg" ref="theImg">
+    <client-only>
+      <img :src="svg" class="style-svg" ref="theImg" />
+    </client-only>
   </div>
 </template>
 <script>
 import { mapActions } from "vuex";
-import imgToSvg from '~/mixins/imgToSvg.js'
+import imgToSvg from "~/mixins/imgToSvg.js";
 export default {
+  mixins: [imgToSvg],
   data() {
     return {
       svg: ""
     };
   },
-  mixins: [imgToSvg],
   props: {
     svgid: {
-      reauired: true
+      reauired: false
+    },
+    svgobj: {
+      required: false,
+      default: null
     }
   },
-  async fetch() {
-    const data = await this.getImage({
-        id: this.svgid,
-    });
-    this.svg = data.image
-  },
   mounted() {
-    this.transformToSvg(this.$refs.theImg)
+    if (this.svgobj == null) {
+      this.getImage({
+        id: this.svgid
+      }).then(data => {
+        this.svg = data.image;
+        this.transformToSvg(this.$refs.theImg)
+      });
+    } else {
+      this.addImg({
+        alt: this.svgobj.alt,
+        id: this.svgobj.ID,
+        image: this.svgobj.full_url
+      });
+      this.svg = this.svgobj.full_url;
+      this.transformToSvg(this.$refs.theImg)
+    }
   },
   methods: {
     ...mapActions({
-      getImage: "general/getImage"
+      getImage: "general/getImage",
+      addImg: "general/addImg"
     })
   }
 };

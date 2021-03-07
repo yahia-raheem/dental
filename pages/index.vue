@@ -28,6 +28,7 @@ import HomeSlider from "~/components/home/HomeSlider.vue";
 import HomeSteps from "~/components/home/HomeSteps.vue";
 import HomeWgTabs from "~/components/home/HomeWgTabs.vue";
 export default {
+  layout: 'home',
   async asyncData(context) {
     const pageData = await context.store.dispatch(
       "pages/setCurrentPage",

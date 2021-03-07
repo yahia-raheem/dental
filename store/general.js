@@ -75,7 +75,6 @@ export const actions = {
   },
   async getFooterMenus(vcontext) {
     try {
-      
       if (Object.keys(vcontext.getters.footerMenus).length !== 0) {
         return vcontext.getters.footerMenus;
       } else {
@@ -155,6 +154,11 @@ export const actions = {
       }
     } catch (error) {
       console.log(error);
+    }
+  },
+  addImg(vcontext, options) {
+    if (!vcontext.getters.isImageFetched(options.id)) {
+      vcontext.commit("ADD_IMAGE", options);
     }
   }
 };

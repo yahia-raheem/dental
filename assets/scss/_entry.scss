@@ -3,6 +3,15 @@
     $dir: $dir,
 );
 
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.2s;
+}
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+}
+
 @import "../../node_modules/vue-select/src/scss/vue-select.scss";
 // @import "../../node_modules/animate.css/animate.min.css";
 @import "./helpers/helpers";
