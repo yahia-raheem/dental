@@ -4,8 +4,8 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-            <h1 class="title">{{ title }}</h1>
-            <h2 class="subtitle">{{ subtitle }}</h2>
+            <h1 class="stitle">{{ title }}</h1>
+            <h2 class="ssubtitle">{{ subtitle }}</h2>
           </div>
         </div>
         <slider-filter />
@@ -13,7 +13,7 @@
     </div>
     <VueSlickCarousel v-bind="settings">
       <div class="slide" v-for="(item, key) in slideImgs" :key="key">
-        <get-img :imgid="item.ID" responsive="xl:100vw,lg:700px" />
+        <get-img :imgid="item.ID" responsive="xl:100vw lg:1280px md:1024px sm:768px xs:100vw" classes="bg-image" />
       </div>
     </VueSlickCarousel>
   </section>
@@ -65,12 +65,22 @@ section.home-slider {
     @include h.center();
     width: 100%;
     z-index: 1;
-    .title,
-    .subtitle {
+    .stitle,
+    .ssubtitle {
       text-align: center;
     }
-    .title {
+    .stitle {
       font-weight: 700;
+      font-size: 1.8rem;
+      @include h.media('>992px') {
+        font-size: 2.5rem;
+      }
+    }
+    .ssubtitle {
+      font-size: 1.3rem;
+      @include h.media('>992px') {
+        font-size: 2rem;
+      }
     }
   }
 }

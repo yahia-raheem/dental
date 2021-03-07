@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-4 d-flex justify-content-center align-items-center" v-for="(item, key) in labGroup" :key="key">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-3 d-flex justify-content-center align-items-center" v-for="(item, key) in labGroup" :key="key">
           <div class="step-box shadow-sm">
             <get-img
               :imgid="item.logo"
@@ -75,6 +75,7 @@ section.home-steps {
   }
   .shapes {
     position: absolute;
+    display: none;
     &.bs-cloud {
       bottom: 0;
       @include h.appDirAuto($start: 10px);
@@ -82,6 +83,9 @@ section.home-steps {
     &.be-cloud {
       bottom: 0;
       @include h.appDirAuto($end: 0);
+    }
+    @include h.media('>992px') {
+      display: block;
     }
   }
   padding-top: 0;
@@ -94,6 +98,10 @@ section.home-steps {
     margin-bottom: 10px;
   }
   .sec-subtitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     .word {
       @include h.appDirAuto($margin-end: 10px);
       font-weight: 900;

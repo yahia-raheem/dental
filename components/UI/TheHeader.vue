@@ -7,7 +7,7 @@
     </div>
     <div class="container-fluid">
       <div class="row py-3">
-        <div class="col-6 d-flex justify-content-start align-items-center">
+        <div class="col-lg-4 col-md-4 col-sm-2 col-12 d-flex justify-content-start align-items-center">
           <ul class="social">
             <li v-for="(item, key) in socialMedia" :key="key">
               <a :href="item.link">
@@ -16,7 +16,7 @@
             </li>
           </ul>
         </div>
-        <div class="col-6 d-flex justify-content-end align-items-center">
+        <div class="col-lg-8 col-md-8 col-sm-10 col-12 d-flex justify-content-end align-items-center">
           <div class="header-cta header-phone-cta">
             <div class="img-container">
               <get-svg :svgid="numberImage" />
