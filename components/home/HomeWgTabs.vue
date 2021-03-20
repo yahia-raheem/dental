@@ -2,11 +2,11 @@
   <section class="home-wg">
     <div class="container-fluid">
       <div class="row sec-header">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-12">
           <h3 class="prefix">{{ secPrefix }}</h3>
           <h2 class="sec-title">{{ secTitle }}</h2>
         </div>
-        <div class="col-6 d-flex justify-content-end align-items-center">
+        <div class="col-lg-6 col-md-12 d-flex justify-content-center align-items-center justify-content-lg-end flex-wrap">
           <button
             v-for="(item, index) in secTabs"
             :key="index"
@@ -99,15 +99,19 @@ section.home-wg {
   }
   .prefix {
     color: h.$primary;
-    font-size: 2rem;
     font-weight: 500;
     margin-bottom: 10px;
+    font-size: 1.5rem;
+    @include h.media('>992px') {
+      font-size: 2rem;
+    }
   }
   .sec-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: #ffbb64;
     font-weight: 900;
     position: relative;
+    margin-bottom: 50px;
     &::after {
       position: absolute;
       bottom: -20px;
@@ -118,6 +122,9 @@ section.home-wg {
       background-color: h.$secondary;
       content: "";
     }
+    @include h.media('>992px') {
+      font-size: 2.5rem;
+    }
   }
   .tab-btn {
     border: 1px solid #4b6b83;
@@ -125,6 +132,7 @@ section.home-wg {
     @include h.appDirAuto($margin-end: 15px);
     min-width: 170px;
     border-radius: 10px;
+    margin-bottom: 15px;
     &.active {
       background-color: #ffbb64;
       color: #98662b;

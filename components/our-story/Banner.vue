@@ -50,13 +50,16 @@ export default {
     z-index: 2;
   }
   .data-container {
-    padding: 20px 40px;
     position: relative;
     z-index: 3;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding: 20px 20px;
+    @include h.media(">500px") {
+      padding: 20px 40px;
+    }
     .title,
     .subtitle {
       color: white;
@@ -66,6 +69,9 @@ export default {
     }
     .buttons-container {
       display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
       .btn {
         width: 160px;
         height: 45px;
@@ -74,8 +80,8 @@ export default {
         align-items: center;
         font-weight: 700;
         border-radius: 10px;
-        &:not(:last-of-type) {
-          @include h.appDirAuto($margin-end: 15px);
+        &:first-of-type {
+          margin-bottom: 20px;
         }
         &.btn-doctor {
           background-color: #ffb964;
@@ -91,6 +97,14 @@ export default {
           &:hover {
             background-color: #ffb964;
             color: #af702b;
+          }
+        }
+        @include h.media(">410px") {
+          &:not(:last-of-type) {
+            @include h.appDirAuto($margin-end: 15px);
+          }
+          &:first-of-type {
+            margin-bottom: 0;
           }
         }
       }

@@ -2,7 +2,7 @@
   <section class="footer">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-3">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
           <div class="img-container mb-4">
             <get-img
               :imgid="siteLogo"
@@ -13,7 +13,7 @@
           <p class="desc">{{ footerDesc }}</p>
         </div>
         <div
-          class="col-3 d-flex flex-column justify-content-start align-items-center"
+          class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4 d-flex flex-column justify-content-start align-items-start align-items-lg-center"
           v-for="(item, index) in footerWArea"
           :key="index"
         >
@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="col-12">
-          <hr class="sep mt-5" />
+          <hr class="sep mt-4" />
         </div>
       </div>
       <div class="row">

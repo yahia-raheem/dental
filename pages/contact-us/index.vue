@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-4 col-md-12 d-flex justify-content-center">
+        <div class="col-lg-4 col-md-12 d-flex justify-content-center mb-4">
           <div class="form-container shadow-sm">
             <h5 class="form-title">SEND YOUR REQUEST</h5>
             <contact-form />

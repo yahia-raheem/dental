@@ -11,7 +11,7 @@
     <div class="container">
       <div class="row">
         <div
-          class="col-6 d-flex justify-content-center align-items-center"
+          class="col-lg-6 col-md-12 mb-4 d-flex justify-content-center align-items-center"
           v-for="(item, index) in page.meta_box.mv_box"
           :key="index"
         >

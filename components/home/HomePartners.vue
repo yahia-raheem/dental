@@ -26,7 +26,39 @@ export default {
         dots: false,
         arrows: false,
         autoplay: true,
-        slidesToShow: 6
+        slidesToShow: 6,
+        responsive: [
+          {
+            breakpoint: 1366,
+            settings: {
+              slidesToShow: 5
+            }
+          },
+          {
+            breakpoint: 1140,
+            settings: {
+              slidesToShow: 4
+            }
+          },
+          {
+            breakpoint: 900,
+            settings: {
+              slidesToShow: 3
+            }
+          },
+          {
+            breakpoint: 668,
+            settings: {
+              slidesToShow: 2
+            }
+          },
+          {
+            breakpoint: 444,
+            settings: {
+              slidesToShow: 1
+            }
+          },
+        ]
       }
     };
   },
@@ -65,6 +97,11 @@ section.home-partners {
       border-radius: 15px;
       background-color: h.$secondary;
     }
+  }
+  .slide {
+    display: flex!important;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>

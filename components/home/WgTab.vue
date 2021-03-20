@@ -1,6 +1,6 @@
 <template>
   <div class="row tab-container">
-    <div class="col-4" v-for="(unit, index) in units" :key="index">
+    <div class="col-lg-4 col-md-6 col-sm-12" v-for="(unit, index) in units" :key="index">
       <div class="wgtab">
         <div class="logo-container">
           <get-svg :svgid="unit.unit_icon" />

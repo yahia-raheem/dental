@@ -14,12 +14,18 @@
         <div class="col-12">
           <h2 class="sec-title">{{ secTitle }}</h2>
           <h2 class="sec-subtitle">
-            <span class="word" v-for="(word, key) in subArr" :key="key">{{ word }}</span>
+            <span class="word" v-for="(word, key) in subArr" :key="key">{{
+              word
+            }}</span>
           </h2>
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-lg-4 col-md-6 col-sm-12 mb-3 d-flex justify-content-center align-items-center" v-for="(item, key) in labGroup" :key="key">
+        <div
+          class="col-lg-4 col-md-6 col-sm-12 mb-3 d-flex justify-content-center align-items-center"
+          v-for="(item, key) in labGroup"
+          :key="key"
+        >
           <div class="step-box shadow-sm">
             <get-img
               :imgid="item.logo"
@@ -40,7 +46,7 @@ export default {
   data() {
     return {
       subArr: []
-    }
+    };
   },
   props: {
     labGroup: {
@@ -60,7 +66,7 @@ export default {
     }
   },
   mounted() {
-    this.subArr = this.secSubtitle.split(" ")
+    this.subArr = this.secSubtitle.split(" ");
   }
 };
 </script>
@@ -69,7 +75,11 @@ export default {
   $dir: $dir
 );
 section.home-steps {
-  @include h.curve("top", 260px, 768);
+  @include h.curve("top", 260px, 992px);
+  background-color: #f5f9fa;
+  @include h.media(">992") {
+    padding-top: 0;
+  }
   .curve {
     top: -258px;
   }
@@ -84,31 +94,45 @@ section.home-steps {
       bottom: 0;
       @include h.appDirAuto($end: 0);
     }
-    @include h.media('>992px') {
+    @include h.media(">992px") {
       display: block;
     }
   }
-  padding-top: 0;
-  background-color: #f5f9fa;
-  .sec-title, .sec-subtitle {
+  .sec-title,
+  .sec-subtitle {
     text-align: center;
     color: #4b6b83;
     position: relative;
-    top: -100px;
     margin-bottom: 10px;
+    @include h.media(">992px") {
+      top: -100px;
+    }
+  }
+  .sec-title {
+    font-size: 1.5rem;
+    @include h.media(">992px") {
+      font-size: 2rem;
+    }
   }
   .sec-subtitle {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    margin-bottom: 30px;
     .word {
       @include h.appDirAuto($margin-end: 10px);
       font-weight: 900;
       text-shadow: 2px 3px 0px #64646421;
-      font-size: 2.7rem;
+      font-size: 2.3rem;
       &:last-of-type {
         color: #47bcc8;
+      }
+    }
+    @include h.media(">992px") {
+      margin-bottom: 0;
+      .word {
+        font-size: 2.7rem;
       }
     }
   }
@@ -123,7 +147,8 @@ section.home-steps {
     min-height: 320px;
     background-color: white;
     border-radius: 10px;
-    .title, .description {
+    .title,
+    .description {
       text-align: center;
     }
     .title {
