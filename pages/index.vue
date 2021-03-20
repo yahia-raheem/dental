@@ -2,22 +2,22 @@
   <div class="home-page">
     <home-slider
       :slideImgs="sliderImages"
-      :title="page.meta_box.slider_title"
-      :subtitle="page.meta_box.slider_subtitle"
+      :title="page.custom_fields.slider_title"
+      :subtitle="page.custom_fields.slider_subtitle"
     />
     <home-steps
-      :labGroup="page.meta_box.step_group"
-      :secTitle="page.meta_box.lab_section_title"
-      :secSubtitle="page.meta_box.lab_sections_subtitle"
+      :labGroup="page.custom_fields.step_group"
+      :secTitle="page.custom_fields.lab_section_title"
+      :secSubtitle="page.custom_fields.lab_sections_subtitle"
     />
     <home-wg-tabs
-      :secTitle="page.meta_box.wg_section_title"
-      :secPrefix="page.meta_box.wg_section_prefix"
-      :secTabs="page.meta_box.wg_tab"
+      :secTitle="page.custom_fields.wg_section_title"
+      :secPrefix="page.custom_fields.wg_section_prefix"
+      :secTabs="page.custom_fields.wg_tab"
     />
     <home-partners
-      :secTitle="page.meta_box.partners_section_title"
-      :slides="page.meta_box.partners_slider_images"
+      :secTitle="page.custom_fields.partners_section_title"
+      :slides="page.custom_fields.partners_slider_images"
     />
   </div>
 </template>
@@ -36,7 +36,7 @@ export default {
     );
     return {
       page: pageData,
-      sliderImages: pageData.meta_box.slider_images
+      sliderImages: pageData.custom_fields.slider_images
     };
   },
   components: {

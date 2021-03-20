@@ -21,9 +21,6 @@ export const getters = {
   image: state => imageId => {
     return state.images.find(img => img.id == imageId);
   },
-  isImageFetched: state => imageId => {
-    return state.images.some(e => e.id === imageId);
-  },
   headerMenu: state => {
     return state.headerMenu;
   },
@@ -33,9 +30,6 @@ export const getters = {
   getMetabox: state => key => {
     return state.metabox.find(meta => meta.key == key);
   },
-  isMetaboxFetched: state => key => {
-    return state.metabox.some(m => m.key == key);
-  }
 };
 
 export const mutations = {
@@ -90,11 +84,11 @@ export const actions = {
   },
   async getMetaField(vcontext, options) {
     try {
-      if (vcontext.getters.isMetaboxFetched(options.key)) {
+      if (vcontext.getters.getMetabox(options.key)) {
         return vcontext.getters.getMetabox(options.key);
       } else {
         const { data } = await axios.get(
-          `${process.env.baseUrl}/wp-json/generaldata/v1/meta_box/get_item`,
+          `${process.env.baseUrl}/wp-json/generaldata/v1/custom_fields/get_item`,
           {
             params: {
               ...options
@@ -138,7 +132,7 @@ export const actions = {
   },
   async getImage(vcontext, options) {
     try {
-      if (vcontext.getters.isImageFetched(options.id)) {
+      if (vcontext.getters.image(options.id)) {
         return vcontext.getters.image(options.id);
       } else {
         const { data } = await axios.get(
@@ -157,7 +151,7 @@ export const actions = {
     }
   },
   addImg(vcontext, options) {
-    if (!vcontext.getters.isImageFetched(options.id)) {
+    if (vcontext.getters.image(options.id)) {
       vcontext.commit("ADD_IMAGE", options);
     }
   }

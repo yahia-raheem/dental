@@ -17,7 +17,7 @@ export default {
       currPage: "pages/currentPage"
     }),
     title() {
-      return this.currPage.title.rendered;
+      return this.currPage.title;
     }
   }
 };

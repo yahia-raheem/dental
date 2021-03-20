@@ -1,4 +1,6 @@
 import axios from "axios";
+import Page from "~/models/page";
+import { classToJson } from "~/plugins/js/components/helper-funcs";
 export const state = () => ({
   pages: [],
   currPage: null
@@ -10,9 +12,6 @@ export const getters = {
   },
   pageById: state => pageId => {
     return state.pages.find(page => page.id == pageId);
-  },
-  pageIsFetched: state => pageId => {
-    return state.pages.some(p => p.id == pageId);
   },
   currentPage: state => {
     return state.currPage
@@ -30,15 +29,17 @@ export const mutations = {
 
 export const actions = {
   async getPage(vcontext, pageId) {
-    if (vcontext.getters.pageIsFetched(pageId)) {
+    if (vcontext.getters.pageById(pageId)) {
       return vcontext.getters.pageById(pageId);
     } else {
       try {
         const { data } = await axios.get(
           `${process.env.baseUrl}/wp-json/wp/v2/pages/${pageId}`
         );
-        vcontext.commit("ADD_PAGE", data);
-        return data;
+        const page = Page.fromwpRes(data);
+        const pageData = page.toJSON();
+        vcontext.commit("ADD_PAGE", pageData);
+        return pageData;
       } catch (error) {
         console.log(error);
       }

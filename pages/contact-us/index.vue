@@ -4,11 +4,11 @@
       <div class="row mb-5">
         <div class="col-12">
           <div class="img-container banner">
-            <get-img :imgobj="page.meta_box.cta_banner" />
+            <get-img :imgobj="page.custom_fields.cta_banner" />
           </div>
           <div class="banner-title">
-            <h1 class="text title">{{ page.meta_box.text_eijo7qftqjr }}</h1>
-            <h2 class="text subtitle">{{ page.meta_box.banner_subtitle }}</h2>
+            <h1 class="text title">{{ page.custom_fields.text_eijo7qftqjr }}</h1>
+            <h2 class="text subtitle">{{ page.custom_fields.banner_subtitle }}</h2>
           </div>
         </div>
       </div>
@@ -22,7 +22,7 @@
         <div class="col-lg-8 col-md-12">
           <div
             class="contact-group"
-            v-for="(item, index) in page.meta_box.contact_group"
+            v-for="(item, index) in page.custom_fields.contact_group"
             :key="index"
           >
             <h3 class="title">{{ item.group_title }}</h3>

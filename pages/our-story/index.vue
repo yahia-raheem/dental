@@ -4,7 +4,7 @@
       <div class="row">
         <div
           class="col-12 mb-5 content-col"
-          v-html="page.content.rendered"
+          v-html="page.content"
         ></div>
       </div>
     </div>
@@ -12,7 +12,7 @@
       <div class="row">
         <div
           class="col-lg-6 col-md-12 mb-4 d-flex justify-content-center align-items-center"
-          v-for="(item, index) in page.meta_box.mv_box"
+          v-for="(item, index) in page.custom_fields.mv_box"
           :key="index"
         >
           <mv-block :block="item" />
@@ -21,9 +21,9 @@
       <div class="row">
         <div class="col-12">
           <banner
-            :bannerImage="page.meta_box.banner_image"
-            :bannerTitle="page.meta_box.banner_title"
-            :bannerSubtitle="page.meta_box.textarea_a7kztlhi4ms"
+            :bannerImage="page.custom_fields.banner_image"
+            :bannerTitle="page.custom_fields.banner_title"
+            :bannerSubtitle="page.custom_fields.textarea_a7kztlhi4ms"
           />
         </div>
       </div>

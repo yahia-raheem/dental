@@ -1,4 +1,2 @@
-import "./js/bundle"
-export default function HelpersPlugin() {
-  
-}
+import "./js/bundle";
+export default function HelpersPlugin() {}

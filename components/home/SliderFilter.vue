@@ -137,14 +137,14 @@ export default {
       pageById: 'pages/pageById'
     }),
     labsvgId() {
-      return this.pageById(process.env.homepageId).meta_box.lab_svg.ID
+      return this.pageById(process.env.homepageId).custom_fields.lab_svg.ID
     },
     docsvgId() {
-      return this.pageById(process.env.homepageId).meta_box.doctor_svg.ID
+      return this.pageById(process.env.homepageId).custom_fields.doctor_svg.ID
     }
     // const data = await this.getPage(process.env.homepageId);
-    // this.labsvgId = data.meta_box.lab_svg.ID;
-    // this.docsvgId = data.meta_box.doctor_svg.ID;
+    // this.labsvgId = data.custom_fields.lab_svg.ID;
+    // this.docsvgId = data.custom_fields.doctor_svg.ID;
   },
   methods: {
     activateTab(e) {

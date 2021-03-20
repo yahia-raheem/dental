@@ -7,7 +7,7 @@ export const setCookie = (name, value, days) => {
   }
   document.cookie = name + "=" + (value || "") + expires + "; path=/";
 };
-export const getCookie = (name) => {
+export const getCookie = name => {
   var nameEQ = name + "=";
   var ca = document.cookie.split(";");
   for (var i = 0; i < ca.length; i++) {
@@ -17,14 +17,14 @@ export const getCookie = (name) => {
   }
   return null;
 };
-export const eraseCookie = (name) => {
+export const eraseCookie = name => {
   document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
 };
 
 export const elementObserver = (callback, options) =>
   new IntersectionObserver(
     (entries, observer) => {
-      entries.forEach((entry) => {
+      entries.forEach(entry => {
         let target = entry.target;
         if (entry.isIntersecting) {
           callback(options);
@@ -32,17 +32,17 @@ export const elementObserver = (callback, options) =>
       });
     },
     {
-      threshold: 0.25,
+      threshold: 0.25
     }
   ).observe(options.element);
 
-export const matchHeight = (selector) => {
+export const matchHeight = selector => {
   let objects = document.querySelectorAll(selector);
   let heights = Array.from(objects).map((x, i, a) => {
     return x.offsetHeight;
   });
   let max = Math.max(...heights);
-  objects.forEach((el) => {
+  objects.forEach(el => {
     el.style.height = `${max}px`;
   });
 };
@@ -75,7 +75,7 @@ export const invertColor = (hex, bw) => {
 
 export const hideOnClickOutside = (element, callback, check) => {
   console.log(check);
-  const outsideClickListener = (event) => {
+  const outsideClickListener = event => {
     if (!element.contains(event.target) && check) {
       callback();
       removeClickListener();
@@ -88,26 +88,35 @@ export const hideOnClickOutside = (element, callback, check) => {
   document.addEventListener("click", outsideClickListener);
 };
 
-export const imgTosvg = (options) => {
+export const imgTosvg = options => {
   const img = options["element"];
   const imgURL = img.getAttribute("src");
   const imgID = img.getAttribute("id");
   const imgClasses = img.getAttribute("class");
   var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function () {
+  xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       const resPure = this.responseText.trim();
       const parentDiv = document.createElement("div");
       parentDiv.innerHTML = resPure;
-      const svg = parentDiv.querySelector('svg');
+      const svg = parentDiv.querySelector("svg");
       if (imgID != null) {
         svg.setAttribute("id", imgID);
       }
       svg.removeAttribute("xmlns:a");
-      svg.setAttribute("class", imgClasses)
+      svg.setAttribute("class", imgClasses);
       img.parentNode.replaceChild(svg, img);
     }
   };
   xhttp.open("GET", imgURL, true);
   xhttp.send();
+};
+
+export const classToObject = theClass => {
+  const originalClass = theClass || {};
+  const keys = Object.getOwnPropertyNames(Object.getPrototypeOf(originalClass));
+  return keys.reduce((classAsObj, key) => {
+    classAsObj[key] = originalClass[key];
+    return classAsObj;
+  }, {});
 };
