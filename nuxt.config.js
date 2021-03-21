@@ -28,7 +28,8 @@ export default {
     { src: "~/plugins/helpers", mode: "client" },
     { src: "~/plugins/vue-slick-slider.js" },
     { src: "~/plugins/global-components.js" },
-    { src: "~/plugins/vuelidate.js" }
+    { src: "~/plugins/vuelidate.js" },
+    { src: "~/plugins/vue-star-rating.js", mode: "client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
