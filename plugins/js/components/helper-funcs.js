@@ -32,7 +32,7 @@ export const elementObserver = (callback, options) =>
       });
     },
     {
-      threshold: 0.25
+      threshold: 0.5
     }
   ).observe(options.element);
 
@@ -110,13 +110,4 @@ export const imgTosvg = options => {
   };
   xhttp.open("GET", imgURL, true);
   xhttp.send();
-};
-
-export const classToObject = theClass => {
-  const originalClass = theClass || {};
-  const keys = Object.getOwnPropertyNames(Object.getPrototypeOf(originalClass));
-  return keys.reduce((classAsObj, key) => {
-    classAsObj[key] = originalClass[key];
-    return classAsObj;
-  }, {});
 };

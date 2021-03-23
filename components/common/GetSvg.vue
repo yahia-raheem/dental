@@ -1,8 +1,6 @@
 <template>
   <div>
-    <client-only>
-      <img :src="svg" class="style-svg" ref="theImg" />
-    </client-only>
+    <img :src="svg" class="style-svg" ref="theImg" />
   </div>
 </template>
 <script>
@@ -30,7 +28,7 @@ export default {
         id: this.svgid
       }).then(data => {
         this.svg = data.image;
-        this.transformToSvg(this.$refs.theImg)
+        this.transformToSvg(this.$refs.theImg);
       });
     } else {
       this.addImg({
@@ -39,7 +37,7 @@ export default {
         image: this.svgobj.full_url
       });
       this.svg = this.svgobj.full_url;
-      this.transformToSvg(this.$refs.theImg)
+      this.transformToSvg(this.$refs.theImg);
     }
   },
   methods: {

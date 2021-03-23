@@ -17,7 +17,7 @@ export default {
       currPage: "pages/currentPage"
     }),
     title() {
-      return this.currPage.title;
+      return this.currPage != null ? this.currPage.title : 'Dental';
     }
   }
 };

@@ -29,7 +29,7 @@ export const getters = {
   },
   getMetabox: state => key => {
     return state.metabox.find(meta => meta.key == key);
-  },
+  }
 };
 
 export const mutations = {
@@ -43,7 +43,10 @@ export const mutations = {
     state.socialMedia.push(single);
   },
   ADD_IMAGE(state, image) {
-    state.images.push(image);
+    var index = state.images.findIndex(x => x.id == image.id);
+    if (index === -1) {
+      state.images.push(image);
+    }
   },
   SET_HEADERMENU(state, menu) {
     state.headerMenu = menu;
@@ -64,7 +67,7 @@ export const actions = {
       );
       vcontext.commit("SET_HEADERMENU", data["header-menu"]);
     } catch (e) {
-      console.log(e);
+      new Error(error.response.data.message);
     }
   },
   async getFooterMenus(vcontext) {
@@ -79,7 +82,7 @@ export const actions = {
         return data;
       }
     } catch (e) {
-      console.log(e);
+      new Error(error.response.data.message);
     }
   },
   async getMetaField(vcontext, options) {
@@ -98,7 +101,9 @@ export const actions = {
         vcontext.commit("ADD_METABOX", data);
         return data;
       }
-    } catch (error) {}
+    } catch (error) {
+      new Error(error.response.data.message);
+    }
   },
   async getHeaderOptions(vcontext) {
     try {
@@ -107,7 +112,7 @@ export const actions = {
       );
       vcontext.commit("SET_HEADER_OPTIONS", data);
     } catch (error) {
-      console.log(error);
+      new Error(error.response.data.message);
     }
   },
   async getSocialMedia(vcontext) {
@@ -127,12 +132,12 @@ export const actions = {
         }
       }
     } catch (error) {
-      console.log(error);
+      new Error(error.response.data.message);
     }
   },
   async getImage(vcontext, options) {
     try {
-      if (vcontext.getters.image(options.id)) {
+      if (typeof vcontext.getters.image(options.id) != "undefined") {
         return vcontext.getters.image(options.id);
       } else {
         const { data } = await axios.get(
@@ -147,11 +152,11 @@ export const actions = {
         return data;
       }
     } catch (error) {
-      console.log(error);
+      new Error(error.response.data.message);
     }
   },
   addImg(vcontext, options) {
-    if (vcontext.getters.image(options.id)) {
+    if (!vcontext.getters.image(options.id)) {
       vcontext.commit("ADD_IMAGE", options);
     }
   }

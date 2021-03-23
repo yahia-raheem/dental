@@ -14,7 +14,7 @@ export const getters = {
     return state.pages.find(page => page.id == pageId);
   },
   currentPage: state => {
-    return state.currPage
+    return state.currPage;
   }
 };
 
@@ -23,31 +23,35 @@ export const mutations = {
     state.pages.push(page);
   },
   SET_CURRENT(state, page) {
-    state.currPage = page
+    state.currPage = page;
   }
 };
 
 export const actions = {
   async getPage(vcontext, pageId) {
-    if (vcontext.getters.pageById(pageId)) {
-      return vcontext.getters.pageById(pageId);
-    } else {
-      try {
-        const { data } = await axios.get(
-          `${process.env.baseUrl}/wp-json/wp/v2/pages/${pageId}`
-        );
-        const page = Page.fromwpRes(data);
-        const pageData = page.toJSON();
-        vcontext.commit("ADD_PAGE", pageData);
-        return pageData;
-      } catch (error) {
-        console.log(error);
+    try {
+      if (vcontext.getters.pageById(pageId)) {
+        return vcontext.getters.pageById(pageId);
+      } else {
+        try {
+          const { data } = await axios.get(
+            `${process.env.baseUrl}/wp-json/wp/v2/pages/${pageId}`
+          );
+          const page = Page.fromwpRes(data);
+          const pageData = page.toJSON();
+          vcontext.commit("ADD_PAGE", pageData);
+          return pageData;
+        } catch (error) {
+          console.log(error);
+        }
       }
+    } catch (error) {
+      new Error(error.response.data.message);
     }
   },
   async setCurrentPage(vcontext, pageId) {
-    const page = await vcontext.dispatch('getPage', pageId)
-    vcontext.commit('SET_CURRENT', page)
-    return page
+    const page = await vcontext.dispatch("getPage", pageId);
+    vcontext.commit("SET_CURRENT", page);
+    return page;
   }
 };
