@@ -141,6 +141,70 @@
                 </li>
               </ul>
             </div>
+            <div class="profile-box portfolio">
+              <div
+                class="header d-flex justify-content-between align-items-start"
+              >
+                <h5 class="title">Portfolio</h5>
+                <div
+                  class="slider-navigation d-flex justify-content-center align-items-center"
+                >
+                  <button class="prev" @click="prevSlide">
+                    <get-svg :svgid="101" />
+                  </button>
+                  <button class="next" @click="nextSlide">
+                    <get-svg :svgid="100" />
+                  </button>
+                </div>
+              </div>
+              <div class="slider-container">
+                <VueSlickCarousel v-bind="settings" ref="portfolioSlider">
+                  <div class="slide">
+                    <portfolio-slide />
+                  </div>
+                  <div class="slide">
+                    <portfolio-slide />
+                  </div>
+                </VueSlickCarousel>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="profile-box comments">
+              <div
+                class="header d-flex justify-content-between align-items-start"
+              >
+                <h5 class="title">Reviews</h5>
+                <div
+                  class="rating d-flex justify-content-start align-items-center flex-column"
+                >
+                  <client-only>
+                    <div
+                      class="overall d-flex justify-content-center align-items-center"
+                    >
+                      <star-rating
+                        :rating="rating"
+                        :increment="0.5"
+                        :show-rating="false"
+                        :read-only="true"
+                        :star-size="23"
+                        :glow="1"
+                      ></star-rating>
+                      <span>{{ rating }} out of 5</span>
+                    </div>
+                  </client-only>
+                  <div class="comments-count">
+                    40 customer ratings
+                  </div>
+                </div>
+              </div>
+              <profile-comment :data="defaultComment" />
+              <profile-comment :data="defaultComment" />
+              <profile-comment :data="defaultComment" />
+              <profile-comment :data="defaultComment" />
+            </div>
           </div>
         </div>
       </div>
@@ -149,10 +213,14 @@
 </template>
 <script>
 import AvailabilityCheck from "~/components/doctors/AvailabilityCheck.vue";
+import PortfolioSlide from "~/components/doctors/PortfolioSlide.vue";
+import ProfileComment from "~/components/doctors/ProfileComment";
 
 export default {
   components: {
-    AvailabilityCheck
+    AvailabilityCheck,
+    PortfolioSlide,
+    ProfileComment
   },
   async asyncData(context) {
     const pageData = await context.store.dispatch(
@@ -161,8 +229,28 @@ export default {
     );
     return {
       page: pageData,
-      rating: 4.5
+      rating: 4.5,
+      settings: {
+        dots: false,
+        arrows: false,
+        autoplay: false
+      },
+      defaultComment: {
+        rating: 5,
+        title: "Highly Recommended",
+        author: "Dr. Ali El Tahan Perfection Dental Care Clinic",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, reprehint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est in culpa qui officia deserunt mollit anim id est laborum."
+      }
     };
+  },
+  methods: {
+    prevSlide() {
+      this.$refs.portfolioSlider.prev();
+    },
+    nextSlide() {
+      this.$refs.portfolioSlider.next();
+    }
   }
 };
 </script>
@@ -351,6 +439,46 @@ section.doctor-profile {
       li {
         @include h.appDirAuto($margin-end: 10px);
       }
+    }
+  }
+  &.portfolio {
+    .slider-navigation {
+      button::v-deep {
+        @include h.circle(22px);
+        border: 2px solid #bfbfbf;
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        position: relative;
+        &:first-of-type {
+          @include h.appDirAuto($margin-end: 7px);
+        }
+        svg {
+          width: 12px;
+          height: auto;
+          @include h.center();
+          path {
+            fill: #bfbfbf;
+          }
+        }
+      }
+    }
+  }
+  &.comments {
+    margin-top: 20px;
+    .overall {
+      padding: 8px 20px;
+      background-color: #f5f8ff;
+      border-radius: 50px;
+      span {
+        margin-top: 5px;
+        @include h.appDirAuto($margin-start: 10px);
+      }
+    }
+    .comments-count {
+      font-size: 0.8rem;
     }
   }
 }
