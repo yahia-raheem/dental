@@ -1,5 +1,5 @@
 <template>
-  <section class="contact-us">
+  <section class="contact-us page internal">
     <div class="container-fluid">
       <div class="row mb-5">
         <div class="col-12">
@@ -7,8 +7,12 @@
             <get-img :imgobj="page.custom_fields.cta_banner" />
           </div>
           <div class="banner-title">
-            <h1 class="text title">{{ page.custom_fields.text_eijo7qftqjr }}</h1>
-            <h2 class="text subtitle">{{ page.custom_fields.banner_subtitle }}</h2>
+            <h1 class="text title">
+              {{ page.custom_fields.text_eijo7qftqjr }}
+            </h1>
+            <h2 class="text subtitle">
+              {{ page.custom_fields.banner_subtitle }}
+            </h2>
           </div>
         </div>
       </div>
@@ -79,7 +83,7 @@
   </section>
 </template>
 <script>
-import ContactForm from '~/components/contact-us/ContactForm.vue';
+import ContactForm from "~/components/contact-us/ContactForm.vue";
 export default {
   components: {
     ContactForm
@@ -100,7 +104,6 @@ export default {
   $dir: $dir
 );
 section.contact-us {
-  background-color: #f5f9fa;
   .banner {
     border-radius: 5px;
     width: 100%;
@@ -157,7 +160,8 @@ section.contact-us {
             max-height: 20px;
             width: auto;
             height: auto;
-            path, polygon {
+            path,
+            polygon {
               fill: h.$primary;
             }
             position: absolute;

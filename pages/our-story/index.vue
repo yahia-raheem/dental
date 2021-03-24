@@ -1,5 +1,5 @@
 <template>
-  <section class="our-story">
+  <section class="our-story page internal">
     <div class="container-fluid">
       <div class="row">
         <div
@@ -47,9 +47,6 @@ export default {
 };
 </script>
 <style lang="scss">
-section.our-story {
-  background-color: #f5f9fa;
-}
 .content-col {
   p {
     margin-bottom: 25px;

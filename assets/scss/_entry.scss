@@ -16,6 +16,10 @@
   opacity: 0;
 }
 
+section.page.internal {
+  background-color: #f5f9fa;
+}
+
 @import "../../node_modules/vue-select/src/scss/vue-select.scss";
 // @import "../../node_modules/animate.css/animate.min.css";
 @import "./helpers/helpers";

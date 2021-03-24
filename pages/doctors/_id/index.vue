@@ -1,5 +1,5 @@
 <template>
-  <section class="doctor-profile">
+  <section class="doctor-profile page internal">
     <div class="profile-header">
       <get-img imgid="96" classes="bg-image" responsive="xxl:100vw" />
     </div>
@@ -263,7 +263,6 @@ hr {
 }
 section.doctor-profile {
   padding-top: 0;
-  background-color: #f5f9fa;
 }
 .profile-header {
   overflow: hidden;
