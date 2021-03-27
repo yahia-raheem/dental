@@ -12,12 +12,12 @@ export default class Lab extends CommonMethods {
   }
   static fromMap(res) {
     return new Lab(
-      (id = res.id),
-      (title = res.title),
-      (rating = res.rating),
-      (location = res.location),
-      (specialities = res.specialities),
-      (image = res.image)
+      res.id,
+      res.title,
+      res.rating,
+      res.location,
+      res.specialities,
+      res.image
     );
   }
 }

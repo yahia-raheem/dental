@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-3">
           <div class="archive-sidebar">
-            <sidebar-filter v-on:nameSearch="nameSearch" />
+            <sidebar-filter />
           </div>
         </div>
         <div class="col-9">
@@ -13,7 +13,8 @@
             <div class="sort">
               <span class="label">Sort By</span>
               <v-select
-                :options="['Most Popular', 'Rating', 'Name']"
+                :value="sortSelected.value != null ? sortSelected : null"
+                :options="sortOptions"
                 placeholder="Select a Sorting Method"
                 @input="sortLabs"
               >
@@ -34,11 +35,23 @@
 import { mapGetters } from "vuex";
 import LabBlock from "~/components/labs/LabBlock.vue";
 import SidebarFilter from "~/components/UI/SidebarFilter.vue";
+import { sortArray } from "~/plugins/js/components/helper-funcs";
 
 export default {
+  created() {
+    this.labs = this.labsGetter;
+  },
   data() {
     return {
-      labs: []
+      labs: [],
+      sortOptions: [
+        { label: "Most Popular", value: "rating" },
+        { label: "Name", value: "title" }
+      ],
+      sortSelected: {
+        label: null,
+        value: null
+      }
     };
   },
   computed: {
@@ -51,17 +64,89 @@ export default {
     LabBlock
   },
   methods: {
-    nameSearch(field) {
-      this.labs = this.labsGetter.filter(lab =>
-        lab.title.toLowerCase().includes(field.toLowerCase())
-      );
+    nameSearch() {
+      const field = this.$route.query.name;
+      if (typeof field != "undefined") {
+        this.labs = this.labsGetter.filter(lab =>
+          lab.title.toLowerCase().includes(field.toLowerCase())
+        );
+      }
     },
     sortLabs(v) {
-      console.log(v);
+      if (v != null) {
+        this.labs = sortArray(this.labs, v.value, "desc");
+        this.$router.push({ query: { ...this.$route.query, sort: v.value } });
+        this.sortSelected = this.sortOptions.find(
+          option => option.value == v.value
+        );
+      } else {
+        this.$router.replace({
+          ...this.$router.currentRoute,
+          query: {
+            ...this.$route.query,
+            sort: undefined
+          }
+        });
+        this.sortSelected = {
+          label: null,
+          value: null
+        };
+      }
+    },
+    specFilter() {
+      const v = this.$route.query.specialities;
+      if (typeof v != "undefined") {
+        const speccArr = v.split(",");
+        this.labs = this.labs.filter(lab => {
+          for (let index = 0; index < speccArr.length; index++) {
+            const spec = speccArr[index];
+            const specList = lab.specialities.map(one => {
+              return one.trim().toLowerCase();
+            });
+            if (specList.includes(spec)) {
+              return true;
+            }
+          }
+        });
+      }
+    },
+    locFilter() {
+      const v = this.$route.query.locations;
+      if (typeof v != "undefined") {
+        const speccArr = v.split(",");
+        this.labs = this.labs.filter(lab => {
+          for (let index = 0; index < speccArr.length; index++) {
+            const spec = speccArr[index];
+            const specList = lab.location.map(one => {
+              return one.trim().toLowerCase();
+            });
+            if (specList.includes(spec)) {
+              return true;
+            }
+          }
+        });
+      }
+    },
+    filter() {
+      this.labs = this.labsGetter;
+      this.nameSearch();
+      this.specFilter();
+      this.locFilter();
+      if (typeof this.$route.query.sort != "undefined") {
+        this.sortLabs({ value: this.$route.query.sort });
+        this.sortSelected = this.sortOptions.find(
+          option => option.value == this.$route.query.sort
+        );
+      }
+    }
+  },
+  watch: {
+    "$route.query"() {
+      this.filter();
     }
   },
   mounted() {
-    this.labs = this.labsGetter;
+    this.filter();
   }
 };
 </script>

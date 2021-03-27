@@ -21,20 +21,23 @@ export const eraseCookie = name => {
   document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
 };
 
-export const elementObserver = (callback, options) =>
-  new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach(entry => {
-        let target = entry.target;
-        if (entry.isIntersecting) {
-          callback(options);
-        }
-      });
-    },
-    {
-      threshold: 0.5
-    }
-  ).observe(options.element);
+export const elementObserver = (callback, options) => {
+  if (typeof options.element != "undefined") {
+    return new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach(entry => {
+          let target = entry.target;
+          if (entry.isIntersecting) {
+            callback(options);
+          }
+        });
+      },
+      {
+        threshold: 0.5
+      }
+    ).observe(options.element);
+  }
+}
 
 export const matchHeight = selector => {
   let objects = document.querySelectorAll(selector);
@@ -92,6 +95,8 @@ export const imgTosvg = options => {
   const img = options["element"];
   const imgURL = img.getAttribute("src");
   const imgID = img.getAttribute("id");
+  const width = img.getAttribute("width");
+  const height = img.getAttribute("height");
   const imgClasses = img.getAttribute("class");
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -103,6 +108,8 @@ export const imgTosvg = options => {
       if (imgID != null) {
         svg.setAttribute("id", imgID);
       }
+      width != null ? svg.setAttribute("width", width) : null
+      height != null ? svg.setAttribute("height", height) : null
       svg.removeAttribute("xmlns:a");
       svg.setAttribute("class", imgClasses);
       img.parentNode.replaceChild(svg, img);
@@ -111,3 +118,27 @@ export const imgTosvg = options => {
   xhttp.open("GET", imgURL, true);
   xhttp.send();
 };
+
+export const compareValues = (key, order = "asc") => {
+  return function innerSort(a, b) {
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      // property doesn't exist on either object
+      return 0;
+    }
+
+    const varA = typeof a[key] === "string" ? a[key].toUpperCase() : a[key];
+    const varB = typeof b[key] === "string" ? b[key].toUpperCase() : b[key];
+
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return order === "desc" ? comparison * -1 : comparison;
+  };
+}
+
+export const sortArray = (arr, key, order) => {
+  return [...arr].sort(compareValues(key, order));
+}

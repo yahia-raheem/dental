@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="svg" class="style-svg" ref="theImg" />
+    <img :src="svg" class="style-svg" ref="theImg" :width="width" :height="height" />
   </div>
 </template>
 <script>
@@ -20,6 +20,12 @@ export default {
     svgobj: {
       required: false,
       default: null
+    },
+    width: {
+      type: String
+    },
+    height: {
+      type: String
     }
   },
   mounted() {

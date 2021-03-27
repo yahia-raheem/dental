@@ -2,7 +2,7 @@
   <div class="lab-block shadow-sm">
     <div class="logo">
       <div class="img-container">
-        <get-img :imgid="29" responsive="xxl:120px" classes="bg-image" />
+        <get-img :imgid="29" responsive="xxl:500px" classes="bg-image" />
       </div>
     </div>
     <div class="data-container">
@@ -25,6 +25,15 @@
           </div>
         </div>
       </client-only>
+      <div class="location">
+        <get-svg :svgid="79" width="18" />
+        <span class="text">{{ lab.location | stringify }}</span>
+      </div>
+      <hr>
+      <div class="footer d-flex justify-content-between align-items-center w-100">
+        <button class="btn profile-cta">View Profile</button>
+        <button class="btn btn-primary">Send Request</button>
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +42,11 @@ export default {
   props: {
     lab: {
       type: Object
+    }
+  },
+  filters: {
+    stringify(v) {
+      return v.join(", ")
     }
   }
 };
@@ -50,15 +64,16 @@ export default {
   padding: 20px;
   margin-bottom: 30px;
   .logo {
-    width: 120px;
+    min-width: 120px;
     @include h.appDirAuto($margin-end: 15px);
     .img-container {
-      @include h.box-ratio(4, 3);
+      @include h.box-ratio(6,5);
       border: 1px solid #f2f2f3;
       border-radius: 10px;
     }
   }
   .data-container {
+    width: stretch;
     .title {
       color: #4b6b83;
       margin-bottom: 5px;
@@ -82,6 +97,35 @@ export default {
         margin-top: 5px;
         @include h.appDirAuto($margin-start: 10px);
         font-size: 0.8rem;
+      }
+    }
+  }
+  .location::v-deep {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 8px;
+    svg {
+      @include h.appDirAuto($margin-end: 10px);
+      path {
+        fill: #6a6fb6;
+      }
+    }
+    .text {
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+  }
+  hr {
+    margin-top: 0.5rem;
+    margin-bottom: 0.8rem;
+  }
+  .footer {
+    .btn {
+      font-size: 0.8rem;
+      padding: 5px 10px;
+      &.profile-cta {
+        font-weight: bold;
       }
     }
   }
