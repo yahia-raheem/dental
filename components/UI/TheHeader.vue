@@ -29,7 +29,7 @@
               <get-svg :svgid="signinImage" />
             </div>
             <span class="text"></span>
-            <a to="/">Doctor? Sign Up</a>
+            <nuxt-link to="/register/doctor">Doctor? Sign Up</nuxt-link>
           </div>
         </div>
       </div>
