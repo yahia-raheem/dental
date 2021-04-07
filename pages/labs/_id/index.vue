@@ -1,5 +1,5 @@
 <template>
-  <section class="doctor-profile page internal">
+  <section class="lab-profile page internal">
     <div class="profile-header">
       <get-img imgid="96" classes="bg-image" responsive="xxl:100vw" />
     </div>
@@ -15,7 +15,7 @@
                   <div class="profile-image">
                     <div class="img-container">
                       <get-img
-                        imgid="93"
+                        imgid="29"
                         classes="bg-image"
                         responsive="xxl:210px"
                       />
@@ -25,21 +25,14 @@
                     <div class="body">
                       <div class="data">
                         <h4 class="title">
-                          Dr. Ali El Tahan Perfection Dental Care Clinic
+                          {{lab.title}}
                         </h4>
                         <div class="tags">
-                          <button class="tag btn">Cosmetic Dentistry</button>
-                          <button class="tag btn">Restorative Dentist</button>
-                          <button class="tag btn">Implantologist</button>
+                          <nuxt-link :to="{name: 'labs', query: {specialities: spec.trim().toLowerCase()}}" class="tag btn" v-for="(spec, key) in lab.specialities" :key="key">{{spec}}</nuxt-link>
                         </div>
-                        <p class="desc">
-                          Masters of endodontics, fellowship of laser therapy in
-                          dentistry (Aachen University-Germany), 7 years
-                          Experience since 2012
-                        </p>
                       </div>
                       <div class="cta">
-                        <a href="#" class="btn btn-primary">Hire Me</a>
+                        <a href="#" class="btn btn-primary">Send Request</a>
                       </div>
                     </div>
                     <hr />
@@ -47,10 +40,10 @@
                       <client-only>
                         <div class="intro-rating">
                           <div class="value shadow-sm">
-                            {{ rating }}
+                            {{ lab.rating }}
                           </div>
                           <star-rating
-                            :rating="rating"
+                            :rating="lab.rating"
                             :increment="0.5"
                             :show-rating="false"
                             :read-only="true"
@@ -77,76 +70,35 @@
           <div class="col-4">
             <div class="profile-box about">
               <div class="header">
-                <h5 class="title">About Dr. Ali</h5>
+                <h5 class="title">About</h5>
               </div>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                3D printed model is the result you're waiting for after
+                digitally designing your patients's mock-up
               </p>
             </div>
-            <div class="profile-box experience">
+            <div class="profile-box price-list">
               <div class="header">
-                <h5 class="title">Experience & Qualifications</h5>
+                <h5 class="title">Price List</h5>
+                <button class="pdf btn btn-secondary">Download Pdf</button>
               </div>
-              <ul class="enq-list">
-                <li>
-                  <span class="icon">
-                    <get-svg :svgid="98" />
-                  </span>
-                  <span class="content"
-                    >Masters of Endodontics and microsurgery (Misr International
-                    University)</span
-                  >
-                </li>
-                <li>
-                  <span class="icon">
-                    <get-svg :svgid="98" />
-                  </span>
-                  <span class="content"
-                    >Masters of Endodontics and microsurgery (Misr International
-                    University)</span
-                  >
-                </li>
-                <li>
-                  <span class="icon">
-                    <get-svg :svgid="98" />
-                  </span>
-                  <span class="content"
-                    >Masters of Endodontics and microsurgery (Misr International
-                    University)</span
-                  >
-                </li>
-              </ul>
+              <price-list title="Ceramic Press" :forceActive="true" />
+              <price-list title="Ceramic CAD" />
+              <price-list title="Zironia" />
+              <price-list title="Feldspathic" />
+              <price-list title="Implant abutment" />
+              <price-list title="Framework for hybrid restoration / per unit" />
             </div>
           </div>
           <div class="col-8">
-            <div class="profile-box availability">
-              <div class="header">
-                <h5 class="title">Availability</h5>
+            <!-- <div class="locations">
+              <h6 class="box-title text-center position-relative">Locations</h6>
+              <div class="locations-list">
+                <div class="loc">
+
+                </div>
               </div>
-              <ul>
-                <li>
-                  <availability-check :active="true" :text="'Full Time'" />
-                </li>
-                <li>
-                  <availability-check :active="false" :text="'Part Time'" />
-                </li>
-                <li>
-                  <availability-check :active="false" :text="'Daily'" />
-                </li>
-                <li>
-                  <availability-check :active="true" :text="'Freelance'" />
-                </li>
-                <li>
-                  <availability-check :active="true" :text="'consultation'" />
-                </li>
-              </ul>
-            </div>
+            </div> -->
             <div class="profile-box portfolio">
               <div
                 class="header d-flex justify-content-between align-items-start"
@@ -191,14 +143,14 @@
                       class="overall d-flex justify-content-center align-items-center"
                     >
                       <star-rating
-                        :rating="rating"
+                        :rating="lab.rating"
                         :increment="0.5"
                         :show-rating="false"
                         :read-only="true"
                         :star-size="23"
                         :glow="1"
                       ></star-rating>
-                      <span>{{ rating }} out of 5</span>
+                      <span>{{ lab.rating }} out of 5</span>
                     </div>
                   </client-only>
                   <div class="comments-count">
@@ -221,12 +173,15 @@
 import AvailabilityCheck from "~/components/doctors/AvailabilityCheck.vue";
 import PortfolioSlide from "~/components/doctors/PortfolioSlide.vue";
 import ProfileComment from "~/components/doctors/ProfileComment";
+import PriceList from "~/components/labs/PriceList.vue";
+import { mapActions } from "vuex";
 
 export default {
   components: {
     AvailabilityCheck,
     PortfolioSlide,
-    ProfileComment
+    ProfileComment,
+    PriceList
   },
   async asyncData(context) {
     const pageData = await context.store.dispatch(
@@ -235,7 +190,7 @@ export default {
     );
     return {
       page: pageData,
-      rating: 4.5,
+      lab: Object,
       settings: {
         dots: false,
         arrows: false,
@@ -250,14 +205,21 @@ export default {
       }
     };
   },
+  async fetch() {
+    const lab = await this.getLab(this.$route.params.id);
+    this.lab = lab;
+  },
   methods: {
+    ...mapActions({
+      getLab: "labs/getLab"
+    }),
     prevSlide() {
       this.$refs.portfolioSlider.prev();
     },
     nextSlide() {
       this.$refs.portfolioSlider.next();
     }
-  }
+  },
 };
 </script>
 <style lang="scss"></style>

@@ -28,3 +28,8 @@ section.page.internal {
 @import "./helpers/helpers";
 @import "./helpers/dropdown_menu";
 @import "./helpers/sidenav";
+
+// components
+
+@import "./components/profile_box";
+@import "./components/profile_common";

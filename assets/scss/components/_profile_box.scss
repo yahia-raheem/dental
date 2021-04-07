@@ -1,0 +1,130 @@
+.profile-box {
+  background-color: white;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+  border-radius: 10px;
+  padding: 30px 20px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: 30px;
+  &::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    content: "";
+    background-color: #f0f5fa;
+  }
+  .header .title {
+    position: relative;
+    padding-bottom: 20px;
+    &::after {
+      content: "";
+      position: absolute;
+      @include h.appDirAuto($start: 0);
+      width: 30px;
+      height: 4px;
+      background-color: h.$primary;
+      border-radius: 30px;
+      bottom: 0;
+    }
+  }
+  &.experience {
+    .enq-list {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      li {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin: 0 -20px;
+        &:not(:first-of-type) {
+          padding: 20px 0;
+        }
+        &:not(:last-of-type) {
+          border-bottom: 2px solid #f0f5fa;
+        }
+        &:first-of-type {
+          padding-bottom: 20px;
+          padding-top: 10px;
+        }
+        .icon {
+          padding: 0 20px;
+          margin-top: 1px;
+          svg {
+            width: 18px;
+            height: auto;
+            path {
+              fill: #6a6fb6;
+            }
+          }
+        }
+      }
+    }
+  }
+  &.availability {
+    ul {
+      padding: 0;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 35px;
+      li {
+        @include h.appDirAuto($margin-end: 10px);
+      }
+    }
+  }
+  &.portfolio {
+    .slider-navigation {
+      button {
+        @include h.circle(22px);
+        border: 2px solid #bfbfbf;
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        position: relative;
+        &:first-of-type {
+          @include h.appDirAuto($margin-end: 7px);
+        }
+        svg {
+          width: 12px;
+          height: auto;
+          @include h.center();
+          path {
+            fill: #bfbfbf;
+          }
+        }
+      }
+    }
+  }
+  &.comments {
+    margin-top: 20px;
+    .overall {
+      padding: 8px 20px;
+      background-color: #f5f8ff;
+      border-radius: 50px;
+      span {
+        margin-top: 5px;
+        @include h.appDirAuto($margin-start: 10px);
+      }
+    }
+    .comments-count {
+      font-size: 0.8rem;
+    }
+  }
+  &.price-list {
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      button {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}

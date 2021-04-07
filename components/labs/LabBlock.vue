@@ -9,7 +9,9 @@
       <div
         class="box-header d-flex justify-content-start align-items-center mb-2"
       >
-        <h6 class="title">{{ lab.title }}</h6>
+        <nuxt-link :to="{ name: 'labs-id', params: { id: lab.id } }">
+          <h6 class="title">{{ lab.title }}</h6>
+        </nuxt-link>
         <client-only>
           <div class="lab-rating">
             <div class="value shadow-sm">

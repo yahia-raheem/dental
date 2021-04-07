@@ -1,0 +1,104 @@
+section.doctor-profile,
+section.lab-profile {
+  padding-top: 0;
+  .profile-header {
+    overflow: hidden;
+    height: 325px;
+    position: relative;
+  }
+  hr {
+    margin-bottom: 0.8rem;
+  }
+  .profile-body {
+    position: relative;
+    top: -90px;
+  }
+  .suffix {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .profile-views {
+    svg {
+      width: 20px;
+      height: auto;
+      @include h.appDirAuto($margin-end: 10px);
+      path {
+        fill: h.$primary;
+      }
+    }
+  }
+  .profile-views {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .intro {
+    padding: 30px;
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    .profile-image {
+      width: 210px;
+      @include h.appDirAuto($margin-end: 20px);
+      .img-container {
+        border-radius: 10px;
+        @include h.box-ratio(1, 1);
+      }
+    }
+    .intro-data {
+      width: 100%;
+      .body {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        .btn-primary {
+          width: 250px;
+          height: 50px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-weight: bold;
+        }
+        .data {
+          @include h.appDirAuto($margin-end: 50px);
+        }
+      }
+      .tags {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 10px;
+        .tag {
+          background-color: #efefef;
+          color: h.$primary;
+          font-size: 0.9rem;
+          @include h.appDirAuto($margin-end: 10px);
+        }
+      }
+      .title {
+        color: h.$primary;
+      }
+    }
+    .intro-rating {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      .value {
+        background-color: #ffd161;
+        margin-top: 5px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 10px;
+        @include h.appDirAuto($margin-end: 15px);
+        font-size: 0.8rem;
+      }
+      .review-count {
+        margin-top: 5px;
+        @include h.appDirAuto($margin-start: 10px);
+      }
+    }
+  }
+}
