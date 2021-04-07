@@ -19,6 +19,9 @@
 section.page.internal {
   background-color: #f5f9fa;
 }
+.vue-star-rating-star {
+  display: flex !important;
+}
 
 @import "../../node_modules/vue-select/src/scss/vue-select.scss";
 // @import "../../node_modules/animate.css/animate.min.css";

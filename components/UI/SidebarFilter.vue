@@ -74,7 +74,9 @@
                   type="checkbox"
                   :value="item"
                   @change="locationFilter"
-                  :checked="locationSelected.includes(item.trim().toLowerCase())"
+                  :checked="
+                    locationSelected.includes(item.trim().toLowerCase())
+                  "
                 />
                 <label class="form-check-label" for="flexCheckDefault">
                   {{ item }}
@@ -104,12 +106,35 @@ export default {
     };
   },
   methods: {
+    filterPrep() {
+      if (typeof this.$route.query.specialities != "undefined") {
+        const specArr = this.$route.query.specialities.split(",");
+        specArr.forEach(el => {
+          if (!this.specSelected.includes(el)) {
+            this.specSelected.push(el);
+          } else {
+            this.specSelected = this.specSelected.filter(item => item !== el);
+          }
+        });
+      }
+      if (typeof this.$route.query.locations != "undefined") {
+        const specArr = this.$route.query.locations.split(",");
+        specArr.forEach(el => {
+          if (!this.locationSelected.includes(el)) {
+            this.locationSelected.push(el);
+          } else {
+            this.locationSelected = this.locationSelected.filter(
+              item => item !== el
+            );
+          }
+        });
+      }
+    },
     nameSearch(event) {
       if (event.target.value != "") {
         this.$router.push({
           query: { ...this.$route.query, name: event.target.value }
         });
-        this.$emit("nameSearch", event.target.value);
       } else {
         this.$router.replace({
           ...this.$router.currentRoute,
@@ -118,7 +143,6 @@ export default {
             name: undefined
           }
         });
-        this.$emit("nameSearch", event.target.value);
       }
     },
     specFilter(event) {
@@ -176,18 +200,7 @@ export default {
     }
   },
   mounted() {
-    if (typeof this.$route.query.specialities != "undefined") {
-      const specArr = this.$route.query.specialities.split(",");
-      specArr.forEach(el => {
-        this.specSelected.push(el);
-      });
-    }
-    if (typeof this.$route.query.locations != "undefined") {
-      const specArr = this.$route.query.locations.split(",");
-      specArr.forEach(el => {
-        this.locationSelected.push(el);
-      });
-    }
+    this.filterPrep();
   }
 };
 </script>

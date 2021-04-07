@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-3">
           <div class="archive-sidebar">
-            <sidebar-filter />
+            <sidebar-filter :key="comKey" />
           </div>
         </div>
         <div class="col-9">
@@ -22,8 +22,8 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-6" v-for="(lab, index) in labs" :key="index">
-              <lab-block :lab="lab" />
+            <div class="col-12" v-for="(lab, index) in labs" :key="index">
+              <lab-block :lab="lab" v-on:spec-changed="forceRefresh" />
             </div>
           </div>
         </div>
@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       labs: [],
+      comKey: 0,
       sortOptions: [
         { label: "Most Popular", value: "rating" },
         { label: "Name", value: "title" }
@@ -64,6 +65,9 @@ export default {
     LabBlock
   },
   methods: {
+    forceRefresh() {
+      this.comKey += 1;
+    },
     nameSearch() {
       const field = this.$route.query.name;
       if (typeof field != "undefined") {

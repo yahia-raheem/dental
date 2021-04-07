@@ -6,32 +6,58 @@
       </div>
     </div>
     <div class="data-container">
-      <h6 class="title">{{ lab.title }}</h6>
-      <client-only>
-        <div class="lab-rating">
-          <div class="value shadow-sm">
-            {{ lab.rating }}
+      <div
+        class="box-header d-flex justify-content-start align-items-center mb-2"
+      >
+        <h6 class="title">{{ lab.title }}</h6>
+        <client-only>
+          <div class="lab-rating">
+            <div class="value shadow-sm">
+              {{ lab.rating }}
+            </div>
+            <star-rating
+              :rating="lab.rating"
+              :increment="0.5"
+              :show-rating="false"
+              :read-only="true"
+              :star-size="18"
+              :glow="1"
+            ></star-rating>
+            <div class="review-count">
+              ( 24 Reviews)
+            </div>
           </div>
-          <star-rating
-            :rating="lab.rating"
-            :increment="0.5"
-            :show-rating="false"
-            :read-only="true"
-            :star-size="18"
-            :glow="1"
-          ></star-rating>
-          <div class="review-count">
-            ( 24 Reviews)
-          </div>
+        </client-only>
+        <div class="spacer"></div>
+        <div class="profile-views">
+          <get-svg :svgid="87" width="18" />
+          <span class="views">34,643 Views</span>
         </div>
-      </client-only>
+      </div>
+      <div class="spec-tags">
+        <button
+          class="tag btn"
+          v-for="(item, key) in lab.specialities"
+          :key="key"
+          @click="specFilter"
+        >
+          {{ item }}
+        </button>
+      </div>
       <div class="location">
         <get-svg :svgid="79" width="18" />
         <span class="text">{{ lab.location | stringify }}</span>
       </div>
-      <hr>
-      <div class="footer d-flex justify-content-between align-items-center w-100">
-        <button class="btn profile-cta">View Profile</button>
+      <hr />
+      <div
+        class="footer d-flex justify-content-between align-items-center w-100"
+      >
+        <button class="btn profile-cta">
+          <span class="icon">
+            <get-svg :svgid="105" width="10" />
+          </span>
+          <span class="text">View Profile</span>
+        </button>
         <button class="btn btn-primary">Send Request</button>
       </div>
     </div>
@@ -46,7 +72,46 @@ export default {
   },
   filters: {
     stringify(v) {
-      return v.join(", ")
+      return v.join(", ");
+    }
+  },
+  methods: {
+    specFilter(event) {
+      const value = event.target.outerText.trim().toLowerCase();
+      var oldSpec =
+        typeof this.$route.query.specialities != "undefined"
+          ? this.$route.query.specialities
+          : "";
+      const oldSpecArr = oldSpec.split(",");
+      if (oldSpecArr.includes(value)) {
+        const specIndex = oldSpecArr.indexOf(value);
+        oldSpecArr.splice(specIndex, 1);
+        this.$router.push(
+          {
+            query: {
+              ...this.$route.query,
+              specialities:
+                oldSpecArr.length > 0 ? oldSpecArr.join(",") : undefined
+            }
+          },
+          () => {
+            this.$emit("spec-changed");
+          }
+        );
+      } else {
+        oldSpec = oldSpec != "" ? oldSpec + "," : oldSpec;
+        this.$router.push(
+          {
+            query: {
+              ...this.$route.query,
+              specialities: oldSpec + value
+            }
+          },
+          () => {
+            this.$emit("spec-changed");
+          }
+        );
+      }
     }
   }
 };
@@ -55,19 +120,42 @@ export default {
 @use "~/assets/scss/helpers" as h with(
   $dir: $dir
 );
+.profile-views::v-deep {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .views {
+    font-size: 0.9rem;
+  }
+  svg {
+    @include h.appDirAuto($margin-end: 5px);
+    path {
+      fill: h.$primary;
+    }
+  }
+}
+.spec-tags {
+  .tag {
+    background-color: #efefef;
+    color: h.$primary;
+    font-size: 0.8rem;
+    padding: 2px 15px;
+    @include h.appDirAuto($margin-end: 10px);
+  }
+}
 .lab-block {
   background-color: white;
   border-radius: 5px;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 20px;
+  padding: 20px 20px 10px;
   margin-bottom: 30px;
   .logo {
     min-width: 120px;
     @include h.appDirAuto($margin-end: 15px);
     .img-container {
-      @include h.box-ratio(6,5);
+      @include h.box-ratio(1, 1);
       border: 1px solid #f2f2f3;
       border-radius: 10px;
     }
@@ -76,15 +164,15 @@ export default {
     width: stretch;
     .title {
       color: #4b6b83;
-      margin-bottom: 5px;
+      margin-bottom: 0;
     }
     .lab-rating {
+      @include h.appDirAuto($margin-start: 15px);
       display: flex;
       justify-content: flex-start;
       align-items: center;
       .value {
         background-color: #ffd161;
-        margin-top: 5px;
         border-radius: 5px;
         display: flex;
         justify-content: center;
@@ -94,7 +182,6 @@ export default {
         font-size: 0.7rem;
       }
       .review-count {
-        margin-top: 5px;
         @include h.appDirAuto($margin-start: 10px);
         font-size: 0.8rem;
       }
@@ -118,14 +205,31 @@ export default {
   }
   hr {
     margin-top: 0.5rem;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.5rem;
   }
   .footer {
     .btn {
       font-size: 0.8rem;
-      padding: 5px 10px;
-      &.profile-cta {
-        font-weight: bold;
+      padding: 4px 20px;
+      &.profile-cta::v-deep {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        color: h.$primary;
+        @include h.appDirAuto($padding-start: 0);
+        .icon {
+          @include h.circle(15px);
+          background-color: #6a6eb3;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          @include h.appDirAuto($margin-end: 10px);
+          svg {
+            path {
+              fill: white;
+            }
+          }
+        }
       }
     }
   }
