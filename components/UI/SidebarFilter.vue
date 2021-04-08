@@ -102,11 +102,12 @@ export default {
       ],
       specSelected: [],
       locations: ["Maadi", "Nasr City", "Heliopolis"],
-      locationSelected: []
+      locationSelected: [],
     };
   },
   methods: {
     filterPrep() {
+      console.log("ran prep");
       if (typeof this.$route.query.specialities != "undefined") {
         const specArr = this.$route.query.specialities.split(",");
         specArr.forEach(el => {
@@ -201,7 +202,8 @@ export default {
   },
   mounted() {
     this.filterPrep();
-  }
+    console.log(this.compKey);
+  },
 };
 </script>
 <style lang="scss" scoped>

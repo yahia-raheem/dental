@@ -147,6 +147,11 @@ export default {
   watch: {
     "$route.query"() {
       this.filter();
+    },
+    $route(to, from) {
+      if (to.name == this.$route.name && Object.keys(to.query).length != 0) {
+        this.forceRefresh();
+      }
     }
   },
   mounted() {
