@@ -7,7 +7,9 @@
     </div>
     <div class="container-fluid">
       <div class="row py-3">
-        <div class="col-lg-4 col-md-4 col-sm-2 col-12 d-flex justify-content-start align-items-center">
+        <div
+          class="col-lg-4 col-md-4 col-sm-2 col-12 d-flex justify-content-start align-items-center"
+        >
           <ul class="social">
             <li v-for="(item, key) in socialMedia" :key="key">
               <a :href="item.link">
@@ -16,7 +18,9 @@
             </li>
           </ul>
         </div>
-        <div class="col-lg-8 col-md-8 col-sm-10 col-12 d-flex justify-content-end align-items-center">
+        <div
+          class="col-lg-8 col-md-8 col-sm-10 col-12 d-flex justify-content-end align-items-center"
+        >
           <div class="header-cta header-phone-cta">
             <div class="img-container">
               <get-svg :svgid="numberImage" />
@@ -96,6 +100,38 @@ export default {
     getOption(optionId) {
       return this.$store.getters["general/headerOption"](optionId);
     }
+  },
+  mounted() {
+    const sideBar = document.getElementById("mySidenav");
+    const togglebtn = document.querySelector(".navbar-toggler");
+    const closebtn = document.querySelector(".closebtn");
+    const sidemenuItems = document.querySelectorAll(".mobile-menu .menu-item");
+
+    sidemenuItems.forEach(item => {
+      item.addEventListener("click", e => {
+        e.stopPropagation();
+        if (item.classList.contains("menu-item-has-children")) {
+          const submenu = item.querySelector(".sub-menu");
+          const itemsNum = item.querySelectorAll(".menu-item").length;
+          if (submenu.classList.contains("opened")) {
+            item.classList.remove("child-menu-opened");
+            submenu.classList.remove("opened");
+            submenu.style.maxHeight = 0;
+          } else {
+            item.classList.add("child-menu-opened");
+            submenu.classList.add("opened");
+            submenu.style.maxHeight = `${itemsNum * 64}px`;
+          }
+        }
+      });
+    });
+
+    togglebtn.addEventListener("click", () => {
+      sideBar.style.width = "100vw";
+    });
+    closebtn.addEventListener("click", () => {
+      sideBar.style.width = "0";
+    });
   }
 };
 </script>
@@ -104,7 +140,14 @@ export default {
 @use "~/assets/scss/helpers" as h with(
   $dir: $dir
 );
+
 .nav-container {
+  .navbar-toggler {
+    border: 1px solid black;
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+  }
   .social {
     padding: 0;
     list-style: none;
@@ -170,6 +213,14 @@ export default {
     left: 0;
     width: 100%;
     z-index: 2;
+    nav.navbar {
+      .navbar-toggler {
+        border: 1px solid white;
+        .navbar-toggler-icon {
+          background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+      }
+    }
     .white-gradient {
       position: absolute;
       top: 0;

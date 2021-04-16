@@ -6,10 +6,11 @@
       </div>
     </div>
     <div class="data-container">
-      <div
-        class="box-header d-flex justify-content-start align-items-center mb-2"
-      >
-        <nuxt-link :to="{ name: 'labs-id', params: { id: lab.id } }">
+      <div class="box-header mb-2">
+        <nuxt-link
+          :to="{ name: 'labs-id', params: { id: lab.id } }"
+          class="lab-link"
+        >
           <h6 class="title">{{ lab.title }}</h6>
         </nuxt-link>
         <client-only>
@@ -137,12 +138,23 @@ export default {
   }
 }
 .spec-tags {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  @include h.media(">600px") {
+    justify-content: flex-start;
+  }
   .tag {
     background-color: #efefef;
     color: h.$primary;
     font-size: 0.8rem;
     padding: 2px 15px;
-    @include h.appDirAuto($margin-end: 10px);
+    margin: 5px;
+    @include h.media(">600px") {
+      margin: 0;
+      @include h.appDirAuto($margin-end: 10px);
+    }
   }
 }
 .lab-block {
@@ -150,12 +162,25 @@ export default {
   border-radius: 5px;
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   padding: 20px 20px 10px;
   margin-bottom: 30px;
+  flex-direction: column;
+  margin-left: -4vw;
+  margin-right: -4vw;
+  @include h.media(">600px") {
+    margin-left: 0;
+    margin-right: 0;
+    flex-direction: row;
+    align-items: flex-start;
+  }
   .logo {
     min-width: 120px;
     @include h.appDirAuto($margin-end: 15px);
+    margin-bottom: 15px;
+    @include h.media(">600px") {
+      margin-bottom: 0;
+    }
     .img-container {
       @include h.box-ratio(1, 1);
       border: 1px solid #f2f2f3;
@@ -164,15 +189,46 @@ export default {
   }
   .data-container {
     width: stretch;
-    .title {
-      color: #4b6b83;
-      margin-bottom: 0;
-    }
-    .lab-rating {
-      @include h.appDirAuto($margin-start: 15px);
+    .box-header {
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      flex-wrap: wrap;
+      flex-direction: column;
+      @include h.media(">500px") {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      @include h.media(">788px") {
+        align-items: center;
+        flex-wrap: nowrap;
+      }
+    }
+    .lab-link {
+      width: 100%;
+      @include h.media(">788px") {
+        width: auto;
+      }
+    }
+    .title {
+      color: #4b6b83;
+      text-align: center;
+      @include h.media(">500px") {
+        @include h.appDirAuto($text-aling: start);
+      }
+      @include h.media(">788px") {
+        margin-bottom: 0;
+      }
+    }
+    .lab-rating {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 10px;
+      @include h.media(">788px") {
+        @include h.appDirAuto($margin-start: 15px);
+        margin-bottom: 0;
+      }
       .value {
         background-color: #ffd161;
         border-radius: 5px;

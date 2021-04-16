@@ -30,7 +30,8 @@ export default {
     { src: "~/plugins/global-components.js" },
     { src: "~/plugins/vuelidate.js" },
     { src: "~/plugins/vue-star-rating.js", mode: "client" },
-    { src: "~/plugins/vue-simple-accordion.js", mode: "client" }
+    { src: "~/plugins/vue-simple-accordion.js", mode: "client" },
+    { src: "~/plugins/vue-bottom-sheet.js", mode: "client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -33,10 +33,10 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-6">
+        <div class="col-sm-6 col-12">
           <p class="copyrights">{{ copyrightsDesc }}</p>
         </div>
-        <div class="col-6">
+        <div class="col-sm-6 col-12">
           <ul class="copyrights-nav">
             <li
               class="nav-item"
@@ -129,11 +129,14 @@ section.footer {
   }
   .copyrights-nav {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     padding: 0;
     list-style: none;
     color: #a8a8a8;
+    @include h.media(">576px") {
+      justify-content: flex-end;
+    }
     .nav-item {
       position: relative;
       &:last-of-type {
@@ -150,6 +153,12 @@ section.footer {
         content: "";
       }
     }
+  }
+  p.copyrights {
+   text-align: center;
+   @include h.media('>576px') {
+     @include h.appDirAuto($text-align: start);
+   } 
   }
 }
 </style>

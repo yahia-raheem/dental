@@ -8,11 +8,13 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <VueSlickCarousel v-bind="settings">
-            <div class="slide" v-for="(item, key) in slides" :key="key">
-              <get-img :imgid="item.ID" responsive="xxl:185px" />
-            </div>
-          </VueSlickCarousel>
+          <client-only>
+            <VueSlickCarousel v-bind="settings">
+              <div class="slide" v-for="(item, key) in slides" :key="key">
+                <get-img :imgid="item.ID" responsive="xxl:185px" />
+              </div>
+            </VueSlickCarousel>
+          </client-only>
         </div>
       </div>
     </div>
@@ -57,7 +59,7 @@ export default {
             settings: {
               slidesToShow: 1
             }
-          },
+          }
         ]
       }
     };
@@ -99,7 +101,7 @@ section.home-partners {
     }
   }
   .slide {
-    display: flex!important;
+    display: flex !important;
     justify-content: center;
     align-items: center;
   }

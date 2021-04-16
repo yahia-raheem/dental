@@ -2,12 +2,18 @@
   <section class="labs-page page internal">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-3">
+        <div class="col-lg-3 d-none d-lg-block">
           <div class="archive-sidebar">
             <sidebar-filter :key="comKey" />
           </div>
         </div>
-        <div class="col-9">
+        <div class="col-lg-9 col-md-12">
+          <button
+            class="mobile-filter-btn btn btn-primary d-md-block d-lg-none"
+            @click="openMobileSheet"
+          >
+            Filter
+          </button>
           <div class="header">
             <h6 class="title">Search Results</h6>
             <div class="sort">
@@ -29,6 +35,16 @@
         </div>
       </div>
     </div>
+    <client-only>
+      <vue-bottom-sheet
+        ref="mobileFilter"
+        max-width="100vw"
+        max-height="100vh"
+        :rounded="false"
+      >
+        <sidebar-filter :key="comKey + 1" />
+      </vue-bottom-sheet>
+    </client-only>
   </section>
 </template>
 <script>
@@ -65,6 +81,9 @@ export default {
     LabBlock
   },
   methods: {
+    openMobileSheet() {
+      this.$refs.mobileFilter.open();
+    },
     forceRefresh() {
       this.comKey += 1;
     },
@@ -163,6 +182,15 @@ export default {
 @use "~/assets/scss/helpers" as h with(
   $dir: $dir
 );
+section::v-deep {
+  .bottom-sheet__content {
+    padding: 10px 20px;
+  }
+}
+.mobile-filter-btn {
+  margin-bottom: 15px;
+  width: 100%;
+}
 .archive-sidebar {
   @include h.appDirAuto($border-end: 2px solid #d5d7d8, $padding-end: 30px);
   height: 100%;

@@ -255,6 +255,7 @@ export default {
       --vsa-border: none;
       --vsa-content-padding: 0.5rem;
       --vsa-default-icon-size: 0.3;
+      --vsa-min-width: 200px;
       .vsa-item__trigger {
         height: 20px;
         position: relative;

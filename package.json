@@ -11,6 +11,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/style-resources": "^1.0.0",
+    "@webzlodimir/vue-bottom-sheet": "^1.2.0",
     "animate.css": "^4.1.1",
     "bootstrap": "^4.6.0",
     "core-js": "^3.8.3",
