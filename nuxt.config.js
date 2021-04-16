@@ -41,7 +41,7 @@ export default {
   buildModules: ["@nuxt/image"],
 
   image: {
-    domains: ["http://dental.local/"],
+    domains: ["https://projects.cloudmaize.com/dentalwp/"],
     screens: {
       xs: 320,
       sm: 640,
@@ -56,14 +56,18 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    "@nuxtjs/axios"
+    "@nuxtjs/axios",
+    "@nuxtjs/proxy"
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    proxy: false
+  },
 
   env: {
-    baseUrl: process.env.BASE_URL || "http://dental.local",
+    baseUrl:
+      process.env.BASE_URL || "https://projects.cloudmaize.com/dentalwp/",
     ...WP_PAGES_IDS
   },
 
