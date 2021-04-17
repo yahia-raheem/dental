@@ -1,7 +1,7 @@
 <template>
   <div>
     <img
-      :src="svg"
+      src=""
       class="style-svg"
       ref="theImg"
       :width="width"
@@ -11,12 +11,11 @@
 </template>
 <script>
 import { mapActions } from "vuex";
-import imgToSvg from "~/mixins/imgToSvg.js";
-import { elementObserver } from "~/plugins/js/components/helper-funcs";
-import axios from "axios";
+import {
+  elementObserver,
+} from "~/plugins/js/components/helper-funcs";
 
 export default {
-  mixins: [imgToSvg],
   data() {
     return {
       svg: ""
@@ -39,27 +38,42 @@ export default {
   },
   mounted() {
     if (this.svgobj == null) {
-      this.getImage({
-        id: this.svgid
-      }).then(data => {
-        this.svg = data.image;
-        this.transformToSvg(this.$refs.theImg);
-      });
+      
+      this.transformToSvg();
     } else {
-      this.addImg({
-        alt: this.svgobj.alt,
-        id: this.svgobj.ID,
-        image: this.svgobj.full_url
-      });
-      this.svg = this.svgobj.full_url;
-      this.transformToSvg(this.$refs.theImg);
+      this.svgid = this.svgobj.full_url;
+      this.transformToSvg();
     }
   },
   methods: {
     ...mapActions({
-      getImage: "general/getImage",
-      addImg: "general/addImg"
+      getSvg: "general/getSvg",
     }),
+    transformToSvg() {
+      elementObserver(this.imgTosvg, { element: this.$refs.theImg });
+    },
+    imgTosvg(options) {
+      console.log('ran');
+      const img = options["element"];
+      const imgID = img.getAttribute("id");
+      const width = img.getAttribute("width");
+      const height = img.getAttribute("height");
+      const imgClasses = img.getAttribute("class");
+      this.getSvg(this.svgid).then(data => {
+        const resPure = data.svg;
+        const parentDiv = document.createElement("div");
+        parentDiv.innerHTML = resPure;
+        const svg = parentDiv.querySelector("svg");
+        if (imgID != null) {
+          svg.setAttribute("id", imgID);
+        }
+        width != null ? svg.setAttribute("width", width) : null;
+        height != null ? svg.setAttribute("height", height) : null;
+        svg.removeAttribute("xmlns:a");
+        svg.setAttribute("class", imgClasses);
+        img.parentNode.replaceChild(svg, img);
+      });
+    }
   }
 };
 </script>

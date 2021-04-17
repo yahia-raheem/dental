@@ -155,6 +155,10 @@ export const actions = {
       new Error(error.response.data.message);
     }
   },
+  async getSvg(vcontext, imgId) {
+    const {data} = await axios.get(`${process.env.baseUrl}/wp-json/generaldata/v1/getsvg/${imgId}`);
+    return data;
+  },
   addImg(vcontext, options) {
     if (!vcontext.getters.image(options.id)) {
       vcontext.commit("ADD_IMAGE", options);
