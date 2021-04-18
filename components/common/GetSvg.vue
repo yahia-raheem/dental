@@ -11,9 +11,7 @@
 </template>
 <script>
 import { mapActions } from "vuex";
-import {
-  elementObserver,
-} from "~/plugins/js/components/helper-funcs";
+import { elementObserver } from "~/plugins/js/components/helper-funcs";
 
 export default {
   data() {
@@ -37,24 +35,20 @@ export default {
     }
   },
   mounted() {
-    if (this.svgobj == null) {
-      
-      this.transformToSvg();
-    } else {
+    if (this.svgobj != null) {
       this.svgid = this.svgobj.full_url;
-      this.transformToSvg();
     }
+    this.transformToSvg();
   },
   methods: {
     ...mapActions({
-      getSvg: "general/getSvg",
+      getSvg: "general/getSvg"
     }),
     transformToSvg() {
       elementObserver(this.imgTosvg, { element: this.$refs.theImg });
     },
     imgTosvg(options) {
-      console.log('ran');
-      const img = options["element"];
+      var img = options['element'];
       const imgID = img.getAttribute("id");
       const width = img.getAttribute("width");
       const height = img.getAttribute("height");
@@ -71,7 +65,9 @@ export default {
         height != null ? svg.setAttribute("height", height) : null;
         svg.removeAttribute("xmlns:a");
         svg.setAttribute("class", imgClasses);
-        img.parentNode.replaceChild(svg, img);
+        if (img.parentNode) {
+          img.parentNode.replaceChild(svg, img);
+        }
       });
     }
   }

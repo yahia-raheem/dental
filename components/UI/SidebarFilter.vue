@@ -107,7 +107,6 @@ export default {
   },
   methods: {
     filterPrep() {
-      console.log("ran prep");
       if (typeof this.$route.query.specialities != "undefined") {
         const specArr = this.$route.query.specialities.split(",");
         specArr.forEach(el => {
@@ -202,95 +201,7 @@ export default {
   },
   mounted() {
     this.filterPrep();
-    console.log(this.compKey);
   },
 };
 </script>
-<style lang="scss" scoped>
-@use "~/assets/scss/helpers" as h with(
-  $dir: $dir
-);
-
-.filter-section {
-  border-bottom: 1px solid #dddedf;
-  padding-bottom: 15px;
-  padding-top: 15px;
-  &:first-of-type {
-    padding-top: 0;
-  }
-  width: 100%;
-  @include h.appDirAuto($padding-end: 15px);
-  input[type="text"] {
-    height: 35px;
-    font-size: 1rem;
-    margin-bottom: 10px;
-  }
-  .title {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 10px;
-    .text {
-      color: #6a6fb6;
-      margin: 0;
-    }
-    .icon::v-deep {
-      @include h.appDirAuto($margin-end: 10px);
-      svg {
-        width: 15px;
-        height: auto;
-        path {
-          fill: #6a6fb6;
-        }
-      }
-    }
-  }
-  &::v-deep {
-    .vsa-list {
-      --vsa-max-width: 100%;
-      --vsa-heading-padding: 0;
-      --vsa-text-color: #838383;
-      --vsa-highlight-color: none;
-      --vsa-bg-color: none;
-      --vsa-border: none;
-      --vsa-content-padding: 0.5rem;
-      --vsa-default-icon-size: 0.3;
-      --vsa-min-width: 200px;
-      .vsa-item__trigger {
-        height: 20px;
-        position: relative;
-        &::after {
-          @include h.appDirAuto($end: 10px);
-          @include h.center("v");
-          @include h.circle(20px);
-          border: 1px solid #6a6eb3;
-          content: "";
-        }
-        .vsa-item__trigger__icon--is-default {
-          &::before,
-          &::after {
-            background-color: #6a6eb3;
-          }
-        }
-        &:hover,
-        &:focus,
-        &:active {
-          color: black;
-          .vsa-item__trigger__icon--is-default {
-            &::before,
-            &::after {
-              background-color: #6a6eb3;
-            }
-          }
-        }
-      }
-      .title {
-        margin: 0;
-      }
-      .form-check {
-        margin-bottom: 10px;
-      }
-    }
-  }
-}
-</style>
+<style lang="scss"></style>

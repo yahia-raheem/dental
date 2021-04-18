@@ -8,15 +8,15 @@
           </div>
         </div>
         <div class="col-lg-9 col-md-12">
-          <button
-            class="mobile-filter-btn btn btn-primary d-md-block d-lg-none"
-            @click="openMobileSheet"
-          >
-            Filter
-          </button>
           <div class="header">
             <h6 class="title">Search Results</h6>
-            <div class="sort">
+            <button
+              class="mobile-filter-btn btn btn-primary d-md-block d-lg-none"
+              @click="openMobileSheet"
+            >
+              Filter
+            </button>
+            <div class="sort d-none d-lg-flex">
               <span class="label">Sort By</span>
               <v-select
                 :value="sortSelected.value != null ? sortSelected : null"
@@ -39,10 +39,28 @@
       <vue-bottom-sheet
         ref="mobileFilter"
         max-width="100vw"
-        max-height="100vh"
-        :rounded="false"
+        max-height="90vh"
+        :rounded="true"
       >
+        <div class="filter-section">
+          <div class="title">
+            <div class="icon">
+              <get-svg :svgid="102" />
+            </div>
+            <h6 class="text">
+              Sort By
+            </h6>
+          </div>
+          <v-select
+            :value="sortSelected.value != null ? sortSelected : null"
+            :options="sortOptions"
+            placeholder="Select a Sorting Method"
+            @input="sortLabs"
+          >
+          </v-select>
+        </div>
         <sidebar-filter :key="comKey + 1" />
+        <button class="btn btn-primary sheet-apply" @click="closeSheet">Apply</button>
       </vue-bottom-sheet>
     </client-only>
   </section>
@@ -83,6 +101,9 @@ export default {
   methods: {
     openMobileSheet() {
       this.$refs.mobileFilter.open();
+    },
+    closeSheet() {
+      this.$refs.mobileFilter.close();
     },
     forceRefresh() {
       this.comKey += 1;
@@ -185,6 +206,95 @@ export default {
 section::v-deep {
   .bottom-sheet__content {
     padding: 10px 20px;
+    .sheet-apply {
+      width: 100%;
+      margin: 10px 0;
+    }
+  }
+  .filter-section {
+    border-bottom: 1px solid #dddedf;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    @include h.media(">992px") {
+      &:first-of-type {
+        padding-top: 0;
+      }
+    }
+    width: 100%;
+    @include h.appDirAuto($padding-end: 15px);
+    input[type="text"] {
+      height: 35px;
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    .v-select {
+      margin-bottom: 10px;
+    }
+    .title {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 10px;
+      .text {
+        color: #6a6fb6;
+        margin: 0;
+      }
+      .icon {
+        @include h.appDirAuto($margin-end: 10px);
+        svg {
+          width: 15px;
+          height: auto;
+          path {
+            fill: #6a6fb6;
+          }
+        }
+      }
+    }
+    .vsa-list {
+      --vsa-max-width: 100%;
+      --vsa-heading-padding: 0;
+      --vsa-text-color: #838383;
+      --vsa-highlight-color: none;
+      --vsa-bg-color: none;
+      --vsa-border: none;
+      --vsa-content-padding: 0.5rem;
+      --vsa-default-icon-size: 0.3;
+      --vsa-min-width: 200px;
+      .vsa-item__trigger {
+        height: 20px;
+        position: relative;
+        &::after {
+          @include h.appDirAuto($end: 10px);
+          @include h.center("v");
+          @include h.circle(20px);
+          border: 1px solid #6a6eb3;
+          content: "";
+        }
+        .vsa-item__trigger__icon--is-default {
+          &::before,
+          &::after {
+            background-color: #6a6eb3;
+          }
+        }
+        &:hover,
+        &:focus,
+        &:active {
+          color: black;
+          .vsa-item__trigger__icon--is-default {
+            &::before,
+            &::after {
+              background-color: #6a6eb3;
+            }
+          }
+        }
+      }
+      .title {
+        margin: 0;
+      }
+      .form-check {
+        margin-bottom: 10px;
+      }
+    }
   }
 }
 .mobile-filter-btn {
@@ -197,9 +307,14 @@ section::v-deep {
 }
 .header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: flex-start;
   margin-bottom: 10px;
+  align-items: flex-start;
+  flex-direction: column;
+  @include h.media(">992px") {
+    justify-content: space-between;
+    flex-direction: row;
+  }
   .sort {
     width: 250px;
     display: flex;

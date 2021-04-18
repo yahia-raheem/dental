@@ -127,7 +127,6 @@ export default {
             form
           )
           .then(res => {
-            console.log(res);
             if (res.status == "mail_sent") {
               this.submitionStatus = "SUCCESS";
             }

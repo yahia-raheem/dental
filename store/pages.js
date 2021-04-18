@@ -1,6 +1,5 @@
 import axios from "axios";
 import Page from "~/models/page";
-import { classToJson } from "~/plugins/js/components/helper-funcs";
 export const state = () => ({
   pages: [],
   currPage: null
@@ -33,17 +32,13 @@ export const actions = {
       if (vcontext.getters.pageById(pageId)) {
         return vcontext.getters.pageById(pageId);
       } else {
-        try {
-          const { data } = await axios.get(
-            `${process.env.baseUrl}/wp-json/wp/v2/pages/${pageId}`
-          );
-          const page = Page.fromwpRes(data);
-          const pageData = page.toJSON();
-          vcontext.commit("ADD_PAGE", pageData);
-          return pageData;
-        } catch (error) {
-          console.log(error);
-        }
+        const { data } = await axios.get(
+          `${process.env.baseUrl}/wp-json/wp/v2/pages/${pageId}`
+        );
+        const page = Page.fromwpRes(data);
+        const pageData = page.toJSON();
+        vcontext.commit("ADD_PAGE", pageData);
+        return pageData;
       }
     } catch (error) {
       new Error(error.response.data.message);

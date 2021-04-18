@@ -7,70 +7,16 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-            <div class="intro shadow-sm">
-              <div class="row">
-                <div
-                  class="col-12 d-flex justify-content-start align-items-start"
-                >
-                  <div class="profile-image">
-                    <div class="img-container">
-                      <get-img
-                        imgid="93"
-                        classes="bg-image"
-                        responsive="xxl:210px"
-                      />
-                    </div>
-                  </div>
-                  <div class="intro-data">
-                    <div class="body">
-                      <div class="data">
-                        <h4 class="title">
-                          Dr. Ali El Tahan Perfection Dental Care Clinic
-                        </h4>
-                        <div class="tags">
-                          <button class="tag btn">Cosmetic Dentistry</button>
-                          <button class="tag btn">Restorative Dentist</button>
-                          <button class="tag btn">Implantologist</button>
-                        </div>
-                        <p class="desc">
-                          Masters of endodontics, fellowship of laser therapy in
-                          dentistry (Aachen University-Germany), 7 years
-                          Experience since 2012
-                        </p>
-                      </div>
-                      <div class="cta">
-                        <a href="#" class="btn btn-primary">Hire Me</a>
-                      </div>
-                    </div>
-                    <hr />
-                    <div class="suffix">
-                      <client-only>
-                        <div class="intro-rating">
-                          <div class="value shadow-sm">
-                            {{ rating }}
-                          </div>
-                          <star-rating
-                            :rating="rating"
-                            :increment="0.5"
-                            :show-rating="false"
-                            :read-only="true"
-                            :star-size="23"
-                            :glow="1"
-                          ></star-rating>
-                          <div class="review-count">
-                            ( 24 Reviews)
-                          </div>
-                        </div>
-                        <div class="profile-views">
-                          <get-svg :svgid="87" />
-                          <span class="views">34,643 Views</span>
-                        </div>
-                      </client-only>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <profile-intro
+              title="Dr. Ali El Tahan Perfection Dental Care Clinic"
+              description="Phd in medicine from stanford university Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+              :tags="tags"
+              logoId="29"
+              :rating="rating"
+              views="24,500"
+              reviews="24"
+              :cta="{link: '/', text: 'Contact Me'}"
+            />
           </div>
         </div>
         <div class="row">
@@ -221,12 +167,14 @@
 import AvailabilityCheck from "~/components/doctors/AvailabilityCheck.vue";
 import PortfolioSlide from "~/components/doctors/PortfolioSlide.vue";
 import ProfileComment from "~/components/doctors/ProfileComment";
+import ProfileIntro from "~/components/profiles/ProfileIntro.vue";
 
 export default {
   components: {
     AvailabilityCheck,
     PortfolioSlide,
-    ProfileComment
+    ProfileComment,
+    ProfileIntro
   },
   async asyncData(context) {
     const pageData = await context.store.dispatch(
@@ -247,6 +195,15 @@ export default {
         author: "Dr. Ali El Tahan Perfection Dental Care Clinic",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, reprehint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est in culpa qui officia deserunt mollit anim id est laborum."
+      },
+      tags: {
+        tags: [
+          "Cosmetic Dentistry",
+          "Restorative Dentist",
+          "Implantologist"
+        ],
+        routeName: "index",
+        queryName: "specialities"
       }
     };
   },

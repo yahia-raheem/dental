@@ -1,6 +1,6 @@
 <template>
   <div class="row mt-4">
-    <div class="col-12">
+    <div class="col-12 d-none d-lg-block">
       <div class="filter-buttons">
         <button :class="{ lab: true, active: labActive }" @click="activateTab">
           <span class="icon">
@@ -8,7 +8,7 @@
           </span>
           <span class="title">Laboratory</span>
         </button>
-        <button
+        <!-- <button
           :class="{ dentist: true, active: dentistActive }"
           @click="activateTab"
         >
@@ -16,55 +16,42 @@
             <get-svg :svgid="docsvgId" />
           </span>
           <span class="title">Dentist</span>
-        </button>
+        </button> -->
       </div>
     </div>
-    <div class="col-12">
+    <div class="col-12 d-none d-lg-block">
       <div class="filter-form-container">
         <div class="vail-white"></div>
         <form @submit.prevent="submitFilter">
           <div class="form-row">
-            <div
-              class="form-group"
-              :class="{ 'form-group--error': $v.servicedd.$error }"
-            >
+            <div class="form-group">
               <v-select
                 id="servicedd"
                 v-model.trim="servicedd"
-                :options="['1', '2', '3']"
+                :options="[]"
                 placeholder="Service"
               >
               </v-select>
             </div>
-            <div
-              class="form-group"
-              :class="{ 'form-group--error': $v.locationdd.$error }"
-            >
+            <div class="form-group">
               <v-select
                 id="locationdd"
                 v-model.trim="locationdd"
-                :options="['1', '2', '3']"
+                :options="locations"
                 placeholder="Location"
               >
               </v-select>
             </div>
-            <div
-              class="form-group"
-              :class="{ 'form-group--error': $v.aosdd.$error }"
-            >
+            <div class="form-group">
               <v-select
                 id="aosdd"
                 v-model.trim="aosdd"
-                :options="['1', '2', '3']"
+                :options="specialities"
                 placeholder="Area Of Service"
               >
               </v-select>
             </div>
-            <div
-              v-if="labActive"
-              class="form-group"
-              :class="{ 'form-group--error': $v.lab.$error }"
-            >
+            <div v-if="labActive" class="form-group">
               <input
                 type="text"
                 class="form-control"
@@ -74,11 +61,7 @@
                 @input="setLab($event.target.value)"
               />
             </div>
-            <div
-              v-if="dentistActive"
-              class="form-group"
-              :class="{ 'form-group--error': $v.doctor.$error }"
-            >
+            <div v-if="dentistActive" class="form-group">
               <input
                 type="text"
                 class="form-control"
@@ -95,56 +78,44 @@
         </form>
       </div>
     </div>
+    <div class="col-12 d-flex d-lg-none justify-content-center align-items-center">
+      <nuxt-link to="/labs" class="btn btn-primary">Check out our labs</nuxt-link>
+    </div>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
   data() {
     return {
-      // labsvgId: null,
-      // docsvgId: null,
-      dentistActive: true,
-      labActive: false,
+      dentistActive: false,
+      labActive: true,
       servicedd: null,
       locationdd: null,
       aosdd: null,
       lab: "",
-      doctor: ""
+      doctor: "",
+      locations: ["Maadi", "Nasr City", "Heliopolis"],
+      specialities: [
+        "Periodontics",
+        "Orthodontics",
+        "Prosthodontics",
+        "Oral and Maxillofacial",
+        "Endodontics"
+      ]
     };
-  },
-  validations: {
-    servicedd: {
-      required
-    },
-    locationdd: {
-      required
-    },
-    aosdd: {
-      required
-    },
-    lab: {
-      minLength: minLength(4)
-    },
-    doctor: {
-      minLength: minLength(4)
-    }
   },
   computed: {
     ...mapGetters({
-      pageById: 'pages/pageById'
+      pageById: "pages/pageById"
     }),
     labsvgId() {
-      return this.pageById(process.env.homepageId).custom_fields.lab_svg.ID
+      return this.pageById(process.env.homepageId).custom_fields.lab_svg.ID;
     },
     docsvgId() {
-      return this.pageById(process.env.homepageId).custom_fields.doctor_svg.ID
+      return this.pageById(process.env.homepageId).custom_fields.doctor_svg.ID;
     }
-    // const data = await this.getPage(process.env.homepageId);
-    // this.labsvgId = data.custom_fields.lab_svg.ID;
-    // this.docsvgId = data.custom_fields.doctor_svg.ID;
   },
   methods: {
     activateTab(e) {
@@ -159,19 +130,24 @@ export default {
     },
     setDoctor(v) {
       this.doctor = v;
-      this.$v.doctor.$touch();
     },
-    setLoctor(v) {
+    setLab(v) {
       this.lab = v;
-      this.$v.lab.$touch();
     },
     submitFilter() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        console.log("error");
-      } else {
-        console.log("success");
-        console.log(this.servicedd)
+      var url;
+      if (this.labActive) {
+        url = { name: "labs", query: {} };
+        if (this.locationdd) {
+          url["query"]["locations"] = this.locationdd.trim().toLowerCase();
+        }
+        if (this.aosdd) {
+          url["query"]["specialities"] = this.aosdd.trim().toLowerCase();
+        }
+        if (this.lab != "") {
+          url["query"]["name"] = this.lab.trim().toLowerCase();
+        }
+        this.$router.push(url);
       }
     }
   }
@@ -190,7 +166,7 @@ export default {
   @include h.appDirAuto($border-top-end-radius: 15px);
   overflow: hidden;
   button {
-    width: 50%;
+    width: 100%;
     border: none;
     box-shadow: none;
     display: flex;

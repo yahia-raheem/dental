@@ -7,72 +7,15 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-            <div class="intro shadow-sm">
-              <div class="row">
-                <div
-                  class="col-12 d-flex justify-content-start align-items-start"
-                >
-                  <div class="profile-image">
-                    <div class="img-container">
-                      <get-img
-                        imgid="29"
-                        classes="bg-image"
-                        responsive="xxl:210px"
-                      />
-                    </div>
-                  </div>
-                  <div class="intro-data">
-                    <div class="body">
-                      <div class="data">
-                        <h4 class="title">
-                          {{ lab.title }}
-                        </h4>
-                        <div class="tags">
-                          <nuxt-link
-                            :to="{
-                              name: 'labs',
-                              query: { specialities: spec.trim().toLowerCase() }
-                            }"
-                            class="tag btn"
-                            v-for="(spec, key) in lab.specialities"
-                            :key="key"
-                            >{{ spec }}</nuxt-link
-                          >
-                        </div>
-                      </div>
-                      <div class="cta">
-                        <a href="#" class="btn btn-primary">Send Request</a>
-                      </div>
-                    </div>
-                    <hr />
-                    <div class="suffix">
-                      <client-only>
-                        <div class="intro-rating">
-                          <div class="value shadow-sm">
-                            {{ lab.rating }}
-                          </div>
-                          <star-rating
-                            :rating="lab.rating"
-                            :increment="0.5"
-                            :show-rating="false"
-                            :read-only="true"
-                            :star-size="23"
-                            :glow="1"
-                          ></star-rating>
-                          <div class="review-count">
-                            ( 24 Reviews)
-                          </div>
-                        </div>
-                        <div class="profile-views">
-                          <get-svg :svgid="87" />
-                          <span class="views">34,643 Views</span>
-                        </div>
-                      </client-only>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <profile-intro
+              title="My Lab"
+              :tags="tags"
+              logoId="29"
+              :rating="lab.rating"
+              views="24,500"
+              reviews="24"
+              :cta="{ link: '/', text: 'Send a Request' }"
+            />
           </div>
         </div>
         <div class="row">
@@ -200,6 +143,8 @@ import AvailabilityCheck from "~/components/doctors/AvailabilityCheck.vue";
 import PortfolioSlide from "~/components/doctors/PortfolioSlide.vue";
 import ProfileComment from "~/components/doctors/ProfileComment";
 import PriceList from "~/components/labs/PriceList.vue";
+import ProfileIntro from "~/components/profiles/ProfileIntro.vue";
+
 import { mapActions } from "vuex";
 
 export default {
@@ -207,7 +152,8 @@ export default {
     AvailabilityCheck,
     PortfolioSlide,
     ProfileComment,
-    PriceList
+    PriceList,
+    ProfileIntro
   },
   async asyncData(context) {
     const pageData = await context.store.dispatch(
@@ -222,6 +168,7 @@ export default {
         arrows: false,
         autoplay: false
       },
+      tags: {},
       defaultComment: {
         rating: 5,
         title: "Highly Recommended",
@@ -234,6 +181,11 @@ export default {
   async fetch() {
     const lab = await this.getLab(this.$route.params.id);
     this.lab = lab;
+    this.tags = {
+      tags: lab.specialities,
+      routeName: "labs",
+      queryName: "specialities"
+    };
   },
   methods: {
     ...mapActions({
@@ -264,7 +216,7 @@ export default {
     padding-bottom: 15px;
     position: relative;
     &::after {
-      @include h.center('h');
+      @include h.center("h");
       bottom: 0;
       content: "";
       width: 40px;

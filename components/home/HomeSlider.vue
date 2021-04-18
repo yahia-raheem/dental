@@ -13,7 +13,11 @@
     </div>
     <VueSlickCarousel v-bind="settings">
       <div class="slide" v-for="(item, key) in slideImgs" :key="key">
-        <get-img :imgid="item.ID" responsive="xl:100vw lg:1280px md:1024px sm:768px xs:100vw" classes="bg-image" />
+        <get-img
+          :imgid="item.ID"
+          responsive="xl:100vw lg:1280px md:1024px sm:768px xs:100vw"
+          classes="bg-image"
+        />
       </div>
     </VueSlickCarousel>
   </section>
@@ -30,7 +34,7 @@ export default {
         autoplay: true,
         fade: true
       }
-    }
+    };
   },
   props: {
     slideImgs: {
@@ -58,7 +62,10 @@ section.home-slider {
   padding: 0;
   @include h.slick($use-arrows: false, $use-dots: false) {
     .slide {
-      height: 800px;
+      height: 500px;
+      @include h.media(">992px") {
+        height: 800px;
+      }
     }
   }
   .slider-data {
@@ -72,13 +79,13 @@ section.home-slider {
     .stitle {
       font-weight: 700;
       font-size: 1.8rem;
-      @include h.media('>992px') {
+      @include h.media(">992px") {
         font-size: 2.5rem;
       }
     }
     .ssubtitle {
       font-size: 1.3rem;
-      @include h.media('>992px') {
+      @include h.media(">992px") {
         font-size: 2rem;
       }
     }
