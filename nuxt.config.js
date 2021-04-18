@@ -72,7 +72,6 @@ export default {
   env: {
     baseUrl:
       process.env.BASE_URL || "https://projects.cloudmaize.com/dentalwp/",
-    isMobile: false,
     ...WP_PAGES_IDS
   },
 

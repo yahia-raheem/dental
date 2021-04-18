@@ -72,8 +72,10 @@
       justify-content: space-between;
       align-items: center;
       margin-top: 35px;
+      flex-wrap: wrap;
       li {
         @include h.appDirAuto($margin-end: 10px);
+        margin-bottom: 10px;
       }
     }
   }

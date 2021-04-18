@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-4">
+          <div class="col-lg-4 col-md-12">
             <div class="profile-box about">
               <div class="header">
                 <h5 class="title">About Dr. Ali</h5>
@@ -70,7 +70,7 @@
               </ul>
             </div>
           </div>
-          <div class="col-8">
+          <div class="col-lg-8 col-md-12">
             <div class="profile-box availability">
               <div class="header">
                 <h5 class="title">Availability</h5>
@@ -126,15 +126,15 @@
           <div class="col-12">
             <div class="profile-box comments">
               <div
-                class="header d-flex justify-content-between align-items-start"
+                class="header d-flex justify-content-between align-items-start flex-wrap"
               >
                 <h5 class="title">Reviews</h5>
                 <div
-                  class="rating d-flex justify-content-start align-items-center flex-column"
+                  class="rating d-flex justify-content-start align-items-center flex-column mb-3"
                 >
                   <client-only>
                     <div
-                      class="overall d-flex justify-content-center align-items-center"
+                      class="overall d-flex justify-content-center align-items-center flex-wrap"
                     >
                       <star-rating
                         :rating="rating"

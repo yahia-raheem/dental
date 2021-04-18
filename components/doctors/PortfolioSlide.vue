@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-4">
+    <div class="col-xl-4 col-sm-6 d-flex justify-content-center align-items-center">
       <div class="portfolio-box">
         <div class="img-container">
           <get-img :imgid="92" classes="bg-image" responsive="xxl:210px" />
@@ -8,7 +8,7 @@
         <h6 class="title">Case Name</h6>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-xl-4 col-sm-6 d-flex justify-content-center align-items-center">
       <div class="portfolio-box">
         <div class="img-container">
           <get-img :imgid="91" classes="bg-image" responsive="xxl:210px" />
@@ -16,7 +16,7 @@
         <h6 class="title">Case Name</h6>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-xl-4 col-sm-6 d-flex justify-content-center align-items-center">
       <div class="portfolio-box">
         <div class="img-container">
           <get-img :imgid="92" classes="bg-image" responsive="xxl:210px" />
@@ -24,7 +24,7 @@
         <h6 class="title">Case Name</h6>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-xl-4 col-sm-6 d-flex justify-content-center align-items-center">
       <div class="portfolio-box">
         <div class="img-container">
           <get-img :imgid="91" classes="bg-image" responsive="xxl:210px" />
@@ -32,7 +32,7 @@
         <h6 class="title">Case Name</h6>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-xl-4 col-sm-6 d-flex justify-content-center align-items-center">
       <div class="portfolio-box">
         <div class="img-container">
           <get-img :imgid="92" classes="bg-image" responsive="xxl:210px" />
@@ -40,7 +40,7 @@
         <h6 class="title">Case Name</h6>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-xl-4 col-sm-6 d-flex justify-content-center align-items-center">
       <div class="portfolio-box">
         <div class="img-container">
           <get-img :imgid="91" classes="bg-image" responsive="xxl:210px" />

@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-4">
+          <div class="col-lg-4 col-md-12">
             <div class="profile-box about">
               <div class="header">
                 <h5 class="title">About</h5>
@@ -42,7 +42,7 @@
               <price-list title="Framework for hybrid restoration / per unit" />
             </div>
           </div>
-          <div class="col-8">
+          <div class="col-lg-8 col-md-12">
             <div class="locations shadow-sm">
               <h6 class="box-title text-center position-relative">Locations</h6>
               <div class="locations-list">
@@ -101,15 +101,15 @@
           <div class="col-12">
             <div class="profile-box comments">
               <div
-                class="header d-flex justify-content-between align-items-start"
+                class="header d-flex justify-content-between align-items-start flex-wrap"
               >
                 <h5 class="title">Reviews</h5>
                 <div
-                  class="rating d-flex justify-content-start align-items-center flex-column"
+                  class="rating d-flex justify-content-start align-items-center flex-column mb-3"
                 >
                   <client-only>
                     <div
-                      class="overall d-flex justify-content-center align-items-center"
+                      class="overall d-flex justify-content-center align-items-center flex-wrap"
                     >
                       <star-rating
                         :rating="lab.rating"
@@ -236,6 +236,8 @@ export default {
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      min-width: fit-content;
+      flex-wrap: wrap;
       .icon::v-deep {
         @include h.circle(20px);
         position: relative;

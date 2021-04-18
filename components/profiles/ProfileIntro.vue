@@ -2,7 +2,7 @@
   <div class="intro shadow-sm">
     <div class="row">
       <div
-        class="col-12 d-flex justify-content-start align-items-start flex-column flex-lg-row"
+        class="col-12 d-flex justify-content-start align-items-start desktop"
         v-if="!isMobile"
       >
         <div class="profile-image">
@@ -68,6 +68,81 @@
           </div>
         </div>
       </div>
+      <div class="col-12 mobile" v-if="isMobile">
+        <div class="row">
+          <div
+            class="col-12 mb-3 d-flex justify-content-center align-items-center flex-wrap"
+          >
+            <div class="profile-image">
+              <div class="img-container">
+                <get-img
+                  :imgid="logoId"
+                  classes="bg-image"
+                  responsive="xxl:210px"
+                />
+              </div>
+            </div>
+            <div class="header-data">
+              <h4 class="title">
+                {{ title }}
+              </h4>
+              <p class="desc">
+                {{ description }}
+              </p>
+              <div class="cta">
+                <nuxt-link :to="cta.link" class="btn btn-primary">{{
+                  cta.text
+                }}</nuxt-link>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="intro-data">
+              <div class="body">
+                <div class="data">
+                  <div class="tags">
+                    <nuxt-link
+                      :to="{
+                        name: tags.routeName,
+                        query: { [tags.queryName]: spec.trim().toLowerCase() }
+                      }"
+                      class="tag btn"
+                      v-for="(spec, key) in tags.tags"
+                      :key="key"
+                      >{{ spec }}</nuxt-link
+                    >
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div class="suffix">
+                <client-only>
+                  <div class="intro-rating">
+                    <div class="value shadow-sm">
+                      {{ rating }}
+                    </div>
+                    <star-rating
+                      :rating="rating"
+                      :increment="0.5"
+                      :show-rating="false"
+                      :read-only="true"
+                      :star-size="23"
+                      :glow="1"
+                    ></star-rating>
+                    <div class="review-count">( {{ reviews }} Reviews)</div>
+                  </div>
+                  <div class="profile-views">
+                    <get-svg :svgid="87" />
+                    <span class="views">{{ views }} Views</span>
+                  </div>
+                </client-only>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -86,7 +161,7 @@ export default {
   data() {
     return {
       tagQueryName: this.tags.queryName,
-      isMobile: this.$store.getters['general/isMobile']
+      isMobile: this.$store.getters["general/isMobile"]
     };
   }
 };
@@ -100,12 +175,27 @@ export default {
   background-color: white;
   border-radius: 5px;
   margin-bottom: 30px;
+  .title {
+    color: h.$primary;
+  }
   .profile-image {
-    width: 210px;
     @include h.appDirAuto($margin-end: 20px);
-    .img-container {
-      border-radius: 10px;
-      @include h.box-ratio(1, 1);
+  }
+  .btn-primary {
+    width: 250px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+  }
+  .desktop {
+    .profile-image {
+      width: 210px;
+      .img-container {
+        border-radius: 10px;
+        @include h.box-ratio(1, 1);
+      }
     }
   }
   .intro-data {
@@ -114,14 +204,6 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      .btn-primary {
-        width: 250px;
-        height: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-      }
       .data {
         @include h.appDirAuto($margin-end: 50px);
       }
@@ -131,15 +213,13 @@ export default {
       justify-content: flex-start;
       align-items: center;
       margin-bottom: 10px;
+      flex-wrap: wrap;
       .tag {
         background-color: #efefef;
         color: h.$primary;
         font-size: 0.9rem;
-        @include h.appDirAuto($margin-end: 10px);
+        margin: 5px;
       }
-    }
-    .title {
-      color: h.$primary;
     }
   }
   .intro-rating {
@@ -160,6 +240,54 @@ export default {
     .review-count {
       margin-top: 5px;
       @include h.appDirAuto($margin-start: 10px);
+    }
+  }
+  .mobile {
+    .profile-image {
+      width: 120px;
+      margin-bottom: 10px;
+      .img-container {
+        @include h.circle(120px);
+        overflow: hidden;
+        border: 1px solid lightgray;
+      }
+    }
+    .title, .desc {
+      text-align: center;
+    }
+    .cta {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .btn-primary {
+      margin-top: 10px;
+    } 
+    .intro-rating {
+      @include h.appDirAuto($margin-end: 25px);
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+    .intro-data {
+      .body {
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        & > * {
+          margin-bottom: 10px;
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+      .tags {
+        margin-bottom: 0;
+        justify-content: center;
+      }
+      .suffix {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
     }
   }
 }
