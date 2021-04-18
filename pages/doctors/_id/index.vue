@@ -15,7 +15,7 @@
               :rating="rating"
               views="24,500"
               reviews="24"
-              :cta="{link: '/', text: 'Contact Me'}"
+              :cta="{ link: '/', text: 'Contact Me' }"
             />
           </div>
         </div>
@@ -197,11 +197,7 @@ export default {
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, reprehint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est in culpa qui officia deserunt mollit anim id est laborum."
       },
       tags: {
-        tags: [
-          "Cosmetic Dentistry",
-          "Restorative Dentist",
-          "Implantologist"
-        ],
+        tags: ["Cosmetic Dentistry", "Restorative Dentist", "Implantologist"],
         routeName: "index",
         queryName: "specialities"
       }

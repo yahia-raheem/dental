@@ -60,6 +60,10 @@ export default {
     "@nuxtjs/proxy"
   ],
 
+  router: {
+    middleware: ['mobile']
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     proxy: false
@@ -68,6 +72,7 @@ export default {
   env: {
     baseUrl:
       process.env.BASE_URL || "https://projects.cloudmaize.com/dentalwp/",
+    isMobile: false,
     ...WP_PAGES_IDS
   },
 

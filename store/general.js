@@ -5,7 +5,8 @@ export const state = () => ({
   images: [],
   headerMenu: [],
   footerMenus: {},
-  metabox: []
+  metabox: [],
+  isMobile: false
 });
 
 export const getters = {
@@ -29,6 +30,9 @@ export const getters = {
   },
   getMetabox: state => key => {
     return state.metabox.find(meta => meta.key == key);
+  },
+  isMobile: state => {
+    return state.isMobile;
   }
 };
 
@@ -56,10 +60,16 @@ export const mutations = {
   },
   ADD_METABOX(state, meta) {
     state.metabox.push(meta);
+  },
+  CHANGE_ISMOBILE(state, value) {
+    state.isMobile = value;
   }
 };
 
 export const actions = {
+  setIsMobile(vcontext, value) {
+    vcontext.commit("CHANGE_ISMOBILE", value);
+  },
   async getHeaderMenu(vcontext) {
     try {
       const { data } = await axios.get(
@@ -156,7 +166,9 @@ export const actions = {
     }
   },
   async getSvg(vcontext, imgId) {
-    const {data} = await axios.get(`${process.env.baseUrl}/wp-json/generaldata/v1/getsvg/${imgId}`);
+    const { data } = await axios.get(
+      `${process.env.baseUrl}/wp-json/generaldata/v1/getsvg/${imgId}`
+    );
     return data;
   },
   addImg(vcontext, options) {

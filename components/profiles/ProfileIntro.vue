@@ -1,7 +1,10 @@
 <template>
   <div class="intro shadow-sm">
     <div class="row">
-      <div class="col-12 d-flex justify-content-start align-items-start">
+      <div
+        class="col-12 d-flex justify-content-start align-items-start flex-column flex-lg-row"
+        v-if="!isMobile"
+      >
         <div class="profile-image">
           <div class="img-container">
             <get-img
@@ -82,7 +85,8 @@ export default {
   },
   data() {
     return {
-      tagQueryName: this.tags.queryName
+      tagQueryName: this.tags.queryName,
+      isMobile: this.$store.getters['general/isMobile']
     };
   }
 };
