@@ -1,6 +1,8 @@
 <template>
   <div class="form-container pending">
-    <div class="profile-type d-flex justify-content-center align-items-center">
+    <div
+      class="profile-type d-flex justify-content-center align-items-center mb-4"
+    >
       <button
         class="dentist btn d-flex justify-content-center align-items-center"
         :class="{ active: type == 'dentist' }"
@@ -51,10 +53,16 @@
       </div>
       <div class="form-row">
         <div class="cta-container">
-          <button type="submit" class="btn btn-primary submit-btn">
+          <button
+            type="submit"
+            class="btn btn-primary submit-btn d-flex justify-content-center align-items-center"
+          >
             <span class="text">
               Next
             </span>
+            <div class="icon">
+              <get-svg :svgid="108" width="15" />
+            </div>
           </button>
         </div>
       </div>
@@ -158,14 +166,7 @@ export default {
   $dir: $dir
 );
 
-.form-container::v-deep {
-  transition: all 0.5s;
-  max-width: 830px;
-  padding: 30px 40px;
-  background-color: white;
-  border: 1px solid lightgray;
-  border-radius: 10px;
-  width: 100%;
+.form-container {
   .profile-type {
     button {
       border: 1px solid #c5c5c5;
@@ -191,64 +192,6 @@ export default {
     max-width: 400px;
     margin-right: auto;
     margin-left: auto;
-  }
-  input:not([type="search"]),
-  .vs__dropdown-toggle {
-    background-color: #f8f9fd;
-    box-shadow: none;
-    min-height: 40px;
-    font-size: 0.9rem;
-    &:not(.is-invalid) {
-      border: 1px solid #e3eef8;
-    }
-  }
-  .vs__dropdown-toggle {
-    input {
-      color: #495057;
-    }
-  }
-  .v-select.is-invalid {
-    .vs__dropdown-toggle {
-      border: 1px solid #dc3545;
-    }
-  }
-  label {
-    color: #505050;
-    font-weight: bold;
-    font-size: 1rem;
-    margin-bottom: 10px;
-  }
-  .form-row {
-    .col {
-      &:first-of-type {
-        @include h.appDirAuto($padding-end: 25px);
-      }
-      &:last-of-type {
-        @include h.appDirAuto($padding-start: 25px);
-      }
-    }
-  }
-  .form-group {
-    margin-bottom: 20px;
-  }
-  .cta-container {
-    display: flex;
-    width: 100%;
-    padding: 10px;
-    justify-content: flex-end;
-    align-items: center;
-    button {
-      font-size: 0.8rem;
-      padding: 0;
-      width: 115px;
-      height: 35px;
-    }
-    p {
-      font-size: 0.9rem;
-      a {
-        color: h.$primary;
-      }
-    }
   }
 }
 </style>

@@ -36,7 +36,7 @@ export default {
   components: { StepOne, StepTwo, RegisterSuccess },
   data() {
     return {
-      status: "pending",
+      status: "profile",
       type: "dentist"
     };
   },
@@ -66,15 +66,4 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@use "~/assets/scss/helpers" as h with(
-  $dir: $dir
-);
-section.doctor-register {
-  .sec-title {
-    text-align: center;
-    color: h.$primary;
-    margin-bottom: 35px;
-  }
-}
-</style>
+<style lang="scss"></style>
