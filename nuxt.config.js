@@ -57,7 +57,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
-    "@nuxtjs/proxy"
+    "@nuxtjs/proxy",
+    '@nuxtjs/auth-next'
   ],
 
   router: {
