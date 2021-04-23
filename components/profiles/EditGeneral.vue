@@ -7,28 +7,83 @@
       <form @submit.prevent="submit">
         <div class="form-row">
           <div class="form-group col">
-            <div class="custom-file">
+            <label class="form-label">Profile Image</label>
+            <div class="custom-file" ref="image">
               <input
                 type="file"
                 class="custom-file-input"
                 id="profileImage"
                 @change="profileImage"
                 accept="image/*"
-                ref="image"
               />
+              <label class="custom-file-label" for="profileImage"
+                >Choose Image</label
+              >
             </div>
           </div>
           <div class="form-group col">
-            <div class="custom-file">
+            <label class="form-label">Profile Cover</label>
+            <div class="custom-file" ref="cover">
               <input
                 type="file"
                 class="custom-file-input"
-                id="coverImage"
-                @change="coverImage"
+                id="profileCover"
+                @change="profileCover"
                 accept="image/*"
-                ref="cover"
               />
+              <label class="custom-file-label" for="profileCover"
+                >Choose Image</label
+              >
             </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="labName" class="form-label">Lab Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="labName"
+              v-model.trim="labName"
+              placeholder="Lab Name"
+            />
+          </div>
+          <div class="form-group col">
+            <label class="form-label">PDF Price List</label>
+            <div class="custom-file" ref="pdf">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="pdfFile"
+                @change="pdfFile"
+                accept="application/pdf"
+              />
+              <label class="custom-file-label" for="pdfFile">Choose file</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-12">
+            <label for="profileAbout" class="form-label">About</label>
+            <textarea
+              class="form-control"
+              v-model.trim="labAbout"
+              id="profileAbout"
+              rows="5"
+              placeholder="About Details"
+            ></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-12">
+            <label for="spec" class="form-label">Specialitites</label>
+            <v-select
+              id="spec"
+              v-model.trim="labSpecs"
+              :options="specOptions"
+              placeholder="Specialities"
+              :multiple="true"
+            ></v-select>
           </div>
         </div>
         <div class="form-row">
@@ -51,31 +106,66 @@ export default {
   props: {
     image: {
       type: String,
-      default: null,
+      default: null
     },
     cover: {
       type: String,
-      default: null,
+      default: null
     },
     name: {
       type: String,
-      default: null,
+      default: null
     },
     pdf: {
       type: String,
-      default: null,
+      default: null
     },
     about: {
       type: String,
-      default: null,
+      default: null
     },
+    specs: {
+      type: Array,
+      default() {
+        return [];
+      }
+    }
+  },
+  data() {
+    return {
+      labName: "",
+      labAbout: "",
+      labSpecs: [],
+      specOptions: [
+        "Periodontics",
+        "Orthodontics",
+        "Prosthodontics",
+        "Oral and Maxillofacial",
+        "Endodontics"
+      ]
+    };
   },
   methods: {
-    coverImage(e) {
-      console.log(e.target.files);
-    },
     profileImage(e) {
-      console.log(e.target.files);
+      this.changeImage(e.target.files[0].name);
+    },
+    profileCover(e) {
+      this.changeCover(e.target.files[0].name);
+    },
+    pdfFile(e) {
+      this.changePdf(e.target.files[0].name);
+    },
+    changePdf(name) {
+      this.$refs.pdf.querySelector("label").innerHTML = name;
+      this.$refs.pdf.classList.add("dirty");
+    },
+    changeImage(name) {
+      this.$refs.image.querySelector("label").innerHTML = name;
+      this.$refs.image.classList.add("dirty");
+    },
+    changeCover(name) {
+      this.$refs.cover.querySelector("label").innerHTML = name;
+      this.$refs.cover.classList.add("dirty");
     },
     async submit() {
       // let formData = new FormData();
@@ -92,13 +182,35 @@ export default {
       //   data: formData,
       //   config: config,
       // });
-    },
+    }
   },
   mounted() {
-    console.log();
-  },
+    var linkArr;
+    if (this.image != null) {
+      linkArr = this.image.split("/");
+      this.changeImage(linkArr[linkArr.length - 1]);
+    }
+    if (this.cover != null) {
+      linkArr = this.cover.split("/");
+      this.changeCover(linkArr[linkArr.length - 1]);
+    }
+    if (this.pdf != null) {
+      linkArr = this.pdf.split("/");
+      this.changePdf(linkArr[linkArr.length - 1]);
+    }
+    this.labSpecs = this.specs;
+  }
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.custom-file {
+  &.dirty {
+    label::after {
+      content: "change";
+      background-color: #d24c35;
+      color: white;
+    }
+  }
+}
 </style>

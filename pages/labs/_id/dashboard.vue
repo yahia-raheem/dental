@@ -37,6 +37,7 @@ export default {
   $dir: $dir
 );
 .sidebar-container {
+  height: 100%;
   @include h.appDirAuto($padding-end: 20px);
   @include h.appDirAuto($border-end: 1px solid #eaebec)
 }
