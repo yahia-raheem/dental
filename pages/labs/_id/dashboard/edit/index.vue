@@ -3,14 +3,50 @@
     <div class="col-12">
       <h6 class="sub-title">Edit Profile</h6>
       <edit-general />
+      <edit-details />
+      <edit-price-list :groups="priceList" />
     </div>
   </div>
 </template>
 <script>
+import EditDetails from "~/components/profiles/EditDetails.vue";
 import EditGeneral from "~/components/profiles/EditGeneral.vue";
+import EditPriceList from "~/components/profiles/EditPriceList.vue";
 
 export default {
-  components: { EditGeneral }
+  components: { EditGeneral, EditDetails, EditPriceList },
+  data() {
+    return {
+      priceList: [
+        {
+          listName: "ceramics",
+          items: [
+            {
+              title: "option 1",
+              price: "50.0",
+            },
+            {
+              title: "option 2",
+              price: "40.0",
+            },
+          ],
+        },
+        {
+          listName: "optics",
+          items: [
+            {
+              title: "option 1",
+              price: "50.0",
+            },
+            {
+              title: "option 2",
+              price: "40.0",
+            },
+          ],
+        },
+      ],
+    };
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -27,6 +63,7 @@ export default {
   border: 1px solid #e0e0e0;
   border-radius: 10px;
   padding: 15px 30px;
+  margin-bottom: 50px;
   .header {
     padding: 10px 0;
     border-bottom: 1px dotted #e0e0e0;

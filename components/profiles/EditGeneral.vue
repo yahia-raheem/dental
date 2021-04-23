@@ -75,18 +75,6 @@
           </div>
         </div>
         <div class="form-row">
-          <div class="form-group col-12">
-            <label for="spec" class="form-label">Specialitites</label>
-            <v-select
-              id="spec"
-              v-model.trim="labSpecs"
-              :options="specOptions"
-              placeholder="Specialities"
-              :multiple="true"
-            ></v-select>
-          </div>
-        </div>
-        <div class="form-row">
           <div class="cta-container">
             <button
               type="submit"
@@ -124,25 +112,11 @@ export default {
       type: String,
       default: null
     },
-    specs: {
-      type: Array,
-      default() {
-        return [];
-      }
-    }
   },
   data() {
     return {
       labName: "",
       labAbout: "",
-      labSpecs: [],
-      specOptions: [
-        "Periodontics",
-        "Orthodontics",
-        "Prosthodontics",
-        "Oral and Maxillofacial",
-        "Endodontics"
-      ]
     };
   },
   methods: {
@@ -198,7 +172,6 @@ export default {
       linkArr = this.pdf.split("/");
       this.changePdf(linkArr[linkArr.length - 1]);
     }
-    this.labSpecs = this.specs;
   }
 };
 </script>
