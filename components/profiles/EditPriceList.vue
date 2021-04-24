@@ -5,8 +5,12 @@
     </div>
     <div class="form-container">
       <form @submit.prevent="submit">
-        <div class="form-row group" v-for="(group, key) in groups" :key="key">
-          <div class="row-label">Group {{ key + 1 }}</div>
+        <div
+          class="form-row group"
+          v-for="(group, groupKey) in groups"
+          :key="groupKey"
+        >
+          <div class="row-label">Group {{ groupKey + 1 }}</div>
           <div class="form-group col-lg-6 col-md-12">
             <label class="list-label">List Name</label>
             <input
@@ -25,7 +29,11 @@
                 <p class="list-label mb-3">price</p>
               </div>
             </div>
-            <div class="form-row" v-for="(item, key) in group.items" :key="key">
+            <div
+              class="form-row"
+              v-for="(item, itemKey) in group.items"
+              :key="itemKey"
+            >
               <div class="form-group col-6">
                 <input
                   type="text"
@@ -42,6 +50,26 @@
                   placeholder="Price"
                 />
               </div>
+              <div
+                class="form-group col-2 d-flex justify-content-start align-items-center"
+              >
+                <button
+                  class="btn add-item"
+                  v-if="itemKey == group.items.length - 1"
+                  @click.prevent="addItem(groupKey)"
+                  :key="itemKey"
+                >
+                  <get-svg :svgid="111" width="11" height="11" />
+                </button>
+                <button
+                  class="btn remove-item"
+                  v-if="group.items.length > 1"
+                  @click.prevent="removeItem(groupKey, itemKey)"
+                  :key="itemKey + 1"
+                >
+                  <get-svg :svgid="112" width="12" height="12" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -49,7 +77,7 @@
           class="form-row d-flex justify-content-end align-items-center mb-4"
         >
           <button
-            class="remove-group btn btn-danger"
+            class="remove-group btn"
             @click.prevent="removeGroup"
             v-if="groups.length > 1"
           >
@@ -86,13 +114,13 @@ export default {
             items: [
               {
                 title: "",
-                price: "",
-              },
-            ],
-          },
+                price: ""
+              }
+            ]
+          }
         ];
-      },
-    },
+      }
+    }
   },
   methods: {
     addGroup() {
@@ -101,18 +129,27 @@ export default {
         items: [
           {
             title: "",
-            price: "",
-          },
-        ],
+            price: ""
+          }
+        ]
       });
+    },
+    addItem(groupKey) {
+      this.groups[groupKey].items.push({
+        title: "",
+        price: ""
+      });
+    },
+    removeItem(groupKey, itemKey) {
+      this.groups[groupKey].items.splice(itemKey, 1);
     },
     removeGroup() {
       this.groups.pop();
     },
     submit() {
       console.log("fired");
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -150,5 +187,33 @@ export default {
 }
 .remove-group {
   @include h.appDirAuto($margin-end: 15px);
+  color: #d8072d;
+}
+.add-item::v-deep {
+  background-color: h.$primary;
+  @include h.appDirAuto($margin-end: 5px);
+  svg path {
+    fill: white;
+  }
+}
+.remove-item::v-deep {
+  background-color: #d8072d;
+  svg {
+    polygon {
+      fill: white;
+    }
+    path {
+      fill: white;
+    }
+  }
+}
+.add-item,
+.remove-item {
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

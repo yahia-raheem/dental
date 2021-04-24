@@ -27,9 +27,6 @@ export default {
       list: []
     }
   },
-  mounted() {
-    console.log(this.$route.name);
-  }
 };
 </script>
 <style lang="scss">

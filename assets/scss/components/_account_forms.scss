@@ -1,4 +1,6 @@
-section.doctor-register, section.account-settings {
+section.doctor-register,
+section.account-settings,
+section.lab-request {
   .sec-title {
     text-align: center;
     color: h.$primary;
@@ -13,7 +15,8 @@ section.doctor-register, section.account-settings {
     border-radius: 10px;
     width: 100%;
     input:not([type="search"]),
-    .vs__dropdown-toggle {
+    .vs__dropdown-toggle,
+    textarea {
       background-color: #f8f9fd;
       box-shadow: none;
       min-height: 40px;
