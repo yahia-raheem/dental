@@ -163,12 +163,39 @@
 
             <div class="sep"></div>
             <h4 class="sec-title">Technical Details</h4>
-            <div class="form-container">
+            <div class="form-container technical-sec">
+              <div class="nav-btns">
+                <button
+                  class="btn tab-btn"
+                  :class="{ active: key == selected }"
+                  v-for="(req, key) in technicalRequests"
+                  :key="key"
+                  @click.prevent="changeTab(key)"
+                >
+                  Group {{ key + 1 }}
+                  <button
+                    class="btn delete-btn"
+                    @click.prevent="deleteTab(key)"
+                    v-if="technicalRequests.length > 1"
+                  >
+                    x
+                  </button>
+                </button>
+                <button class="btn btn-primary new-tab" @click.prevent="addTab">
+                  Add Group +
+                </button>
+              </div>
               <div
                 class="form-row"
+                :class="{ 'd-none': key != selected }"
                 v-for="(req, key) in technicalRequests"
                 :key="key"
               >
+                <div class="col-12">
+                  <div class="image-container d-flex justify-content-center align-items-center mx-auto mb-4">
+                    <get-img :imgid="113" responsive="xxl:600px" />
+                  </div>
+                </div>
                 <div class="form-group col-lg-6 col-md-12">
                   <label for="Teeth">Teeth Numbers</label>
                   <input
@@ -274,6 +301,7 @@ export default {
   components: { DatePicker },
   data() {
     return {
+      selected: 0,
       patientName: "",
       gender: "",
       age: "",
@@ -351,6 +379,23 @@ export default {
     }
   },
   methods: {
+    addTab() {
+      this.technicalRequests.push(new TechnicalRequest());
+      this.selected = this.technicalRequests.length - 1;
+    },
+    changeTab(key) {
+      if (key > this.technicalRequests.length - 1) {
+        this.selected = this.technicalRequests.length - 1;
+      } else {
+        this.selected = key;
+      }
+    },
+    deleteTab(key) {
+      this.technicalRequests.splice(key, 1);
+      if (this.selected == key) {
+        this.selected = this.technicalRequests.length;
+      }
+    },
     diChanged(e) {
       this.di = e.target.files.length > 0 ? e.target.files[0] : null;
       this.$v.di.$touch();
@@ -399,14 +444,22 @@ export default {
         this.$refs.video.querySelector("label").innerHTML = "select";
         this.$refs.video.classList.remove("dirty");
       }
-    }
+    },
+    submit() {}
   }
 };
 </script>
 <style lang="scss" scoped>
+@use "~/assets/scss/helpers" as h with(
+  $dir: $dir
+);
 .form-container {
   margin-left: auto;
   margin-right: auto;
+  &.technical-sec {
+    position: relative;
+    margin-top: 70px;
+  }
 }
 .mx-datepicker {
   width: 100%;
@@ -430,5 +483,63 @@ export default {
 }
 .sec-title {
   margin-bottom: 20px !important;
+}
+.image-container::v-deep {
+  img {
+    max-width: 100%;
+  }
+}
+.nav-btns {
+  position: absolute;
+  top: 0;
+  left: 30px;
+  transform: translateY(-100%);
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  .tab-btn {
+    background-color: #e4e6eb;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    z-index: 2;
+    padding: 0.5rem 1rem;
+    border-top: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    &.active {
+      background-color: white;
+    }
+  }
+  .new-tab {
+    @include h.appDirAuto(
+      $border-top-start-radius: 0,
+      $border-bottom-start-radius: 0,
+      $border-bottom-end-radius: 0,
+      $margin-start: -2px
+    );
+    z-index: 1;
+  }
+  .btn {
+    position: relative;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  .delete-btn {
+    position: relative;
+    z-index: 10;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 0;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border-radius: 0;
+    color: black;
+    background-color: #cfcfcf;
+    @include h.appDirAuto($margin-start: 10px);
+  }
 }
 </style>
