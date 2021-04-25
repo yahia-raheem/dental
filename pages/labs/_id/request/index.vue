@@ -60,6 +60,9 @@
                 </div>
               </div>
             </div>
+
+            <!-- ------------------------------------------------------- media section --------------------------------------------------------  -->
+
             <div class="sep"></div>
             <h4 class="sec-title">Media</h4>
             <div class="form-container">
@@ -92,14 +95,18 @@
                     <input
                       type="file"
                       class="custom-file-input"
+                      :class="{ 'is-invalid': $v.photos.$error }"
                       id="photos"
                       @change="photosChanged"
-                      accept="image/*"
+                      accept=".jpg,.jpeg,.png"
                       multiple
                     />
                     <label class="custom-file-label" for="profileCover"
                       >Select</label
                     >
+                    <div class="invalid-feedback" v-if="$v.photos.$error">
+                      Photos must be either .jpg, .jpeg, or .png
+                    </div>
                   </div>
                   <small id="locHelp" class="form-text text-muted"
                     >Acepted File Types: jpg, jpeg, png</small
@@ -113,11 +120,19 @@
                     <input
                       type="file"
                       class="custom-file-input"
+                      :class="{ 'is-invalid': $v.diacom.$error }"
                       id="diacom"
+                      accept=".diacom"
                       @change="diacomChanged"
                     />
                     <label class="custom-file-label" for="diacom">Select</label>
+                    <div class="invalid-feedback" v-if="$v.diacom.$error">
+                      The diacom file must have a .diacom file extension
+                    </div>
                   </div>
+                  <small id="locHelp" class="form-text text-muted"
+                    >Accpeted File Type: diacom</small
+                  >
                 </div>
                 <div class="form-group col">
                   <label class="form-label">Video</label>
@@ -125,14 +140,122 @@
                     <input
                       type="file"
                       class="custom-file-input"
+                      :class="{ 'is-invalid': $v.video.$error }"
                       id="video"
                       @change="videoChanged"
-                      accept="video/*"
+                      accept=".mp4"
                     />
                     <label class="custom-file-label" for="profileCover"
                       >Select</label
                     >
+                    <div class="invalid-feedback" v-if="$v.video.$error">
+                      Only mp4 videos are accepted
+                    </div>
                   </div>
+                  <small id="locHelp" class="form-text text-muted"
+                    >Accpeted File Type: mp4</small
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!--  ------------------------------------------------------ technical details -------------------------------------------------------------  -->
+
+            <div class="sep"></div>
+            <h4 class="sec-title">Technical Details</h4>
+            <div class="form-container">
+              <div
+                class="form-row"
+                v-for="(req, key) in technicalRequests"
+                :key="key"
+              >
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="Teeth">Teeth Numbers</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="Teeth"
+                    v-model.trim="req.teeth"
+                    placeholder="Enter Numbers"
+                  />
+                  <small id="locHelp" class="form-text text-muted"
+                    >Separate teeth numbers by a comma</small
+                  >
+                </div>
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="gender">Type of Restoration</label>
+                  <v-select
+                    id="gender"
+                    v-model.trim="req.restoration"
+                    :options="['1', '2']"
+                    placeholder="Select"
+                  ></v-select>
+                </div>
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="material">Material</label>
+                  <v-select
+                    id="material"
+                    v-model.trim="req.material"
+                    :options="['1', '2']"
+                    placeholder="Select"
+                  ></v-select>
+                </div>
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="shade">Shade</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="shade"
+                    v-model.trim="req.shade"
+                    placeholder="Enter Text"
+                  />
+                </div>
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="design">Design</label>
+                  <v-select
+                    id="design"
+                    v-model.trim="req.design"
+                    :options="['1', '2']"
+                    placeholder="Select"
+                  ></v-select>
+                </div>
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="implants">Implants</label>
+                  <v-select
+                    id="implants"
+                    v-model.trim="req.implants"
+                    :options="['1', '2']"
+                    placeholder="Select"
+                  ></v-select>
+                </div>
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="smile">Smile Design</label>
+                  <v-select
+                    id="smile"
+                    v-model.trim="req.smileDesign"
+                    :options="['1', '2']"
+                    placeholder="Select"
+                  ></v-select>
+                </div>
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="nextStep">Next Step</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="nextStep"
+                    v-model.trim="req.nextStep"
+                    placeholder="Enter Text"
+                  />
+                </div>
+                <div class="form-group col-lg-12">
+                  <label for="nextStep">Comments</label>
+                  <textarea
+                    class="form-control"
+                    id="nextStep"
+                    v-model.trim="req.comments"
+                    rows="5"
+                    placeholder="Enter your comments"
+                  />
                 </div>
               </div>
             </div>
@@ -145,6 +268,7 @@
 <script>
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
+import TechnicalRequest from "~/models/technicalRequest";
 
 export default {
   components: { DatePicker },
@@ -159,45 +283,124 @@ export default {
       photos: "",
       diacom: "",
       video: "",
+      technicalRequests: [new TechnicalRequest()]
     };
   },
   validations: {
     di: {
-      valid: function (value) {
-        return value.name.split(".").pop() == "stl";
-      },
+      valid: function(value) {
+        if (value == null) {
+          console.log("entered");
+          return true;
+        }
+        return (
+          value.name
+            .trim()
+            .toLowerCase()
+            .split(".")
+            .pop() == "stl"
+        );
+      }
     },
+    photos: {
+      valid: function(value) {
+        if (value == null) {
+          return true;
+        }
+        var noError = true;
+        value.forEach(img => {
+          const ext = img.name
+            .trim()
+            .toLowerCase()
+            .split(".")
+            .pop();
+          if (ext != "jpg" && ext != "jpeg" && ext != "png") {
+            noError = false;
+          }
+        });
+        return noError;
+      }
+    },
+    diacom: {
+      valid: function(value) {
+        if (value == null) {
+          return true;
+        }
+        return (
+          value.name
+            .trim()
+            .toLowerCase()
+            .split(".")
+            .pop() == "diacom"
+        );
+      }
+    },
+    video: {
+      valid: function(value) {
+        if (value == null) {
+          return true;
+        }
+        return (
+          value.name
+            .trim()
+            .toLowerCase()
+            .split(".")
+            .pop() == "mp4"
+        );
+      }
+    }
   },
   methods: {
     diChanged(e) {
-      this.di = e.target.files[0];
+      this.di = e.target.files.length > 0 ? e.target.files[0] : null;
       this.$v.di.$touch();
-      if (!this.$v.$invalid) {
+      if (!this.$v.di.$error && this.di != null) {
         this.$refs.diRef.querySelector("label").innerHTML =
           e.target.files[0].name;
         this.$refs.diRef.classList.add("dirty");
+      } else {
+        this.$refs.diRef.querySelector("label").innerHTML = "select";
+        this.$refs.diRef.classList.remove("dirty");
       }
     },
     photosChanged(e) {
-      this.photos = e.target.files;
-      this.$refs.photos.querySelector(
-        "label"
-      ).innerHTML = `${e.target.files.length} files selected`;
-      this.$refs.photos.classList.add("dirty");
+      this.photos = e.target.files.length > 0 ? e.target.files : null;
+      this.$v.photos.$touch();
+      if (!this.$v.photos.$error && this.photos != null) {
+        this.$refs.photos.querySelector(
+          "label"
+        ).innerHTML = `${e.target.files.length} files selected`;
+        this.$refs.photos.classList.add("dirty");
+      } else {
+        this.$refs.photos.querySelector("label").innerHTML = "select";
+        this.$refs.photos.classList.remove("dirty");
+      }
     },
     diacomChanged(e) {
-      this.diacom = e.target.files[0];
-      this.$refs.diacom.querySelector("label").innerHTML =
-        e.target.files[0].name;
-      this.$refs.diacom.classList.add("dirty");
+      this.diacom = e.target.files.length > 0 ? e.target.files[0] : null;
+      this.$v.diacom.$touch();
+      if (!this.$v.diacom.$error && this.diacom != null) {
+        this.$refs.diacom.querySelector("label").innerHTML =
+          e.target.files[0].name;
+        this.$refs.diacom.classList.add("dirty");
+      } else {
+        this.$refs.diacom.querySelector("label").innerHTML = "select";
+        this.$refs.diacom.classList.remove("dirty");
+      }
     },
     videoChanged(e) {
-      this.video = e.target.files[0];
-      this.$refs.video.querySelector("label").innerHTML =
-        e.target.files[0].name;
-      this.$refs.video.classList.add("dirty");
-    },
-  },
+      this.video = e.target.files.length > 0 ? e.target.files[0] : null;
+      this.$v.video.$touch();
+      if (!this.$v.video.$error && this.video != null) {
+        this.$refs.video.querySelector("label").innerHTML =
+          e.target.files[0].name;
+        this.$refs.video.classList.add("dirty");
+      } else {
+        this.$refs.video.querySelector("label").innerHTML = "select";
+        this.$refs.video.classList.remove("dirty");
+      }
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
