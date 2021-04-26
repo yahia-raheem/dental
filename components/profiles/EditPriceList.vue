@@ -25,7 +25,7 @@
               <div class="col-6">
                 <p class="list-label mb-3">sub List</p>
               </div>
-              <div class="col-2">
+              <div class="col-2 d-none d-lg-block">
                 <p class="list-label mb-3">price</p>
               </div>
             </div>
@@ -34,7 +34,7 @@
               v-for="(item, itemKey) in group.items"
               :key="itemKey"
             >
-              <div class="form-group col-6">
+              <div class="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
                   class="form-control"
@@ -42,7 +42,7 @@
                   placeholder="Title"
                 />
               </div>
-              <div class="form-group col-2">
+              <div class="form-group col-lg-2 col-md-10 col-8">
                 <input
                   type="text"
                   class="form-control"
@@ -51,7 +51,7 @@
                 />
               </div>
               <div
-                class="form-group col-2 d-flex justify-content-start align-items-center"
+                class="form-group col-4 col-md-2 d-flex justify-content-start align-items-center"
               >
                 <button
                   class="btn add-item"
@@ -74,7 +74,7 @@
           </div>
         </div>
         <div
-          class="form-row d-flex justify-content-end align-items-center mb-4"
+          class="form-row d-flex justify-content-center justify-content-sm-end align-items-center mb-4"
         >
           <button
             class="remove-group btn"
@@ -215,5 +215,6 @@ export default {
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  line-height: 0;
 }
 </style>

@@ -28,6 +28,22 @@
             </ul>
           </div>
         </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+          <div class="nav-area">
+            <h5 class="nav-title">Contact Us</h5>
+            <ul class="footer-nav footer-social">
+              <li
+                class="nav-link"
+                v-for="(item, key) in socialMedia"
+                :key="key"
+              >
+                <a :href="item.link">
+                  <get-svg :svgid="item.image" width="15" height="15" />
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
         <div class="col-12">
           <hr class="sep mt-4" />
         </div>
@@ -54,7 +70,7 @@
   </section>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -83,6 +99,12 @@ export default {
     }).then(res => {
       this.footerDesc = res.item;
     });
+    console.log(this.socialMedia);
+  },
+  computed: {
+    ...mapGetters({
+      socialMedia: "general/socialMedia"
+    })
   },
   methods: {
     ...mapActions({
@@ -123,6 +145,24 @@ section.footer {
     .nav-link {
       @include h.appDirAuto($padding-start: 0);
     }
+    &.footer-social {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      li::v-deep {
+        @include h.circle(30px);
+        background-color: #5d5d5d;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        line-height: 0;
+        @include h.appDirAuto($margin-end: 10px);
+        svg path {
+          fill: white;
+        }
+      }
+    }
   }
   .sep {
     border-color: #c8c8c8;
@@ -155,10 +195,10 @@ section.footer {
     }
   }
   p.copyrights {
-   text-align: center;
-   @include h.media('>576px') {
-     @include h.appDirAuto($text-align: start);
-   } 
+    text-align: center;
+    @include h.media(">576px") {
+      @include h.appDirAuto($text-align: start);
+    }
   }
 }
 </style>

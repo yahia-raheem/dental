@@ -26,6 +26,20 @@
     </div>
     <form @submit.prevent="submitDentist" v-if="type == 'dentist'">
       <div class="form-group">
+        <label for="firstName">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          :class="{ 'is-invalid': $v.dentist.name.$error }"
+          id="firstName"
+          v-model.trim="dentist.name"
+          placeholder="Name"
+        />
+        <div class="invalid-feedback" v-if="!$v.dentist.name.required">
+          This field is Required
+        </div>
+      </div>
+      <div class="form-group">
         <label for="degree">Degree</label>
         <v-select
           id="degree"
@@ -68,7 +82,7 @@
       </div>
     </form>
     <form @submit.prevent="submitLab" v-if="type == 'lab'">
-      <div class="form-group col">
+      <div class="form-group">
         <label for="name">Name</label>
         <input
           type="text"
@@ -79,6 +93,45 @@
           placeholder="Lab Name"
         />
         <div class="invalid-feedback" v-if="!$v.lab.name.required">
+          This field is Required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="labSpec">Speciality</label>
+        <v-select
+          id="labSpec"
+          v-model.trim="lab.spec"
+          :options="['1', '2', '3']"
+          :class="{ 'is-invalid': $v.lab.spec.$error }"
+          placeholder="Degree"
+        ></v-select>
+        <div class="invalid-feedback" v-if="!$v.lab.spec.required">
+          This field is Required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <v-select
+          id="location"
+          v-model.trim="lab.location"
+          :options="['1', '2', '3']"
+          :class="{ 'is-invalid': $v.lab.location.$error }"
+          placeholder="Location"
+        ></v-select>
+        <div class="invalid-feedback" v-if="!$v.lab.location.required">
+          This field is Required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="location">Area of Service</label>
+        <v-select
+          id="location"
+          v-model.trim="lab.aos"
+          :options="['1', '2', '3']"
+          :class="{ 'is-invalid': $v.lab.aos.$error }"
+          placeholder="Area of Service"
+        ></v-select>
+        <div class="invalid-feedback" v-if="!$v.lab.aos.required">
           This field is Required
         </div>
       </div>
@@ -102,10 +155,14 @@ export default {
     return {
       dentist: {
         degree: null,
-        speciality: null
+        speciality: null,
+        name: null
       },
       lab: {
-        name: null
+        name: null,
+        spec: null,
+        location: null,
+        aos: null
       },
       type: "dentist"
     };
@@ -151,10 +208,22 @@ export default {
       },
       speciality: {
         required
+      },
+      name: {
+        required
       }
     },
     lab: {
       name: {
+        required
+      },
+      spec: {
+        required
+      },
+      location: {
+        required
+      },
+      aos: {
         required
       }
     }

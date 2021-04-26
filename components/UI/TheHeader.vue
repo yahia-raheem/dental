@@ -9,6 +9,7 @@
       <div class="row py-3">
         <div
           class="col-lg-4 col-md-4 col-sm-2 col-12 d-flex justify-content-start align-items-center"
+          v-if="!isMobile"
         >
           <ul class="social">
             <li v-for="(item, key) in socialMedia" :key="key">
@@ -19,14 +20,16 @@
           </ul>
         </div>
         <div
-          class="col-lg-8 col-md-8 col-sm-10 col-12 d-flex justify-content-end align-items-center"
+          class="col-lg-8 col-md-8 col-sm-10 col-12 d-flex justify-content-between justify-content-lg-end align-items-center"
         >
           <div class="header-cta header-phone-cta">
             <div class="img-container">
               <get-svg :svgid="numberImage" />
             </div>
-            <span class="text">Need help?</span>
-            <a :href="`tel:${headerPhone}`">{{ headerPhone }}</a>
+            <a :href="`tel:${headerPhone}`"
+              ><span class="text">Need help?</span>
+              <div class="tel" v-if="!isMobile">{{ headerPhone }}</div></a
+            >
           </div>
           <div class="header-cta header-signin-cta">
             <div class="img-container">
@@ -49,7 +52,7 @@
               <get-img
                 :imgid="siteLogo"
                 :classes="'site-logo'"
-                :size="['130', 'auto']"
+                responsive="xxl:130px,lg:100px"
               />
             </nuxt-link>
             <button
@@ -88,7 +91,8 @@ export default {
       siteLogo: this.getOption("site_logo"),
       numberImage: this.getOption("header_number_image"),
       signinImage: this.getOption("header_signin_image"),
-      navBgGradient: this.getOption("nav_bg_gradient")
+      navBgGradient: this.getOption("nav_bg_gradient"),
+      isMobile: this.$store.getters["general/isMobile"]
     };
   },
   computed: {
@@ -172,18 +176,27 @@ export default {
     align-items: center;
     position: relative;
     font-size: 0.9rem;
-    .text {
-      @include h.appDirAuto($margin-end: 10px);
+    &.header-phone-cta {
+      a {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .text {
+          @include h.appDirAuto($margin-end: 10px);
+        }
+      }
     }
-    &:not(:last-of-type) {
-      @include h.appDirAuto($margin-end: 15px, $padding-end: 15px);
-      &::after {
-        content: "";
-        @include h.center("v");
-        @include h.appDirAuto($end: 0);
-        height: 20px;
-        width: 1px;
-        background-color: #e1e1e1;
+    @include h.media(">992px") {
+      &:not(:last-of-type) {
+        @include h.appDirAuto($margin-end: 15px, $padding-end: 15px);
+        &::after {
+          content: "";
+          @include h.center("v");
+          @include h.appDirAuto($end: 0);
+          height: 20px;
+          width: 1px;
+          background-color: #e1e1e1;
+        }
       }
     }
     svg,
@@ -200,7 +213,6 @@ export default {
     margin: 0;
   }
   .site-logo {
-    width: 130px;
     height: auto;
   }
   nav.navbar {

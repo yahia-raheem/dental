@@ -28,7 +28,7 @@
               <v-select
                 id="servicedd"
                 v-model.trim="servicedd"
-                :options="[]"
+                :options="specialities"
                 placeholder="Service"
               >
               </v-select>
@@ -46,7 +46,7 @@
               <v-select
                 id="aosdd"
                 v-model.trim="aosdd"
-                :options="specialities"
+                :options="locations"
                 placeholder="Area Of Service"
               >
               </v-select>
@@ -141,8 +141,11 @@ export default {
         if (this.locationdd) {
           url["query"]["locations"] = this.locationdd.trim().toLowerCase();
         }
+        if (this.servicedd) {
+          url["query"]["specialities"] = this.servicedd.trim().toLowerCase();
+        }
         if (this.aosdd) {
-          url["query"]["specialities"] = this.aosdd.trim().toLowerCase();
+          url["query"]["aos"] = this.aosdd.trim().toLowerCase();
         }
         if (this.lab != "") {
           url["query"]["name"] = this.lab.trim().toLowerCase();

@@ -2,7 +2,7 @@
   <section class="lab-edit page internal">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-3">
+        <div class="col-lg-3 col-md-12">
           <div class="sidebar-container">
             <dash-side-nav
               :list="list"
@@ -10,7 +10,7 @@
             />
           </div>
         </div>
-        <div class="col-9">
+        <div class="col-lg-9 col-md-12">
           <nuxt-child keep-alive />
         </div>
       </div>

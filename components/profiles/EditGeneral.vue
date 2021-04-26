@@ -6,7 +6,7 @@
     <div class="form-container">
       <form @submit.prevent="submit">
         <div class="form-row">
-          <div class="form-group col">
+          <div class="form-group col-lg-6 col-md-12">
             <label class="form-label">Profile Image</label>
             <div class="custom-file" ref="image">
               <input
@@ -21,7 +21,7 @@
               >
             </div>
           </div>
-          <div class="form-group col">
+          <div class="form-group col-lg-6 col-md-12">
             <label class="form-label">Profile Cover</label>
             <div class="custom-file" ref="cover">
               <input
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="form-row">
-          <div class="form-group col">
+          <div class="form-group col-lg-6 col-md-12">
             <label for="labName" class="form-label">Lab Name</label>
             <input
               type="text"
@@ -48,7 +48,7 @@
               placeholder="Lab Name"
             />
           </div>
-          <div class="form-group col">
+          <div class="form-group col-lg-6 col-md-12">
             <label class="form-label">PDF Price List</label>
             <div class="custom-file" ref="pdf">
               <input

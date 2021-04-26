@@ -7,7 +7,7 @@
             <h4 class="sec-title">Patients Information</h4>
             <div class="form-container">
               <div class="form-row">
-                <div class="form-group col">
+                <div class="form-group col-lg-6 col-md-12">
                   <label for="patientName">Patient Name</label>
                   <input
                     type="text"
@@ -17,7 +17,7 @@
                     placeholder="Patient Name"
                   />
                 </div>
-                <div class="form-group col">
+                <div class="form-group col-lg-6 col-md-12">
                   <label for="gender">Gender</label>
                   <v-select
                     id="gender"
@@ -28,7 +28,7 @@
                 </div>
               </div>
               <div class="form-row">
-                <div class="form-group col">
+                <div class="form-group col-lg-6 col-md-12">
                   <label for="age">Age</label>
                   <input
                     type="text"
@@ -38,7 +38,7 @@
                     placeholder="Age"
                   />
                 </div>
-                <div class="form-group col">
+                <div class="form-group col-lg-6 col-md-12">
                   <label for="date" class="d-block">Delivery Date</label>
                   <date-picker
                     v-model="date"
@@ -67,7 +67,7 @@
             <h4 class="sec-title">Media</h4>
             <div class="form-container">
               <div class="form-row">
-                <div class="form-group col">
+                <div class="form-group col-lg-6 col-md-12">
                   <label>Digital Impression</label>
                   <div class="custom-file" ref="diRef">
                     <input
@@ -89,7 +89,7 @@
                     >Accpeted File Type: stl</small
                   >
                 </div>
-                <div class="form-group col">
+                <div class="form-group col-lg-6 col-md-12">
                   <label class="form-label">Photos</label>
                   <div class="custom-file" ref="photos">
                     <input
@@ -114,7 +114,7 @@
                 </div>
               </div>
               <div class="form-row">
-                <div class="form-group col">
+                <div class="form-group col-lg-6 col-md-12">
                   <label>DIACOM</label>
                   <div class="custom-file" ref="diacom">
                     <input
@@ -134,7 +134,7 @@
                     >Accpeted File Type: diacom</small
                   >
                 </div>
-                <div class="form-group col">
+                <div class="form-group col-lg-6 col-md-12">
                   <label class="form-label">Video</label>
                   <div class="custom-file" ref="video">
                     <input
