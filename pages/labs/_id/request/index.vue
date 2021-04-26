@@ -164,7 +164,7 @@
             <div class="sep"></div>
             <h4 class="sec-title">Technical Details</h4>
             <div class="form-container technical-sec">
-              <div class="nav-btns">
+              <div class="nav-btns d-none d-lg-block">
                 <button
                   class="btn tab-btn"
                   :class="{ active: key == selected }"
@@ -185,6 +185,32 @@
                   Add Group +
                 </button>
               </div>
+              <div class="nav-mobile-btns d-lg-none">
+                <div class="col-12">
+                  <v-select
+                    id="tabSelect"
+                    :options="tapddOptions"
+                    :value="tapddSelected"
+                    v-on:search:focus="selectOpened"
+                    v-on:option:selected="changeTab"
+                  ></v-select>
+                </div>
+                <div class="btns-container">
+                  <button
+                    class="mobile-new-tab btn btn-primary w-100"
+                    @click.prevent="addTab"
+                  >
+                    New Group
+                  </button>
+                  <button
+                    class="mobile-delete-btn btn w-100"
+                    @click.prevent="deleteTab(selected)"
+                    v-if="technicalRequests.length > 1"
+                  >
+                    DeleteGroup
+                  </button>
+                </div>
+              </div>
               <div
                 class="form-row"
                 :class="{ 'd-none': key != selected }"
@@ -192,7 +218,9 @@
                 :key="key"
               >
                 <div class="col-12">
-                  <div class="image-container d-flex justify-content-center align-items-center mx-auto mb-4">
+                  <div
+                    class="image-container d-flex justify-content-center align-items-center mx-auto mb-4"
+                  >
                     <get-img :imgid="113" responsive="xxl:600px" />
                   </div>
                 </div>
@@ -311,7 +339,9 @@ export default {
       photos: "",
       diacom: "",
       video: "",
-      technicalRequests: [new TechnicalRequest()]
+      technicalRequests: [new TechnicalRequest()],
+      tapddOptions: [{ label: "Group 1", value: 0 }],
+      tapddSelected: { label: "Group 1", value: 0 }
     };
   },
   validations: {
@@ -378,22 +408,51 @@ export default {
       }
     }
   },
+  mounted() {},
   methods: {
     addTab() {
       this.technicalRequests.push(new TechnicalRequest());
       this.selected = this.technicalRequests.length - 1;
+      this.tapddSelected = {
+        label: `Group ${this.technicalRequests.length}`,
+        value: this.selected
+      };
     },
     changeTab(key) {
+      if (typeof key === "object") {
+        key = key.value;
+      }
       if (key > this.technicalRequests.length - 1) {
         this.selected = this.technicalRequests.length - 1;
       } else {
         this.selected = key;
       }
+      const selectedDisplay = parseInt(this.selected) + 1;
+      this.tapddSelected = {
+        label: `Group ${selectedDisplay}`,
+        value: this.selected
+      };
     },
     deleteTab(key) {
       this.technicalRequests.splice(key, 1);
       if (this.selected == key) {
-        this.selected = this.technicalRequests.length;
+        this.selected = this.technicalRequests.length - 1;
+      }
+      const selectedDisplay = parseInt(this.selected) + 1;
+      this.tapddSelected = {
+        label: `Group ${selectedDisplay}`,
+        value: this.selected
+      };
+    },
+    selectOpened() {
+      this.tapddOptions = [];
+      var displayKey = "";
+      for (const key in this.technicalRequests) {
+        if (Object.hasOwnProperty.call(this.technicalRequests, key)) {
+          const element = this.technicalRequests[key];
+          displayKey = parseInt(key) + 1;
+          this.tapddOptions.push({ label: `Group ${displayKey}`, value: key });
+        }
       }
     },
     diChanged(e) {
@@ -487,6 +546,20 @@ export default {
 .image-container::v-deep {
   img {
     max-width: 100%;
+  }
+}
+.btns-container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .mobile-delete-btn {
+    color: #d83436;
+    border: 1px solid #d83436;
+    @include h.appDirAuto($margin-start: 20px)
   }
 }
 .nav-btns {
