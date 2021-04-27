@@ -160,7 +160,17 @@ export default {
             });
           })
           .catch(err => {
-            console.log(err);
+            if (400 < err.response.status < 500) {
+              console.log(err.response.data.errors);
+              for (const key in err.response.data.errors) {
+                if (Object.hasOwnProperty.call(err.response.data.errors, key)) {
+                  const element = err.response.data.errors[key];
+                  this.$vToastify.error({ body: element[0], title: key });
+                }
+              }
+            } else {
+              this.$vToastify.error({ body: "Sorry an unknown error occured" });
+            }
           });
       }
     }

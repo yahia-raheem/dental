@@ -79,17 +79,40 @@ export default {
     };
   },
   methods: {
-    async submit() {
+    submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        await this.$auth
+        this.$auth
           .loginWith("local", {
             data: {
-              'email': this.email,
-              'password': this.password
+              email: this.email,
+              password: this.password
             }
-          },);
+          })
+          .then(res => {
+            console.log(res)
+          })
+          .catch(err => {
+            if (400 < err.response.status < 500) {
+              err.response.data.errors.forEach(error => {
+                this.$vToastify.error({ body: error });
+              });
+            } else {
+              this.$vToastify.error({ body: "Sorry an unknown error occured" });
+            }
+          });
       }
+    },
+    getMethods(obj) {
+      var result = [];
+      for (var id in obj) {
+        try {
+          result.push(id + ": " + obj[id].toString());
+        } catch (err) {
+          result.push(id + ": inaccessible");
+        }
+      }
+      return result;
     }
   },
   validations: {

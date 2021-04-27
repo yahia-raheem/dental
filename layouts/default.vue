@@ -3,7 +3,7 @@
     <side-bar />
     <the-header />
     <the-innercover />
-    <Nuxt keep-alive :keep-alive-props="{ max: 10 }"/>
+    <Nuxt keep-alive :keep-alive-props="{ max: 10 }" />
     <the-footer />
   </div>
 </template>

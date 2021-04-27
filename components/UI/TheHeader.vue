@@ -31,7 +31,7 @@
               <div class="tel" v-if="!isMobile">{{ headerPhone }}</div></a
             >
           </div>
-          <div class="header-cta header-signin-cta">
+          <div class="header-cta header-signin-cta" v-if="!isLoggedIn">
             <div class="img-container">
               <get-svg :svgid="signinImage" />
             </div>
@@ -73,6 +73,7 @@
             >
               <navigation-bar />
             </div>
+            <account-drop v-if="!isLoggedIn" />
           </nav>
         </div>
       </div>
@@ -83,8 +84,9 @@
 <script>
 import NavigationBar from "~/components/UI/NavigationBar.vue";
 import { mapGetters } from "vuex";
+import AccountDrop from './AccountDrop.vue';
 export default {
-  components: { NavigationBar },
+  components: { NavigationBar, AccountDrop },
   data() {
     return {
       headerPhone: this.getOption("header_number"),
@@ -92,7 +94,8 @@ export default {
       numberImage: this.getOption("header_number_image"),
       signinImage: this.getOption("header_signin_image"),
       navBgGradient: this.getOption("nav_bg_gradient"),
-      isMobile: this.$store.getters["general/isMobile"]
+      isMobile: this.$store.getters["general/isMobile"],
+      isLoggedIn: this.$auth.loggedIn
     };
   },
   computed: {

@@ -31,7 +31,8 @@ export default {
     { src: "~/plugins/vuelidate.js" },
     { src: "~/plugins/vue-star-rating.js", mode: "client" },
     { src: "~/plugins/vue-simple-accordion.js", mode: "client" },
-    { src: "~/plugins/vue-bottom-sheet.js", mode: "client" }
+    { src: "~/plugins/vue-bottom-sheet.js", mode: "client" },
+    { src: "~/plugins/vue-toastify", mode: "client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -67,17 +68,23 @@ export default {
 
   auth: {
     redirect: {
-      login: '/auth',
-      logout: '/',
-      callback: '/',
-      home: '/'
+      login: "/auth",
+      logout: "/",
+      callback: "/",
+      home: "/"
     },
     strategies: {
       local: {
+        scheme: "refresh",
         token: {
           property: "token",
-          required: true,
-          type: "Bearer"
+          type: "Bearer",
+          maxAge: 60 * 60
+        },
+        refreshToken: {
+          property: "refresh_token",
+          data: "refresh_token",
+          maxAge: 60 * 60 * 24 * 30
         },
         user: {
           property: "user",
@@ -90,6 +97,10 @@ export default {
           },
           logout: {
             url: "http://dental.al-estshary.com/api/logout",
+            method: "post"
+          },
+          refresh: {
+            url: "http://dental.al-estshary.com/api/refresh-token",
             method: "post"
           },
           user: {

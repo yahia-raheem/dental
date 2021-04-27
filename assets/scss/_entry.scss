@@ -23,6 +23,18 @@ section.page.internal {
   display: flex !important;
 }
 
+.vt-icon-container {
+  width: 40px!important;
+  height: 40px!important;
+  line-height: 0;
+  .vt-icon {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
 @import "../../node_modules/vue-select/src/scss/vue-select.scss";
 // @import "../../node_modules/animate.css/animate.min.css";
 @import "./helpers/helpers";
