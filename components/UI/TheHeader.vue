@@ -36,7 +36,7 @@
               <get-svg :svgid="signinImage" />
             </div>
             <span class="text"></span>
-            <nuxt-link to="/register">Sign Up</nuxt-link>
+            <nuxt-link to="/auth/register">Sign Up</nuxt-link>
           </div>
         </div>
       </div>

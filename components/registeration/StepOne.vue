@@ -2,7 +2,7 @@
   <div class="form-container pending">
     <p class="text-center mb-3">
       already have an account ? click
-      <nuxt-link to="/" class="text-primary">here</nuxt-link> to sign in
+      <nuxt-link to="/auth" class="text-primary">here</nuxt-link> to sign in
       instead.
     </p>
     <form @submit.prevent="submitRegister">
@@ -145,7 +145,23 @@ export default {
     submitRegister() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        this.$emit("done");
+        this.$axios
+          .$post("http://dental.al-estshary.com/api/register", {
+            first_name: this.firstName,
+            last_name: this.lastName,
+            email: this.email,
+            phone_number: this.phoneNumber,
+            password: this.password,
+            password_confirmation: this.confirmPassword
+          })
+          .then(result => {
+            this.$auth.setUserToken(result.token).then(res => {
+              this.$emit("done");
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     }
   },

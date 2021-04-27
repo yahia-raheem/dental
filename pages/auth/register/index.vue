@@ -36,7 +36,7 @@ export default {
   components: { StepOne, StepTwo, RegisterSuccess },
   data() {
     return {
-      status: "profile",
+      status: "pending",
       type: "dentist"
     };
   },

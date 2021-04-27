@@ -23,12 +23,12 @@
 </template>
 
 <script>
-import HomePartners from '~/components/home/HomePartners.vue';
+import HomePartners from "~/components/home/HomePartners.vue";
 import HomeSlider from "~/components/home/HomeSlider.vue";
 import HomeSteps from "~/components/home/HomeSteps.vue";
 import HomeWgTabs from "~/components/home/HomeWgTabs.vue";
 export default {
-  layout: 'home',
+  layout: "home",
   async asyncData(context) {
     const pageData = await context.store.dispatch(
       "pages/setCurrentPage",
@@ -44,7 +44,7 @@ export default {
     HomeSteps,
     HomeWgTabs,
     HomePartners
-  }
+  },
 };
 </script>
 

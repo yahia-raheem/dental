@@ -58,11 +58,47 @@ export default {
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
     "@nuxtjs/proxy",
-    '@nuxtjs/auth-next'
+    "@nuxtjs/auth-next"
   ],
 
   router: {
-    middleware: ['mobile']
+    middleware: ["mobile"]
+  },
+
+  auth: {
+    redirect: {
+      login: '/auth',
+      logout: '/',
+      callback: '/',
+      home: '/'
+    },
+    strategies: {
+      local: {
+        token: {
+          property: "token",
+          required: true,
+          type: "Bearer"
+        },
+        user: {
+          property: "user",
+          autoFetch: true
+        },
+        endpoints: {
+          login: {
+            url: "http://dental.al-estshary.com/api/login",
+            method: "post"
+          },
+          logout: {
+            url: "http://dental.al-estshary.com/api/logout",
+            method: "post"
+          },
+          user: {
+            url: "http://dental.al-estshary.com/api/loggeduser",
+            method: "get"
+          }
+        }
+      }
+    }
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

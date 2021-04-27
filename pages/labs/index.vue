@@ -72,6 +72,7 @@ import SidebarFilter from "~/components/UI/SidebarFilter.vue";
 import { sortArray } from "~/plugins/js/components/helper-funcs";
 
 export default {
+  middleware: ['auth'],
   created() {
     this.labs = this.labsGetter;
   },

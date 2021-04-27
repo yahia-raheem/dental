@@ -99,7 +99,6 @@ export default {
     }).then(res => {
       this.footerDesc = res.item;
     });
-    console.log(this.socialMedia);
   },
   computed: {
     ...mapGetters({
