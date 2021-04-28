@@ -73,7 +73,7 @@
             >
               <navigation-bar />
             </div>
-            <account-drop v-if="!isLoggedIn" />
+            <account-drop v-if="isLoggedIn" />
           </nav>
         </div>
       </div>

@@ -21,6 +21,7 @@ import GeneralSettings from "~/components/my-account/GeneralSettings.vue";
 
 export default {
   components: { GeneralSettings, AuthorizationSettings },
+  middleware: ['auth'],
 };
 </script>
 <style lang="scss" scoped>

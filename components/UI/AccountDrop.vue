@@ -8,11 +8,25 @@
     </button>
     <div :class="{ 'cta-dd': true, 'd-none': !opened, 'shadow-sm': true }">
       <div class="header">
-        <h6 class="name">Islam Soliman</h6>
-        <p class="email">isoliman@cloudmaize.com</p>
+        <h6 class="name">{{ user.name }}</h6>
+        <p class="email">{{ user.email }}</p>
+      </div>
+      <div class="body">
+        <button class="add-profile btn w-100">Add profile</button>
       </div>
       <div class="footer">
-        <nuxt-link to=""></nuxt-link>
+        <nuxt-link to="/my-account/settings" class="settings">
+          <div class="icon">
+            <get-svg :svgid="109" width="15" height="15" />
+          </div>
+          <div class="text">Settings</div>
+        </nuxt-link>
+        <button class="log-out" @click="logout">
+          <div class="icon">
+            <get-svg :svgid="109" width="15" height="15" />
+          </div>
+          <div class="text">Log Out</div>
+        </button>
       </div>
     </div>
   </div>
@@ -21,13 +35,17 @@
 export default {
   data() {
     return {
-      opened: false
+      opened: false,
+      user: this.$auth.user
     };
   },
   methods: {
     opendd() {
       this.opened = !this.opened;
-      console.log(this.opened)
+    },
+    async logout() {
+      await this.$auth.logout();
+      this.$router.go();
     }
   }
 };
@@ -37,7 +55,7 @@ export default {
   $dir: $dir
 );
 .account-dropdown {
-    position: relative;
+  position: relative;
 }
 button.cta {
   background-color: transparent;
@@ -69,10 +87,76 @@ button.cta {
   border-radius: 5px;
   background-color: white;
   position: absolute;
-  
+  z-index: 10;
+  min-width: 200px;
+  bottom: -15px;
+  @include h.appDirAuto($end: 0);
+  transform: translateY(100%);
   .header {
     background-color: #f2f2f2;
-    padding: 10px;
+    padding: 10px 15px;
+    .name {
+      color: #646464;
+      margin-bottom: 0;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 3px;
+    }
+    .email {
+      font-size: 0.8rem;
+    }
+  }
+  .body {
+    padding: 10px 15px;
+    .add-profile {
+      border: 1px solid #4866ad;
+      color: #4866ad;
+      font-size: 0.8rem;
+    }
+  }
+  .footer {
+    padding: 10px 15px;
+    border-top: 1px solid #f2f2f2;
+    .settings,
+    .log-out {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding-left: 0;
+      padding-right: 0;
+      .text {
+        font-size: 0.9rem;
+      }
+    }
+    .settings {
+      text-decoration: none;
+      margin-bottom: 10px;
+      .icon::v-deep {
+        svg path {
+          fill: #525252;
+        }
+      }
+      .text {
+        color: #525252;
+      }
+    }
+    .icon {
+      @include h.appDirAuto($margin-end: 10px);
+    }
+    .log-out {
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+
+      .icon::v-deep {
+        svg path {
+          fill: #a75655;
+        }
+      }
+      .text {
+        color: #a75655;
+      }
+    }
   }
 }
 </style>

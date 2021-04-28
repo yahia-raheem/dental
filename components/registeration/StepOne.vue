@@ -155,9 +155,11 @@ export default {
             password_confirmation: this.confirmPassword
           })
           .then(result => {
-            this.$auth.setUserToken(result.token).then(res => {
-              this.$emit("done");
-            });
+            this.$auth
+              .setUserToken(result.token, result.refresh_token)
+              .then(res => {
+                this.$emit("done");
+              });
           })
           .catch(err => {
             if (400 < err.response.status < 500) {
