@@ -78,7 +78,7 @@ section.home-slider {
     }
     .stitle {
       font-weight: 700;
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       @include h.media(">992px") {
         font-size: 2.5rem;
       }

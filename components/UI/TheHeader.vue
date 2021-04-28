@@ -73,7 +73,15 @@
             >
               <navigation-bar />
             </div>
-            <account-drop v-if="isLoggedIn" />
+            <nuxt-link class="btn login-btn" to="/auth" v-if="!isLoggedIn  && !isMobile">
+              <div class="icon">
+                <get-svg :svgid="116" width="18" height="18" />
+              </div>
+              <div class="text">
+                Sign in
+              </div>
+            </nuxt-link>
+            <account-drop v-if="isLoggedIn && !isMobile" />
           </nav>
         </div>
       </div>
@@ -147,7 +155,25 @@ export default {
 @use "~/assets/scss/helpers" as h with(
   $dir: $dir
 );
-
+.login-btn {
+  border: 2px solid #5b5b5b;
+  color: #5b5b5b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  .text {
+    font-size: 0.9rem;
+  }
+  .icon {
+    @include h.appDirAuto($margin-end: 5px);
+    svg path {
+      fill: #5b5b5b;
+    }
+  }
+}
 .nav-container {
   .navbar-toggler {
     border: 1px solid black;

@@ -146,7 +146,7 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.$axios
-          .$post("http://dental.al-estshary.com/api/register", {
+          .$post(`${process.env.apiUrl}/api/register`, {
             first_name: this.firstName,
             last_name: this.lastName,
             email: this.email,

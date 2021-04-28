@@ -12,7 +12,9 @@
         <p class="email">{{ user.email }}</p>
       </div>
       <div class="body">
-        <button class="add-profile btn w-100">Add profile</button>
+        <nuxt-link class="add-profile btn w-100" to="/auth/register"
+          >Add profile</nuxt-link
+        >
       </div>
       <div class="footer">
         <nuxt-link to="/my-account/settings" class="settings">
@@ -23,7 +25,7 @@
         </nuxt-link>
         <button class="log-out" @click="logout">
           <div class="icon">
-            <get-svg :svgid="109" width="15" height="15" />
+            <get-svg :svgid="115" width="15" height="15" />
           </div>
           <div class="text">Log Out</div>
         </button>
@@ -47,7 +49,7 @@ export default {
       await this.$auth.logout();
       this.$router.go();
     }
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

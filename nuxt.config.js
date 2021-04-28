@@ -92,19 +92,19 @@ export default {
         },
         endpoints: {
           login: {
-            url: "http://dental.al-estshary.com/api/login",
+            url: `http://dental.al-estshary.com/api/login`,
             method: "post"
           },
           logout: {
-            url: "http://dental.al-estshary.com/api/logout",
+            url: `http://dental.al-estshary.com/api/logout`,
             method: "post"
           },
           refresh: {
-            url: "http://dental.al-estshary.com/api/refresh-token",
+            url: `http://dental.al-estshary.com/api/refresh-token`,
             method: "post"
           },
           user: {
-            url: "http://dental.al-estshary.com/api/loggeduser",
+            url: `http://dental.al-estshary.com/api/loggeduser`,
             method: "get"
           }
         }
@@ -120,6 +120,7 @@ export default {
   env: {
     baseUrl:
       process.env.BASE_URL || "https://projects.cloudmaize.com/dentalwp/",
+    apiUrl: process.env.API_URL || "http://dental.al-estshary.com",
     ...WP_PAGES_IDS
   },
 

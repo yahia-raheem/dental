@@ -44,7 +44,7 @@
         <v-select
           id="degree"
           v-model.trim="dentist.degree"
-          :options="['1', '2', '3']"
+          :options="parameters.degree"
           :class="{ 'is-invalid': $v.dentist.degree.$error }"
           placeholder="Degree"
         ></v-select>
@@ -57,9 +57,12 @@
         <v-select
           id="speciality"
           v-model.trim="dentist.speciality"
-          :options="['1', '2', '3']"
+          :options="docSpecs"
+          :reduce="option => option.id"
+          label="name"
           :class="{ 'is-invalid': $v.dentist.speciality.$error }"
           placeholder="Speciality"
+          multiple
         ></v-select>
         <div class="invalid-feedback" v-if="!$v.dentist.speciality.required">
           This field is Required
@@ -149,6 +152,7 @@
 </template>
 <script>
 import { required } from "vuelidate/lib/validators";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -170,12 +174,40 @@ export default {
   mounted() {
     this.$refs.dentistCheck.checked = true;
   },
+  computed: {
+    ...mapGetters({
+      parameters: "parameters/parameters",
+      docSpecs: "parameters/docSpec"
+    })
+  },
   methods: {
-    submitDentist() {
+    async submitDentist() {
       this.$v.dentist.$touch();
-      console.log(this.$v);
       if (!this.$v.dentist.$invalid) {
-        this.$emit("done");
+        try {
+          const formBody = {
+            profile_name: this.dentist.name,
+            degree: this.dentist.degree,
+            specialities: this.dentist.speciality
+          };
+          await this.$axios.$post(
+            `${process.env.apiUrl}/api/doctor/add`,
+            JSON.stringify(formBody)
+          );
+          this.$emit("done");
+        } catch (err) {
+          if (400 < err.response.status < 500) {
+            console.log(err.response.data.errors);
+            for (const key in err.response.data.errors) {
+              if (Object.hasOwnProperty.call(err.response.data.errors, key)) {
+                const element = err.response.data.errors[key];
+                this.$vToastify.error({ body: element[0], title: key });
+              }
+            }
+          } else {
+            this.$vToastify.error({ body: "Sorry an unknown error occured" });
+          }
+        }
       }
     },
     submitLab() {

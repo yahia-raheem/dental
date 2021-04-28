@@ -34,6 +34,11 @@ import StepTwo from "~/components/registeration/StepTwo.vue";
 
 export default {
   components: { StepOne, StepTwo, RegisterSuccess },
+  created() {
+    if (this.$auth.loggedIn) {
+      this.status = "profile";
+    }
+  },
   data() {
     return {
       status: "pending",

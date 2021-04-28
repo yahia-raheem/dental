@@ -166,7 +166,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: stretch;
-  @include h.appDirAuto($border-top-end-radius: 15px);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
   overflow: hidden;
   button {
     width: 100%;
