@@ -9,9 +9,7 @@
         @click="activate('dentist')"
       >
         <input type="radio" name="type" ref="dentistCheck" />
-        <label class="form-check-label mb-0">
-          Dentist
-        </label>
+        <label class="form-check-label mb-0"> Dentist </label>
       </button>
       <button
         class="lab btn d-flex justify-content-center align-items-center"
@@ -19,9 +17,7 @@
         @click="activate('lab')"
       >
         <input type="radio" name="type" ref="labCheck" />
-        <label class="form-check-label mb-0">
-          Laboratory
-        </label>
+        <label class="form-check-label mb-0"> Laboratory </label>
       </button>
     </div>
     <form @submit.prevent="submitDentist" v-if="type == 'dentist'">
@@ -58,7 +54,7 @@
           id="speciality"
           v-model.trim="dentist.speciality"
           :options="docSpecs"
-          :reduce="option => option.id"
+          :reduce="(option) => option.id"
           label="name"
           :class="{ 'is-invalid': $v.dentist.speciality.$error }"
           placeholder="Speciality"
@@ -74,9 +70,7 @@
             type="submit"
             class="btn btn-primary submit-btn d-flex justify-content-center align-items-center"
           >
-            <span class="text">
-              Next
-            </span>
+            <span class="text"> Next </span>
             <div class="icon">
               <get-svg :svgid="108" width="15" />
             </div>
@@ -104,9 +98,12 @@
         <v-select
           id="labSpec"
           v-model.trim="lab.spec"
-          :options="['1', '2', '3']"
+          :options="labSpec"
+          :reduce="(option) => option.id"
+          label="name"
           :class="{ 'is-invalid': $v.lab.spec.$error }"
           placeholder="Degree"
+          multiple
         ></v-select>
         <div class="invalid-feedback" v-if="!$v.lab.spec.required">
           This field is Required
@@ -117,9 +114,12 @@
         <v-select
           id="location"
           v-model.trim="lab.location"
-          :options="['1', '2', '3']"
+          :options="labLoc"
+          :reduce="(option) => option.id"
+          label="name"
           :class="{ 'is-invalid': $v.lab.location.$error }"
           placeholder="Location"
+          multiple
         ></v-select>
         <div class="invalid-feedback" v-if="!$v.lab.location.required">
           This field is Required
@@ -130,9 +130,12 @@
         <v-select
           id="location"
           v-model.trim="lab.aos"
-          :options="['1', '2', '3']"
+          :options="labAos"
+          :reduce="(option) => option.id"
+          label="name"
           :class="{ 'is-invalid': $v.lab.aos.$error }"
           placeholder="Area of Service"
+          multiple
         ></v-select>
         <div class="invalid-feedback" v-if="!$v.lab.aos.required">
           This field is Required
@@ -141,9 +144,7 @@
       <div class="form-row">
         <div class="cta-container">
           <button type="submit" class="btn btn-primary submit-btn">
-            <span class="text">
-              Next
-            </span>
+            <span class="text"> Next </span>
           </button>
         </div>
       </div>
@@ -160,15 +161,15 @@ export default {
       dentist: {
         degree: null,
         speciality: null,
-        name: null
+        name: null,
       },
       lab: {
         name: null,
         spec: null,
         location: null,
-        aos: null
+        aos: null,
       },
-      type: "dentist"
+      type: "dentist",
     };
   },
   mounted() {
@@ -177,43 +178,71 @@ export default {
   computed: {
     ...mapGetters({
       parameters: "parameters/parameters",
-      docSpecs: "parameters/docSpec"
-    })
+      docSpecs: "parameters/docSpec",
+      labSpec: "parameters/labSpec",
+      labLoc: "parameters/labLoc",
+      labAos: "parameters/labAos",
+    }),
   },
   methods: {
     async submitDentist() {
-      this.$v.dentist.$touch();
-      if (!this.$v.dentist.$invalid) {
-        try {
-          const formBody = {
-            profile_name: this.dentist.name,
-            degree: this.dentist.degree,
-            specialities: this.dentist.speciality
-          };
-          await this.$axios.$post(
-            `${process.env.apiUrl}/api/doctor/add`,
-            JSON.stringify(formBody)
-          );
-          this.$emit("done");
-        } catch (err) {
-          if (400 < err.response.status < 500) {
-            console.log(err.response.data.errors);
-            for (const key in err.response.data.errors) {
-              if (Object.hasOwnProperty.call(err.response.data.errors, key)) {
-                const element = err.response.data.errors[key];
-                this.$vToastify.error({ body: element[0], title: key });
+      if (this.type == "dentist") {
+        this.$v.dentist.$touch();
+        if (!this.$v.dentist.$invalid) {
+          try {
+            const formBody = {
+              profile_name: this.dentist.name,
+              degree: this.dentist.degree,
+              specialties: this.dentist.speciality,
+            };
+            await this.$axios.$post(
+              `${process.env.apiUrl}/api/doctor/add`,
+              formBody
+            );
+            this.$emit("done");
+          } catch (err) {
+            if (400 < err.response.status < 500) {
+              console.log(err.response.data.errors);
+              for (const key in err.response.data.errors) {
+                if (Object.hasOwnProperty.call(err.response.data.errors, key)) {
+                  const element = err.response.data.errors[key];
+                  this.$vToastify.error({ body: element, title: "Error" });
+                }
               }
+            } else {
+              this.$vToastify.error({ body: "Sorry an unknown error occured" });
             }
-          } else {
-            this.$vToastify.error({ body: "Sorry an unknown error occured" });
           }
         }
       }
     },
     submitLab() {
-      this.$v.lab.$touch();
-      if (!this.$v.lab.$invalid) {
-        this.$emit("done");
+      if (this.type == "lab") {
+        this.$v.lab.$touch();
+        if (!this.$v.lab.$invalid) {
+          const formBody = {
+            profile_name: this.lab.name,
+            areas: this.lab.aos,
+            locations: this.lab.location,
+            specialties: this.lab.spec,
+          };
+          this.$axios
+            .$post(`${process.env.apiUrl}/api/lab/add`, formBody)
+            .then((res) => {
+              this.$emit("done");
+            })
+            .catch((err) => {
+              if (400 < err.response.status < 500) {
+                err.response.data.errors.forEach((error) => {
+                  this.$vToastify.error({ body: error });
+                });
+              } else {
+                this.$vToastify.error({
+                  body: "Sorry an unknown error occured",
+                });
+              }
+            });
+        }
       }
     },
     activate(type) {
@@ -231,35 +260,35 @@ export default {
         default:
           break;
       }
-    }
+    },
   },
   validations: {
     dentist: {
       degree: {
-        required
+        required,
       },
       speciality: {
-        required
+        required,
       },
       name: {
-        required
-      }
+        required,
+      },
     },
     lab: {
       name: {
-        required
+        required,
       },
       spec: {
-        required
+        required,
       },
       location: {
-        required
+        required,
       },
       aos: {
-        required
-      }
-    }
-  }
+        required,
+      },
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
