@@ -29,7 +29,7 @@
           </div>
           <div class="row">
             <div class="col-12" v-for="(lab, index) in labs" :key="index">
-              <lab-block :lab="lab" v-on:filterSpec="specFilter" />
+              <lab-block :lab="lab" v-on:filterSpec="specModify" />
             </div>
           </div>
         </div>
@@ -82,6 +82,7 @@ export default {
   data() {
     return {
       comKey: 0,
+      pending: false,
       sortOptions: [
         { label: "Most Popular", value: "rating" },
         { label: "Name", value: "title" }
@@ -135,66 +136,111 @@ export default {
         };
       }
     },
-    specFilter(ids) {
+    // specFilter(ids) {
+    //   this.$store.dispatch("labs/getLabs", { specialties: ids }).then(res => {
+    //     this.labs = res.data;
+    //   });
+    // },
+    // locFilter(ids) {
+    //   this.$store.dispatch("labs/getLabs", { locations: ids }).then(res => {
+    //     this.labs = res.data;
+    //   });
+    // },
+    async specModify(value) {
       const v = this.$route.query.specialities;
-      this.$store.dispatch("labs/getLabs", { specialties: ids }).then(res => {
-        this.labs = res.data;
-        this.$router.push({
+      var oldSpec = typeof v != "undefined" ? v : "";
+      const oldSpecArr = oldSpec.split(",");
+      if (oldSpecArr.includes(`${value}`)) {
+        const specIndex = oldSpecArr.indexOf(`${value}`);
+        oldSpecArr.splice(specIndex, 1);
+        await this.$router.push({
           query: {
             ...this.$route.query,
-            specialities: typeof v != "undefined" ? [...ids, v] : ids
+            specialities:
+              oldSpecArr.length > 0 ? oldSpecArr.join(",") : undefined
           }
         });
+      } else {
+        oldSpec = oldSpec != "" ? oldSpec + "," : oldSpec;
+        await this.$router.push({
+          query: {
+            ...this.$route.query,
+            specialities: oldSpec + value
+          }
+        });
+      }
+    },
+    async locModify(value) {
+      var oldSpec =
+        typeof this.$route.query.locations != "undefined"
+          ? this.$route.query.locations
+          : "";
+      const oldSpecArr = oldSpec.split(",");
+      if (oldSpecArr.includes(`${value}`)) {
+        const specIndex = oldSpecArr.indexOf(`${value}`);
+        oldSpecArr.splice(specIndex, 1);
+        await this.$router.push({
+          query: {
+            ...this.$route.query,
+            locations: oldSpecArr.length > 0 ? oldSpecArr.join(",") : undefined
+          }
+        });
+      } else {
+        oldSpec = oldSpec != "" ? oldSpec + "," : oldSpec;
+        await this.$router.push({
+          query: {
+            ...this.$route.query,
+            locations: oldSpec + value
+          }
+        });
+      }
+    },
+    async nameModify(value) {
+      if (value != "") {
+        await this.$router.push({
+          query: { ...this.$route.query, name: value }
+        });
+      } else {
+        await this.$router.replace({
+          ...this.$router.currentRoute,
+          query: {
+            ...this.$route.query,
+            name: undefined
+          }
+        });
+      }
+    },
+    async filter() {
+      // await this.nameModify();
+      // await this.specModify();
+      // await this.locModify();
+      var params = {
+        specialties:
+          typeof this.$route.query.specialities != "undefined"
+            ? this.$route.query.specialities.split(",")
+            : this.$route.query.specialities,
+        locations:
+          typeof this.$route.query.locations != "undefined"
+            ? this.$route.query.locations.split(",")
+            : this.$route.query.locations,
+        name:
+          typeof this.$route.query.name != "undefined"
+            ? this.$route.query.name.split(",")
+            : this.$route.query.name
+      };
+      this.$store.dispatch("labs/getLabs", params).then(res => {
+        this.labs = res.data;
       });
-      // if (typeof v != "undefined") {
-      //   const speccArr = v.split(",");
-      //   this.labs = this.labs.filter(lab => {
-      //     for (let index = 0; index < speccArr.length; index++) {
-      //       const spec = speccArr[index];
-      //       const specList = lab.specialities.map(one => {
-      //         return one.trim().toLowerCase();
-      //       });
-      //       if (specList.includes(spec)) {
-      //         return true;
-      //       }
-      //     }
-      //   });
-      // }
-    },
-    locFilter() {
-      const v = this.$route.query.locations;
-      if (typeof v != "undefined") {
-        const speccArr = v.split(",");
-        this.labs = this.labs.filter(lab => {
-          for (let index = 0; index < speccArr.length; index++) {
-            const spec = speccArr[index];
-            const specList = lab.location.map(one => {
-              return one.trim().toLowerCase();
-            });
-            if (specList.includes(spec)) {
-              return true;
-            }
-          }
-        });
-      }
-    },
-    filter() {
-      this.labs = this.labsGetter;
-      this.nameSearch();
-      this.specFilter();
-      this.locFilter();
-      if (typeof this.$route.query.sort != "undefined") {
-        this.sortLabs({ value: this.$route.query.sort });
-        this.sortSelected = this.sortOptions.find(
-          option => option.value == this.$route.query.sort
-        );
-      }
     }
   },
   watch: {
-    // "$route.query"() {
-    //   this.filter();
-    // },
+    async "$route.query"() {
+      if (this.pending == false) {
+        this.pending = true;
+        await this.filter();
+        this.pending = false;
+      }
+    }
     // $route(to, from) {
     //   if (to.name == this.$route.name && Object.keys(to.query).length != 0) {
     //     this.forceRefresh();

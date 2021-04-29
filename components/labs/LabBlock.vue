@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     specFilter(id) {
-      this.$emit("filterSpec", [id]);
+      this.$emit("filterSpec", id);
       // const value = event.target.outerText.trim().toLowerCase();
       // var oldSpec =
       //   typeof this.$route.query.specialities != "undefined"
