@@ -78,8 +78,15 @@
         </form>
       </div>
     </div>
-    <div class="col-12 d-flex d-lg-none justify-content-center align-items-center">
-      <nuxt-link to="/labs" class="btn btn-primary">Check out our labs</nuxt-link>
+    <div
+      class="col-12 d-flex d-lg-none justify-content-center align-items-center"
+    >
+      <nuxt-link to="/labs" class="btn btn-primary home-mobile-cta">
+        <span class="icon">
+          <get-svg :svgid="labsvgId" width="15" height="15" />
+        </span>
+        Search for Laboratory
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -160,7 +167,17 @@ export default {
 @use "~/assets/scss/helpers" as h with(
   $dir: $dir
 );
-
+.home-mobile-cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .icon {
+    @include h.appDirAuto($margin-end: 10px);
+    svg path {
+      fill: white;
+    }
+  }
+}
 .filter-buttons {
   width: 100%;
   display: flex;

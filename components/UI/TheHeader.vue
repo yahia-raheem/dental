@@ -120,7 +120,7 @@ export default {
     const sideBar = document.getElementById("mySidenav");
     const togglebtn = document.querySelector(".navbar-toggler");
     const closebtn = document.querySelector(".closebtn");
-    const sidemenuItems = document.querySelectorAll(".mobile-menu .menu-item");
+    const sidemenuItems = document.querySelectorAll(".sidenav .nav-link");
 
     sidemenuItems.forEach(item => {
       item.addEventListener("click", e => {
@@ -137,6 +137,8 @@ export default {
             submenu.classList.add("opened");
             submenu.style.maxHeight = `${itemsNum * 64}px`;
           }
+        } else {
+          sideBar.style.width = "0";
         }
       });
     });

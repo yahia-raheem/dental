@@ -29,7 +29,7 @@
           </div>
           <div class="row">
             <div class="col-12" v-for="(lab, index) in labs" :key="index">
-              <lab-block :lab="lab" v-on:spec-changed="forceRefresh" />
+              <lab-block :lab="lab" v-on:filterSpec="specFilter" />
             </div>
           </div>
         </div>
@@ -60,25 +60,27 @@
           </v-select>
         </div>
         <sidebar-filter :key="comKey + 1" />
-        <button class="btn btn-primary sheet-apply" @click="closeSheet">Apply</button>
+        <button class="btn btn-primary sheet-apply" @click="closeSheet">
+          Apply
+        </button>
       </vue-bottom-sheet>
     </client-only>
   </section>
 </template>
 <script>
-import { mapGetters } from "vuex";
 import LabBlock from "~/components/labs/LabBlock.vue";
 import SidebarFilter from "~/components/UI/SidebarFilter.vue";
 import { sortArray } from "~/plugins/js/components/helper-funcs";
 
 export default {
-  middleware: ['auth'],
-  created() {
-    this.labs = this.labsGetter;
+  async asyncData(context) {
+    var res = await context.store.dispatch("labs/getLabs");
+    return {
+      labs: res.data
+    };
   },
   data() {
     return {
-      labs: [],
       comKey: 0,
       sortOptions: [
         { label: "Most Popular", value: "rating" },
@@ -89,11 +91,6 @@ export default {
         value: null
       }
     };
-  },
-  computed: {
-    ...mapGetters({
-      labsGetter: "labs/labs"
-    })
   },
   components: {
     SidebarFilter,
@@ -138,22 +135,31 @@ export default {
         };
       }
     },
-    specFilter() {
+    specFilter(ids) {
       const v = this.$route.query.specialities;
-      if (typeof v != "undefined") {
-        const speccArr = v.split(",");
-        this.labs = this.labs.filter(lab => {
-          for (let index = 0; index < speccArr.length; index++) {
-            const spec = speccArr[index];
-            const specList = lab.specialities.map(one => {
-              return one.trim().toLowerCase();
-            });
-            if (specList.includes(spec)) {
-              return true;
-            }
+      this.$store.dispatch("labs/getLabs", { specialties: ids }).then(res => {
+        this.labs = res.data;
+        this.$router.push({
+          query: {
+            ...this.$route.query,
+            specialities: typeof v != "undefined" ? [...ids, v] : ids
           }
         });
-      }
+      });
+      // if (typeof v != "undefined") {
+      //   const speccArr = v.split(",");
+      //   this.labs = this.labs.filter(lab => {
+      //     for (let index = 0; index < speccArr.length; index++) {
+      //       const spec = speccArr[index];
+      //       const specList = lab.specialities.map(one => {
+      //         return one.trim().toLowerCase();
+      //       });
+      //       if (specList.includes(spec)) {
+      //         return true;
+      //       }
+      //     }
+      //   });
+      // }
     },
     locFilter() {
       const v = this.$route.query.locations;
@@ -186,17 +192,14 @@ export default {
     }
   },
   watch: {
-    "$route.query"() {
-      this.filter();
-    },
-    $route(to, from) {
-      if (to.name == this.$route.name && Object.keys(to.query).length != 0) {
-        this.forceRefresh();
-      }
-    }
-  },
-  mounted() {
-    this.filter();
+    // "$route.query"() {
+    //   this.filter();
+    // },
+    // $route(to, from) {
+    //   if (to.name == this.$route.name && Object.keys(to.query).length != 0) {
+    //     this.forceRefresh();
+    //   }
+    // }
   }
 };
 </script>

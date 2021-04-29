@@ -45,7 +45,6 @@ export const mutations = {
 
 export const actions = {
   async getParameters(vcontext) {
-    var data;
     try {
       const { data } = await axios.get(`${process.env.apiUrl}/api/categories`);
       const docData = data.doctors;

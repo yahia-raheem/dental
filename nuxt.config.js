@@ -121,6 +121,7 @@ export default {
     baseUrl:
       process.env.BASE_URL || "https://projects.cloudmaize.com/dentalwp/",
     apiUrl: process.env.API_URL || "http://dental.al-estshary.com",
+    storageBase: process.env.STORAGE_BASE || "http://dental.al-estshary.com/storage",
     ...WP_PAGES_IDS
   },
 

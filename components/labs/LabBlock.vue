@@ -2,7 +2,11 @@
   <div class="lab-block shadow-sm">
     <div class="logo">
       <div class="img-container">
-        <get-img :imgid="29" responsive="xxl:500px" classes="bg-image" />
+        <get-img-by-link
+          :imglink="profilePicture"
+          responsive="xxl:500px"
+          classes="bg-image"
+        />
       </div>
     </div>
     <div class="data-container">
@@ -11,14 +15,14 @@
           :to="{ name: 'labs-id', params: { id: lab.id } }"
           class="lab-link"
         >
-          <h6 class="title">{{ lab.title }}</h6>
+          <h6 class="title">{{ lab.name }}</h6>
         </nuxt-link>
-        <client-only>
+        <!-- <client-only>
           <div class="lab-rating">
             <div class="value shadow-sm">
               {{ lab.rating }}
-            </div>
-            <star-rating
+            </div> -->
+        <!-- <star-rating
               :rating="lab.rating"
               :increment="0.5"
               :show-rating="false"
@@ -28,28 +32,28 @@
             ></star-rating>
             <div class="review-count">
               ( 24 Reviews)
-            </div>
+            </div> 
           </div>
-        </client-only>
+        </client-only> 
         <div class="spacer"></div>
         <div class="profile-views">
           <get-svg :svgid="87" width="18" />
           <span class="views">34,643 Views</span>
-        </div>
+        </div> -->
       </div>
       <div class="spec-tags">
         <button
           class="tag btn"
-          v-for="(item, key) in lab.specialities"
+          v-for="(item, key) in lab.specialties"
           :key="key"
-          @click="specFilter"
+          @click="specFilter(item.id)"
         >
-          {{ item }}
+          {{ item.name }}
         </button>
       </div>
       <div class="location">
         <get-svg :svgid="79" width="18" />
-        <span class="text">{{ lab.location | stringify }}</span>
+        <span class="text">{{ lab.locations | stringify }}</span>
       </div>
       <hr />
       <div
@@ -75,46 +79,62 @@ export default {
   },
   filters: {
     stringify(v) {
-      return v.join(", ");
+      var locations = "";
+      v.forEach(element => {
+        locations = locations.concat(element.name);
+        locations = locations.concat(", ");
+      });
+      locations = locations.slice(0, -2);
+      return locations;
+    }
+  },
+  computed: {
+    profilePicture() {
+      if (this.lab.picture != null) {
+        return `${process.env.storageBase}/${this.lab.picture}`;
+      } else {
+        return "/images/Profile_avatar_placeholder_large.png";
+      }
     }
   },
   methods: {
-    specFilter(event) {
-      const value = event.target.outerText.trim().toLowerCase();
-      var oldSpec =
-        typeof this.$route.query.specialities != "undefined"
-          ? this.$route.query.specialities
-          : "";
-      const oldSpecArr = oldSpec.split(",");
-      if (oldSpecArr.includes(value)) {
-        const specIndex = oldSpecArr.indexOf(value);
-        oldSpecArr.splice(specIndex, 1);
-        this.$router.push(
-          {
-            query: {
-              ...this.$route.query,
-              specialities:
-                oldSpecArr.length > 0 ? oldSpecArr.join(",") : undefined
-            }
-          },
-          () => {
-            this.$emit("spec-changed");
-          }
-        );
-      } else {
-        oldSpec = oldSpec != "" ? oldSpec + "," : oldSpec;
-        this.$router.push(
-          {
-            query: {
-              ...this.$route.query,
-              specialities: oldSpec + value
-            }
-          },
-          () => {
-            this.$emit("spec-changed");
-          }
-        );
-      }
+    specFilter(id) {
+      this.$emit("filterSpec", [id]);
+      // const value = event.target.outerText.trim().toLowerCase();
+      // var oldSpec =
+      //   typeof this.$route.query.specialities != "undefined"
+      //     ? this.$route.query.specialities
+      //     : "";
+      // const oldSpecArr = oldSpec.split(",");
+      // if (oldSpecArr.includes(value)) {
+      //   const specIndex = oldSpecArr.indexOf(value);
+      //   oldSpecArr.splice(specIndex, 1);
+      //   this.$router.push(
+      //     {
+      //       query: {
+      //         ...this.$route.query,
+      //         specialities:
+      //           oldSpecArr.length > 0 ? oldSpecArr.join(",") : undefined
+      //       }
+      //     },
+      //     () => {
+      //       this.$emit("spec-changed");
+      //     }
+      //   );
+      // } else {
+      //   oldSpec = oldSpec != "" ? oldSpec + "," : oldSpec;
+      //   this.$router.push(
+      //     {
+      //       query: {
+      //         ...this.$route.query,
+      //         specialities: oldSpec + value
+      //       }
+      //     },
+      //     () => {
+      //       this.$emit("spec-changed");
+      //     }
+      //   );
+      // }
     }
   }
 };

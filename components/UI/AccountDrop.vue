@@ -12,9 +12,15 @@
         <p class="email">{{ user.email }}</p>
       </div>
       <div class="body">
-        <nuxt-link class="add-profile btn w-100" to="/auth/register"
-          >Add profile</nuxt-link
-        >
+        <dropdown-profile-box :profile="user.doctor_profile" :type="'doctor'" v-if="user.doctor_profile != null" />
+        <dropdown-profile-box
+          :profile="profile"
+          v-for="(profile, key) in user.lab_profiles"
+          :key="key"
+        />
+        <nuxt-link class="add-profile btn w-100" to="/auth/register">
+          Add profile
+        </nuxt-link>
       </div>
       <div class="footer">
         <nuxt-link to="/my-account/settings" class="settings">
@@ -34,7 +40,11 @@
   </div>
 </template>
 <script>
+import DropdownProfileBox from "./DropdownProfileBox.vue";
 export default {
+  components: {
+    DropdownProfileBox
+  },
   data() {
     return {
       opened: false,
@@ -50,6 +60,9 @@ export default {
       this.$router.go();
     }
   },
+  mounted() {
+    console.log(this.user);
+  }
 };
 </script>
 <style lang="scss" scoped>

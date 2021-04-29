@@ -62,14 +62,21 @@ section.home-slider {
   padding: 0;
   @include h.slick($use-arrows: false, $use-dots: false) {
     .slide {
-      height: 500px;
+      height: 400px;
       @include h.media(">992px") {
         height: 800px;
       }
     }
   }
   .slider-data {
-    @include h.center();
+    position: absolute;
+    bottom: 10%;
+    @include h.media(">992px") {
+      top: 50%;
+      left: 50%;
+      bottom: unset;
+      transform: translate(-50%, -50%);
+    }
     width: 100%;
     z-index: 1;
     .stitle,
