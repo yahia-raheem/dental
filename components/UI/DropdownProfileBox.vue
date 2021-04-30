@@ -1,7 +1,14 @@
 <template>
-  <nuxt-link :to="{ name: type == 'lab' ? 'labs-id' : 'doctors-id', params: {id: profile.id} }">
+  <nuxt-link
+    :to="{
+      name: type == 'lab' ? 'labs-id' : 'doctors-id',
+      params: { id: profile.id }
+    }"
+  >
     <div class="prof-box">
-      <div class="logo"><get-img-by-link :imglink="profileImage" responsive="xxl:26px" /></div>
+      <div class="logo">
+        <get-img-by-link :imglink="profileImage" responsive="xxl:35px" classes="bg-image" />
+      </div>
       <div class="title">{{ profile.name }}</div>
     </div>
   </nuxt-link>
@@ -16,14 +23,14 @@ export default {
       }
     },
     type: {
-        type: String,
-        default: "lab"
+      type: String,
+      default: "lab"
     }
   },
   computed: {
     profileImage() {
       if (this.profile.picture != null) {
-        return this.profile.picture;
+        return `${process.env.storageBase}/${this.profile.picture}`;
       } else {
         return "/images/Profile_avatar_placeholder_large.png";
       }
@@ -36,11 +43,12 @@ export default {
   $dir: $dir
 );
 .prof-box {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 10px 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 10px 0;
   .logo {
+    position: relative;
     @include h.circle(25px);
     @include h.appDirAuto($margin-end: 10px);
     overflow: hidden;

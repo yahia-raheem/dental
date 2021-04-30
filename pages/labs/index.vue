@@ -4,7 +4,12 @@
       <div class="row">
         <div class="col-lg-3 d-none d-lg-block">
           <div class="archive-sidebar">
-            <sidebar-filter :key="comKey" />
+            <sidebar-filter
+              v-on:nameFilter="nameModify"
+              v-on:specFilter="specPreModify"
+              v-on:locFilter="locPreModify"
+              v-on:aosFilter="aosPreModify"
+            />
           </div>
         </div>
         <div class="col-lg-9 col-md-12">
@@ -16,20 +21,18 @@
             >
               Filter
             </button>
-            <div class="sort d-none d-lg-flex">
-              <span class="label">Sort By</span>
-              <v-select
-                :value="sortSelected.value != null ? sortSelected : null"
-                :options="sortOptions"
-                placeholder="Select a Sorting Method"
-                @input="sortLabs"
-              >
-              </v-select>
-            </div>
           </div>
           <div class="row">
             <div class="col-12" v-for="(lab, index) in labs" :key="index">
               <lab-block :lab="lab" v-on:filterSpec="specModify" />
+            </div>
+            <div
+              class="col-12 d-flex justify-content-center align-items-center"
+              v-if="currentPage != lastPage"
+            >
+              <button class="btn vm-btn" @click="viewMore">
+                View More
+              </button>
             </div>
           </div>
         </div>
@@ -42,24 +45,12 @@
         max-height="90vh"
         :rounded="true"
       >
-        <div class="filter-section">
-          <div class="title">
-            <div class="icon">
-              <get-svg :svgid="102" />
-            </div>
-            <h6 class="text">
-              Sort By
-            </h6>
-          </div>
-          <v-select
-            :value="sortSelected.value != null ? sortSelected : null"
-            :options="sortOptions"
-            placeholder="Select a Sorting Method"
-            @input="sortLabs"
-          >
-          </v-select>
-        </div>
-        <sidebar-filter :key="comKey + 1" />
+        <sidebar-filter
+          v-on:nameFilter="nameModify"
+          v-on:specFilter="specPreModify"
+          v-on:locFilter="locPreModify"
+          v-on:aosFilter="aosPreModify"
+        />
         <button class="btn btn-primary sheet-apply" @click="closeSheet">
           Apply
         </button>
@@ -70,27 +61,35 @@
 <script>
 import LabBlock from "~/components/labs/LabBlock.vue";
 import SidebarFilter from "~/components/UI/SidebarFilter.vue";
-import { sortArray } from "~/plugins/js/components/helper-funcs";
 
 export default {
   async asyncData(context) {
-    var res = await context.store.dispatch("labs/getLabs");
+    var params = {
+      specialties:
+        typeof context.query.specialities != "undefined"
+          ? context.query.specialities.split(",")
+          : context.query.specialities,
+      locations:
+        typeof context.query.locations != "undefined"
+          ? context.query.locations.split(",")
+          : context.query.locations,
+      areas:
+        typeof context.query.aos != "undefined"
+          ? context.query.aos.split(",")
+          : context.query.aos,
+      name: context.query.name
+    };
+    var res = await context.store.dispatch("labs/getLabs", params);
     return {
-      labs: res.data
+      labs: res.data,
+      currentPage: res.current_page,
+      lastPage: res.last_page
     };
   },
   data() {
     return {
-      comKey: 0,
       pending: false,
-      sortOptions: [
-        { label: "Most Popular", value: "rating" },
-        { label: "Name", value: "title" }
-      ],
-      sortSelected: {
-        label: null,
-        value: null
-      }
+      params: {}
     };
   },
   components: {
@@ -104,93 +103,143 @@ export default {
     closeSheet() {
       this.$refs.mobileFilter.close();
     },
-    forceRefresh() {
-      this.comKey += 1;
-    },
-    nameSearch() {
-      const field = this.$route.query.name;
-      if (typeof field != "undefined") {
-        this.labs = this.labsGetter.filter(lab =>
-          lab.title.toLowerCase().includes(field.toLowerCase())
-        );
-      }
-    },
-    sortLabs(v) {
-      if (v != null) {
-        this.labs = sortArray(this.labs, v.value, "desc");
-        this.$router.push({ query: { ...this.$route.query, sort: v.value } });
-        this.sortSelected = this.sortOptions.find(
-          option => option.value == v.value
-        );
-      } else {
-        this.$router.replace({
-          ...this.$router.currentRoute,
-          query: {
-            ...this.$route.query,
-            sort: undefined
+    async specPreModify(vArr) {
+      if (vArr.length > 0) {
+        this.pending = true;
+        await vArr.forEach(async (element, index) => {
+          if (index == vArr.length - 1) {
+            this.pending = false;
           }
+          await this.specModify(element);
         });
-        this.sortSelected = {
-          label: null,
-          value: null
-        };
+      } else {
+        await this.specModify(null);
       }
     },
-    // specFilter(ids) {
-    //   this.$store.dispatch("labs/getLabs", { specialties: ids }).then(res => {
-    //     this.labs = res.data;
-    //   });
-    // },
-    // locFilter(ids) {
-    //   this.$store.dispatch("labs/getLabs", { locations: ids }).then(res => {
-    //     this.labs = res.data;
-    //   });
-    // },
+    async locPreModify(vArr) {
+      if (vArr.length > 0) {
+        this.pending = true;
+        await vArr.forEach(async (element, index) => {
+          if (index == vArr.length - 1) {
+            this.pending = false;
+          }
+          await this.locModify(element);
+        });
+      } else {
+        await this.locModify(null);
+      }
+    },
+    async aosPreModify(vArr) {
+      if (vArr.length > 0) {
+        this.pending = true;
+        await vArr.forEach(async (element, index) => {
+          if (index == vArr.length - 1) {
+            this.pending = false;
+          }
+          await this.aosModify(element);
+        });
+      } else {
+        await this.aosModify(null);
+      }
+    },
     async specModify(value) {
-      const v = this.$route.query.specialities;
-      var oldSpec = typeof v != "undefined" ? v : "";
-      const oldSpecArr = oldSpec.split(",");
-      if (oldSpecArr.includes(`${value}`)) {
-        const specIndex = oldSpecArr.indexOf(`${value}`);
-        oldSpecArr.splice(specIndex, 1);
-        await this.$router.push({
-          query: {
-            ...this.$route.query,
-            specialities:
-              oldSpecArr.length > 0 ? oldSpecArr.join(",") : undefined
-          }
-        });
+      if (value != null) {
+        const v = this.$route.query.specialities;
+        var oldSpec = typeof v != "undefined" ? v : "";
+        const oldSpecArr = oldSpec.split(",");
+        if (oldSpecArr.includes(`${value}`)) {
+          const specIndex = oldSpecArr.indexOf(`${value}`);
+          oldSpecArr.splice(specIndex, 1);
+          await this.$router.push({
+            query: {
+              ...this.$route.query,
+              specialities:
+                oldSpecArr.length > 0 ? oldSpecArr.join(",") : undefined
+            }
+          });
+        } else {
+          oldSpec = oldSpec != "" ? oldSpec + "," : oldSpec;
+          await this.$router.push({
+            query: {
+              ...this.$route.query,
+              specialities: oldSpec + value
+            }
+          });
+        }
       } else {
-        oldSpec = oldSpec != "" ? oldSpec + "," : oldSpec;
         await this.$router.push({
           query: {
             ...this.$route.query,
-            specialities: oldSpec + value
+            specialities: undefined
           }
         });
       }
     },
     async locModify(value) {
-      var oldSpec =
-        typeof this.$route.query.locations != "undefined"
-          ? this.$route.query.locations
-          : "";
-      const oldSpecArr = oldSpec.split(",");
-      if (oldSpecArr.includes(`${value}`)) {
-        const specIndex = oldSpecArr.indexOf(`${value}`);
-        oldSpecArr.splice(specIndex, 1);
+      if (value != null) {
+        var oldSpec =
+          typeof this.$route.query.locations != "undefined"
+            ? this.$route.query.locations
+            : "";
+        const oldSpecArr = oldSpec.split(",");
+        if (oldSpecArr.includes(`${value}`)) {
+          const specIndex = oldSpecArr.indexOf(`${value}`);
+          oldSpecArr.splice(specIndex, 1);
+          await this.$router.push({
+            query: {
+              ...this.$route.query,
+              locations:
+                oldSpecArr.length > 0 ? oldSpecArr.join(",") : undefined
+            }
+          });
+        } else {
+          oldSpec = oldSpec != "" ? oldSpec + "," : oldSpec;
+          await this.$router.push({
+            query: {
+              ...this.$route.query,
+              locations: oldSpec + value
+            }
+          });
+        }
+      } else {
         await this.$router.push({
           query: {
             ...this.$route.query,
-            locations: oldSpecArr.length > 0 ? oldSpecArr.join(",") : undefined
+            locations: undefined
           }
         });
+      }
+    },
+    async aosModify(value) {
+      if (value != null) {
+        var oldSpec =
+          typeof this.$route.query.locations != "undefined"
+            ? this.$route.query.locations
+            : "";
+        const oldSpecArr = oldSpec.split(",");
+        if (oldSpecArr.includes(`${value}`)) {
+          const specIndex = oldSpecArr.indexOf(`${value}`);
+          oldSpecArr.splice(specIndex, 1);
+          await this.$router.push({
+            query: {
+              ...this.$route.query,
+              aos: oldSpecArr.length > 0 ? oldSpecArr.join(",") : undefined
+            }
+          });
+        } else {
+          oldSpec = oldSpec != "" ? oldSpec + "," : oldSpec;
+          await this.$router.push({
+            query: {
+              ...this.$route.query,
+              aos: oldSpec + value
+            }
+          });
+        }
       } else {
-        oldSpec = oldSpec != "" ? oldSpec + "," : oldSpec;
         await this.$router.push({
           query: {
             ...this.$route.query,
-            locations: oldSpec + value
+            aos: undefined
           }
         });
       }
@@ -201,8 +250,7 @@ export default {
           query: { ...this.$route.query, name: value }
         });
       } else {
-        await this.$router.replace({
-          ...this.$router.currentRoute,
+        await this.$router.push({
           query: {
             ...this.$route.query,
             name: undefined
@@ -211,10 +259,7 @@ export default {
       }
     },
     async filter() {
-      // await this.nameModify();
-      // await this.specModify();
-      // await this.locModify();
-      var params = {
+      this.params = {
         specialties:
           typeof this.$route.query.specialities != "undefined"
             ? this.$route.query.specialities.split(",")
@@ -223,13 +268,25 @@ export default {
           typeof this.$route.query.locations != "undefined"
             ? this.$route.query.locations.split(",")
             : this.$route.query.locations,
-        name:
-          typeof this.$route.query.name != "undefined"
-            ? this.$route.query.name.split(",")
-            : this.$route.query.name
+        areas:
+          typeof this.$route.query.aos != "undefined"
+            ? this.$route.query.aos.split(",")
+            : this.$route.query.aos,
+        name: this.$route.query.name
       };
-      this.$store.dispatch("labs/getLabs", params).then(res => {
+      this.$store.dispatch("labs/getLabs", this.params).then(res => {
+        this.currentPage = res.current_page;
+        this.lastPage = res.last_page;
         this.labs = res.data;
+      });
+    },
+    async viewMore() {
+      this.currentPage = this.currentPage + 1;
+      this.params.page = this.currentPage;
+      await this.$store.dispatch("labs/getLabs", this.params).then(res => {
+        res.data.forEach(lab => {
+          this.labs.push(lab);
+        });
       });
     }
   },
@@ -241,11 +298,6 @@ export default {
         this.pending = false;
       }
     }
-    // $route(to, from) {
-    //   if (to.name == this.$route.name && Object.keys(to.query).length != 0) {
-    //     this.forceRefresh();
-    //   }
-    // }
   }
 };
 </script>
@@ -253,6 +305,13 @@ export default {
 @use "~/assets/scss/helpers" as h with(
   $dir: $dir
 );
+.vm-btn {
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  padding-left: 30px;
+  padding-right: 30px;
+}
 section::v-deep {
   .bottom-sheet__content {
     padding: 10px 20px;
@@ -262,7 +321,6 @@ section::v-deep {
     }
   }
   .filter-section {
-    border-bottom: 1px solid #dddedf;
     padding-bottom: 15px;
     padding-top: 15px;
     @include h.media(">992px") {
@@ -272,6 +330,9 @@ section::v-deep {
     }
     width: 100%;
     @include h.appDirAuto($padding-end: 15px);
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #dddedf;
+    }
     input[type="text"] {
       height: 35px;
       font-size: 1rem;
@@ -279,6 +340,9 @@ section::v-deep {
     }
     .v-select {
       margin-bottom: 10px;
+      .vs__dropdown-toggle {
+        background-color: white;
+      }
     }
     .title {
       display: flex;
@@ -298,51 +362,6 @@ section::v-deep {
             fill: #6a6fb6;
           }
         }
-      }
-    }
-    .vsa-list {
-      --vsa-max-width: 100%;
-      --vsa-heading-padding: 0;
-      --vsa-text-color: #838383;
-      --vsa-highlight-color: none;
-      --vsa-bg-color: none;
-      --vsa-border: none;
-      --vsa-content-padding: 0.5rem;
-      --vsa-default-icon-size: 0.3;
-      --vsa-min-width: 200px;
-      .vsa-item__trigger {
-        height: 20px;
-        position: relative;
-        &::after {
-          @include h.appDirAuto($end: 10px);
-          @include h.center("v");
-          @include h.circle(20px);
-          border: 1px solid #6a6eb3;
-          content: "";
-        }
-        .vsa-item__trigger__icon--is-default {
-          &::before,
-          &::after {
-            background-color: #6a6eb3;
-          }
-        }
-        &:hover,
-        &:focus,
-        &:active {
-          color: black;
-          .vsa-item__trigger__icon--is-default {
-            &::before,
-            &::after {
-              background-color: #6a6eb3;
-            }
-          }
-        }
-      }
-      .title {
-        margin: 0;
-      }
-      .form-check {
-        margin-bottom: 10px;
       }
     }
   }

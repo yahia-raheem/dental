@@ -42,7 +42,7 @@ export default {
   buildModules: ["@nuxt/image"],
 
   image: {
-    domains: ["https://projects.cloudmaize.com/dentalwp/"],
+    domains: ["https://projects.cloudmaize.com/dentalwp/", "http://dental.al-estshary.com/storage"],
     screens: {
       xs: 320,
       sm: 640,

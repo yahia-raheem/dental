@@ -102,7 +102,7 @@
           :reduce="(option) => option.id"
           label="name"
           :class="{ 'is-invalid': $v.lab.spec.$error }"
-          placeholder="Degree"
+          placeholder="Speciality"
           multiple
         ></v-select>
         <div class="invalid-feedback" v-if="!$v.lab.spec.required">
