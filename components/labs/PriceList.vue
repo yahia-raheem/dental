@@ -10,17 +10,9 @@
           </vsa-heading>
           <vsa-content>
             <ul>
-              <li>
-                <span class="title">IPS e.max Monolithic</span>
-                <span class="price">800 L.E</span>
-              </li>
-              <li>
-                <span class="title">IPS e.max Cutback</span>
-                <span class="price">900 L.E</span>
-              </li>
-              <li>
-                <span class="title">IPS e.max Layered</span>
-                <span class="price">1100 L.E</span>
+              <li v-for="(item, index) in subList" :key="index">
+                <span class="title">{{ item['sub-name'] }}</span>
+                <span class="price">{{ item['sub-price'] }} L.E</span>
               </li>
             </ul>
           </vsa-content>
@@ -39,6 +31,12 @@ export default {
     forceActive: {
       type: Boolean,
       default: false
+    },
+    subList: {
+      type: Object,
+      default() {
+        return {};
+      }
     }
   }
 };
@@ -93,7 +91,7 @@ export default {
       }
     }
     .vsa-item__content {
-        padding-bottom: 0;
+      padding-bottom: 0;
       ul {
         list-style: none;
         @include h.appDirAuto($padding-start: 0);

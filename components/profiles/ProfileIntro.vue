@@ -7,8 +7,8 @@
       >
         <div class="profile-image">
           <div class="img-container">
-            <get-img
-              :imgid="logoId"
+            <get-img-by-link
+              :imglink="profilePicture"
               classes="bg-image"
               responsive="xxl:210px"
             />
@@ -25,12 +25,12 @@
                 <nuxt-link
                   :to="{
                     name: tags.routeName,
-                    query: { [tags.queryName]: spec.trim().toLowerCase() }
+                    query: { [tags.queryName]: spec.id }
                   }"
                   class="tag btn"
                   v-for="(spec, key) in tags.tags"
                   :key="key"
-                  >{{ spec }}</nuxt-link
+                  >{{ spec.name }}</nuxt-link
                 >
               </div>
               <p class="desc">
@@ -44,7 +44,7 @@
             </div>
           </div>
           <hr />
-          <div class="suffix">
+          <!-- <div class="suffix">
             <client-only>
               <div class="intro-rating">
                 <div class="value shadow-sm">
@@ -65,7 +65,7 @@
                 <span class="views">{{ views }} Views</span>
               </div>
             </client-only>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="col-12 mobile" v-if="isMobile">
@@ -75,8 +75,8 @@
           >
             <div class="profile-image">
               <div class="img-container">
-                <get-img
-                  :imgid="logoId"
+                <get-img-by-link
+                  :imglink="profilePicture"
                   classes="bg-image"
                   responsive="xxl:210px"
                 />
@@ -117,7 +117,7 @@
                 </div>
               </div>
               <hr />
-              <div class="suffix">
+              <!-- <div class="suffix">
                 <client-only>
                   <div class="intro-rating">
                     <div class="value shadow-sm">
@@ -138,7 +138,7 @@
                     <span class="views">{{ views }} Views</span>
                   </div>
                 </client-only>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -149,20 +149,29 @@
 <script>
 export default {
   props: {
-    logoId: "",
+    logoImg: null,
     title: "",
     description: "",
     tags: {},
-    rating: 0,
-    views: "",
-    cta: {},
-    reviews: 0
+    // rating: 0,
+    // views: "",
+    cta: {}
+    // reviews: 0
   },
   data() {
     return {
       tagQueryName: this.tags.queryName,
       isMobile: this.$store.getters["general/isMobile"]
     };
+  },
+  computed: {
+    profilePicture() {
+      if (this.logoImg != null) {
+        return `${process.env.storageBase}/${this.logoImg}`;
+      } else {
+        return "/images/Profile_avatar_placeholder_large.png";
+      }
+    }
   }
 };
 </script>
@@ -252,7 +261,8 @@ export default {
         border: 1px solid lightgray;
       }
     }
-    .title, .desc {
+    .title,
+    .desc {
       text-align: center;
     }
     .cta {
@@ -262,7 +272,7 @@ export default {
     }
     .btn-primary {
       margin-top: 10px;
-    } 
+    }
     .intro-rating {
       @include h.appDirAuto($margin-end: 25px);
       flex-wrap: wrap;

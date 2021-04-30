@@ -1,57 +1,78 @@
 <template>
   <section class="lab-profile page internal">
     <div class="profile-header">
-      <get-img imgid="96" classes="bg-image" responsive="xxl:100vw" />
+      <get-img-by-link
+        :imglink="profileCover"
+        classes="bg-image"
+        responsive="xxl:100vw"
+      />
     </div>
     <div class="profile-body">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
             <profile-intro
-              title="My Lab"
+              :title="lab.name"
               :tags="tags"
-              logoId="29"
-              :rating="lab.rating"
-              views="24,500"
-              reviews="24"
-              :cta="{ link: '/', text: 'Send a Request' }"
+              :logoImg="lab.picture"
+              :cta="{ link: `/labs/${lab.id}/dashboard`, text: 'Dashboard' }"
+              v-if="loggedIn && user.id == lab.user_id"
+            />
+            <profile-intro
+              :title="lab.name"
+              :tags="tags"
+              :logoImg="lab.picture"
+              :cta="{ link: `/labs/${lab.id}/request`, text: 'Send a Request' }"
+              v-if="!loggedIn || user.id != lab.user_id"
             />
           </div>
         </div>
         <div class="row">
           <div class="col-lg-4 col-md-12">
-            <div class="profile-box about">
+            <div
+              class="profile-box about"
+              v-if="lab.about != null && lab.about != ''"
+            >
               <div class="header">
                 <h5 class="title">About</h5>
               </div>
               <p>
-                3D printed model is the result you're waiting for after
-                digitally designing your patients's mock-up
+                {{ lab.about }}
               </p>
             </div>
-            <div class="profile-box price-list">
+            <div class="profile-box price-list" v-if="lab.price_list != null">
               <div class="header">
                 <h5 class="title">Price List</h5>
-                <button class="pdf btn btn-secondary">Download Pdf</button>
+                <a
+                  class="pdf btn btn-secondary"
+                  v-if="lab.lab_file != null"
+                  :href="profileFile"
+                >
+                  Download Pdf
+                </a>
               </div>
-              <price-list title="Ceramic Press" :forceActive="true" />
-              <price-list title="Ceramic CAD" />
-              <price-list title="Zironia" />
-              <price-list title="Feldspathic" />
-              <price-list title="Implant abutment" />
-              <price-list title="Framework for hybrid restoration / per unit" />
+              <price-list
+                v-for="(item, index) in lab.price_list"
+                :key="index"
+                :title="item.name"
+                :subList="item.sub"
+                :forceActive="index == lab.price_list.length - 1"
+              />
             </div>
           </div>
           <div class="col-lg-8 col-md-12">
             <div class="locations shadow-sm">
               <h6 class="box-title text-center position-relative">Locations</h6>
               <div class="locations-list">
-                <div class="loc" v-for="(item, key) in lab.location" :key="key">
+                <div
+                  class="loc"
+                  v-for="(item, key) in lab.locations"
+                  :key="key"
+                >
                   <div class="icon">
                     <get-svg :svgid="79" width="11" />
                   </div>
-                  <div class="label">{{ item }}</div>
-                  <div class="desc">Taba street, El-Zagazig</div>
+                  <div class="label">{{ item.name }}</div>
                 </div>
               </div>
               <div class="footer">
@@ -68,7 +89,7 @@
                 </div>
               </div>
             </div>
-            <div class="profile-box portfolio">
+            <div class="profile-box portfolio" v-if="lab.portfolio != null">
               <div
                 class="header d-flex justify-content-between align-items-start"
               >
@@ -97,7 +118,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-12">
             <div class="profile-box comments">
               <div
@@ -128,12 +149,9 @@
                 </div>
               </div>
               <profile-comment :data="defaultComment" />
-              <profile-comment :data="defaultComment" />
-              <profile-comment :data="defaultComment" />
-              <profile-comment :data="defaultComment" />
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -145,8 +163,6 @@ import ProfileComment from "~/components/doctors/ProfileComment";
 import PriceList from "~/components/labs/PriceList.vue";
 import ProfileIntro from "~/components/profiles/ProfileIntro.vue";
 
-import { mapActions } from "vuex";
-
 export default {
   components: {
     AvailabilityCheck,
@@ -156,46 +172,46 @@ export default {
     ProfileIntro
   },
   async asyncData(context) {
-    const pageData = await context.store.dispatch(
-      "pages/setCurrentPage",
-      process.env.homepageId
+    const labData = await context.store.dispatch(
+      "labs/getLabById",
+      context.params.id
     );
     return {
-      page: pageData,
-      lab: {},
+      lab: labData,
+      user: context.$auth.user,
+      loggedIn: context.$auth.loggedIn,
       settings: {
         dots: false,
         arrows: false,
         autoplay: false
       },
-      tags: {},
-      defaultComment: {
-        rating: 5,
-        title: "Highly Recommended",
-        author: "Dr. Ali El Tahan Perfection Dental Care Clinic",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, reprehint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est in culpa qui officia deserunt mollit anim id est laborum."
+      tags: {
+        tags: labData.specialties,
+        routeName: "labs",
+        queryName: "specialities"
       }
     };
   },
-  async fetch() {
-    const lab = await this.getLab(this.$route.params.id);
-    this.lab = lab;
-    this.tags = {
-      tags: lab.specialities,
-      routeName: "labs",
-      queryName: "specialities"
-    };
-  },
   methods: {
-    ...mapActions({
-      getLab: "labs/getLab"
-    }),
     prevSlide() {
       this.$refs.portfolioSlider.prev();
     },
     nextSlide() {
       this.$refs.portfolioSlider.next();
+    }
+  },
+  computed: {
+    profileCover() {
+      if (this.lab.cover != null) {
+        return `${process.env.storageBase}/${this.lab.cover}`;
+      } else {
+        return "/images/Profilecoverplaceholder.jpg";
+      }
+    },
+    profileFile() {
+      if (this.lab.lab_file != null) {
+        return `${process.env.storageBase}/${this.lab.lab_file}`;
+      }
     }
   }
 };
