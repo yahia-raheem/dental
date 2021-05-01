@@ -73,7 +73,11 @@
             >
               <navigation-bar />
             </div>
-            <nuxt-link class="btn login-btn" to="/auth" v-if="!isLoggedIn  && !isMobile">
+            <nuxt-link
+              class="btn login-btn"
+              to="/auth"
+              v-if="!isLoggedIn && !isMobile"
+            >
               <div class="icon">
                 <get-svg :svgid="116" width="18" height="18" />
               </div>
@@ -92,7 +96,7 @@
 <script>
 import NavigationBar from "~/components/UI/NavigationBar.vue";
 import { mapGetters } from "vuex";
-import AccountDrop from './AccountDrop.vue';
+import AccountDrop from "./AccountDrop.vue";
 export default {
   components: { NavigationBar, AccountDrop },
   data() {
@@ -114,6 +118,11 @@ export default {
   methods: {
     getOption(optionId) {
       return this.$store.getters["general/headerOption"](optionId);
+    }
+  },
+  watch: {
+    "$auth.loggedIn"() {
+      this.isLoggedIn = this.$auth.loggedIn;
     }
   },
   mounted() {

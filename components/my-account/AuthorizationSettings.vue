@@ -90,7 +90,37 @@ export default {
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        this.$emit("done");
+        const data = {
+          old_password: this.oldPassword,
+          password: this.password,
+          password_confirmation: this.confirmPassword
+        };
+        this.$store
+          .dispatch("user/changePass", data)
+          .then(result => {
+            this.$auth
+              .setUserToken(result.token, result.refresh_token)
+              .then(res => {
+                this.$vToastify.success({
+                  body: "Password Updated!",
+                  title: "Success"
+                });
+                this.$router.go();
+              });
+          })
+          .catch(err => {
+            if (err.response.status < 500) {
+              this.$vToastify.error({
+                body: err.response.data.errors[0],
+                title: "Error"
+              });
+            } else {
+              this.$vToastify.error({
+                body: "Sorry, an unknown error occured",
+                title: "Error"
+              });
+            }
+          });
       }
     }
   },

@@ -28,7 +28,9 @@
               <v-select
                 id="servicedd"
                 v-model.trim="servicedd"
-                :options="specialities"
+                :options="labSpec"
+                :reduce="option => option.id"
+                label="name"
                 placeholder="Service"
               >
               </v-select>
@@ -37,7 +39,9 @@
               <v-select
                 id="locationdd"
                 v-model.trim="locationdd"
-                :options="locations"
+                :options="labLoc"
+                :reduce="option => option.id"
+                label="name"
                 placeholder="Location"
               >
               </v-select>
@@ -46,7 +50,9 @@
               <v-select
                 id="aosdd"
                 v-model.trim="aosdd"
-                :options="locations"
+                :options="labAos"
+                :reduce="option => option.id"
+                label="name"
                 placeholder="Area Of Service"
               >
               </v-select>
@@ -102,20 +108,15 @@ export default {
       locationdd: null,
       aosdd: null,
       lab: "",
-      doctor: "",
-      locations: ["Maadi", "Nasr City", "Heliopolis"],
-      specialities: [
-        "Periodontics",
-        "Orthodontics",
-        "Prosthodontics",
-        "Oral and Maxillofacial",
-        "Endodontics"
-      ]
+      doctor: ""
     };
   },
   computed: {
     ...mapGetters({
-      pageById: "pages/pageById"
+      pageById: "pages/pageById",
+      labSpec: "parameters/labSpec",
+      labLoc: "parameters/labLoc",
+      labAos: "parameters/labAos"
     }),
     labsvgId() {
       return this.pageById(process.env.homepageId).custom_fields.lab_svg.ID;
@@ -146,16 +147,16 @@ export default {
       if (this.labActive) {
         url = { name: "labs", query: {} };
         if (this.locationdd) {
-          url["query"]["locations"] = this.locationdd.trim().toLowerCase();
+          url["query"]["locations"] = `${this.locationdd}`;
         }
         if (this.servicedd) {
-          url["query"]["specialities"] = this.servicedd.trim().toLowerCase();
+          url["query"]["specialities"] = `${this.servicedd}`;
         }
         if (this.aosdd) {
-          url["query"]["aos"] = this.aosdd.trim().toLowerCase();
+          url["query"]["aos"] = `${this.aosdd}`;
         }
         if (this.lab != "") {
-          url["query"]["name"] = this.lab.trim().toLowerCase();
+          url["query"]["name"] = `${this.lab}`;
         }
         this.$router.push(url);
       }
