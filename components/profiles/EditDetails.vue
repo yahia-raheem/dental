@@ -10,11 +10,17 @@
             <label for="spec" class="form-label">Specialitites</label>
             <v-select
               id="spec"
-              v-model.trim="profSpecs"
-              :options="specOptions"
+              v-model.trim="spec"
+              :options="labSpec"
+              :class="{ 'is-invalid': $v.spec.$error }"
+              :reduce="option => option.id"
+              label="name"
               placeholder="Specialities"
               :multiple="true"
             ></v-select>
+            <div class="invalid-feedback" v-if="!$v.spec.required">
+              This field is Required
+            </div>
           </div>
         </div>
         <div class="form-row">
@@ -22,11 +28,17 @@
             <label for="loc" class="form-label">Locations</label>
             <v-select
               id="loc"
-              v-model.trim="profLocations"
-              :options="locOptions"
+              v-model.trim="location"
+              :options="labLoc"
+              :reduce="option => option.id"
+              label="name"
+              :class="{ 'is-invalid': $v.location.$error }"
               placeholder="Locations"
               :multiple="true"
             ></v-select>
+            <div class="invalid-feedback" v-if="!$v.location.required">
+              This field is Required
+            </div>
             <small id="locHelp" class="form-text text-muted"
               >Locations where the lab branches exist</small
             >
@@ -37,11 +49,17 @@
             <label for="aos" class="form-label">Areas of Service</label>
             <v-select
               id="aos"
-              v-model.trim="profAOS"
-              :options="locOptions"
+              v-model.trim="aos"
+              :options="labAos"
+              :reduce="option => option.id"
+              label="name"
+              :class="{ 'is-invalid': $v.aos.$error }"
               placeholder="Areas of Service"
               :multiple="true"
             ></v-select>
+            <div class="invalid-feedback" v-if="!$v.aos.required">
+              This field is Required
+            </div>
             <small id="locHelp" class="form-text text-muted"
               >Locations where your lab is able to provide it's services</small
             >
@@ -63,49 +81,72 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { required } from "vuelidate/lib/validators";
 export default {
   props: {
-    specs: {
-      type: Array,
+    lab: {
+      type: Object,
       default() {
-        return [];
-      },
-    },
-    locations: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
-    aos: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
+        return {};
+      }
+    }
   },
   data() {
     return {
-      profSpecs: [],
-      specOptions: [
-        "Periodontics",
-        "Orthodontics",
-        "Prosthodontics",
-        "Oral and Maxillofacial",
-        "Endodontics",
-      ],
-      profLocations: [],
-      locOptions: ["Maadi", "Nasr City", "Heliopolis"],
-      profAOS: [],
+      spec: this.lab.specialties,
+      location: this.lab.locations,
+      aos: this.lab.areas
     };
   },
-  mounted() {
-    this.profSpecs = this.specs;
-    this.profLocations = this.locations;
-    this.profAOS = this.aos
+  validations: {
+    spec: {
+      required
+    },
+    location: {
+      required
+    },
+    aos: {
+      required
+    }
   },
+  computed: {
+    ...mapGetters({
+      labSpec: "parameters/labSpec",
+      labLoc: "parameters/labLoc",
+      labAos: "parameters/labAos"
+    }),
+    form() {
+      return new FormData();
+    }
+  },
+  methods: {
+    submit() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        this.form.append("specialties", this.spec);
+        this.form.append("locations", this.location);
+        this.form.append("areas", this.aos);
+        const data = { labId: this.lab.id, data: this.form };
+        this.$store
+          .dispatch("labs/updateLab", data)
+          .then(result => {
+            this.$vToastify.success({
+              body: "Profile Updated Successfully",
+              title: "Success"
+            });
+            this.$router.go();
+          })
+          .catch(err => {
+            this.$vToastify.error({
+              body: "An unknown error occured",
+              title: "Sorry"
+            });
+          });
+      }
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

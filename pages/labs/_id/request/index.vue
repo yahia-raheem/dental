@@ -348,7 +348,6 @@ export default {
     di: {
       valid: function(value) {
         if (value == null) {
-          console.log("entered");
           return true;
         }
         return (

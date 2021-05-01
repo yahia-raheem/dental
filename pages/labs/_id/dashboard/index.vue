@@ -2,11 +2,6 @@
   <div></div>
 </template>
 <script>
-export default {
-  created() {
-    this.$router.push({ name: "labs-id-dashboard-edit" });
-  },
-};
+export default {};
 </script>
-<style lang="">
-</style>
+<style lang=""></style>

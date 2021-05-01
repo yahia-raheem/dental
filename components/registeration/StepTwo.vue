@@ -202,7 +202,6 @@ export default {
             this.$emit("done");
           } catch (err) {
             if (400 < err.response.status < 500) {
-              console.log(err.response.data.errors);
               for (const key in err.response.data.errors) {
                 if (Object.hasOwnProperty.call(err.response.data.errors, key)) {
                   const element = err.response.data.errors[key];

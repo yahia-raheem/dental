@@ -11,8 +11,8 @@
           <vsa-content>
             <ul>
               <li v-for="(item, index) in subList" :key="index">
-                <span class="title">{{ item['sub-name'] }}</span>
-                <span class="price">{{ item['sub-price'] }} L.E</span>
+                <span class="title">{{ item.subName }}</span>
+                <span class="price">{{ item.subPrice }} L.E</span>
               </li>
             </ul>
           </vsa-content>
@@ -33,9 +33,9 @@ export default {
       default: false
     },
     subList: {
-      type: Object,
+      type: Array,
       default() {
-        return {};
+        return [];
       }
     }
   }

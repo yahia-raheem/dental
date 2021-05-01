@@ -2,9 +2,10 @@
   <div class="row">
     <div class="col-12">
       <h6 class="sub-title">Edit Profile</h6>
-      <edit-general />
-      <edit-details />
-      <edit-price-list :groups="priceList" />
+      <edit-general :lab="lab" />
+      <edit-details :lab="lab" />
+      <edit-price-list :labId="lab.id" :groups="lab.price_list" v-if="lab.price_list != null" />
+      <edit-price-list :labId="lab.id" v-if="lab.price_list == null" />
     </div>
   </div>
 </template>
@@ -15,38 +16,15 @@ import EditPriceList from "~/components/profiles/EditPriceList.vue";
 
 export default {
   components: { EditGeneral, EditDetails, EditPriceList },
-  data() {
+  async asyncData(context) {
+    const lab = await context.store.dispatch(
+      "labs/getLabById",
+      context.params.id
+    );
     return {
-      priceList: [
-        {
-          listName: "ceramics",
-          items: [
-            {
-              title: "option 1",
-              price: "50.0",
-            },
-            {
-              title: "option 2",
-              price: "40.0",
-            },
-          ],
-        },
-        {
-          listName: "optics",
-          items: [
-            {
-              title: "option 1",
-              price: "50.0",
-            },
-            {
-              title: "option 2",
-              price: "40.0",
-            },
-          ],
-        },
-      ],
+      lab: lab
     };
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>

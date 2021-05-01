@@ -89,8 +89,7 @@ export default {
               password: this.password
             }
           })
-          .then(res => {
-            console.log(res)
+          .then(_ => {
           })
           .catch(err => {
             if (400 < err.response.status < 500) {

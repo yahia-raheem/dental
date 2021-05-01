@@ -16,7 +16,7 @@
             <input
               type="text"
               class="form-control"
-              v-model.trim="group.listName"
+              v-model.trim="group.name"
               placeholder="List Name"
             />
           </div>
@@ -31,14 +31,14 @@
             </div>
             <div
               class="form-row"
-              v-for="(item, itemKey) in group.items"
+              v-for="(item, itemKey) in group.sub"
               :key="itemKey"
             >
               <div class="form-group col-lg-6 col-md-12">
                 <input
                   type="text"
                   class="form-control"
-                  v-model.trim="item.title"
+                  v-model.trim="item.subName"
                   placeholder="Title"
                 />
               </div>
@@ -46,7 +46,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-model.trim="item.price"
+                  v-model.trim="item.subPrice"
                   placeholder="Price"
                 />
               </div>
@@ -55,7 +55,7 @@
               >
                 <button
                   class="btn add-item"
-                  v-if="itemKey == group.items.length - 1"
+                  v-if="itemKey == group.sub.length - 1"
                   @click.prevent="addItem(groupKey)"
                   :key="itemKey"
                 >
@@ -63,7 +63,7 @@
                 </button>
                 <button
                   class="btn remove-item"
-                  v-if="group.items.length > 1"
+                  v-if="group.sub.length > 1"
                   @click.prevent="removeItem(groupKey, itemKey)"
                   :key="itemKey + 1"
                 >
@@ -76,11 +76,7 @@
         <div
           class="form-row d-flex justify-content-center justify-content-sm-end align-items-center mb-4"
         >
-          <button
-            class="remove-group btn"
-            @click.prevent="removeGroup"
-            v-if="groups.length > 1"
-          >
+          <button class="remove-group btn" @click.prevent="removeGroup">
             Remove Group
           </button>
           <button class="add-group btn" @click.prevent="addGroup">
@@ -110,44 +106,71 @@ export default {
       default() {
         return [
           {
-            listName: "",
-            items: [
+            name: "",
+            sub: [
               {
-                title: "",
-                price: ""
+                subName: "",
+                subPrice: ""
               }
             ]
           }
         ];
       }
+    },
+    labId: {
+      required: true
     }
   },
   methods: {
     addGroup() {
       this.groups.push({
-        listName: "",
-        items: [
+        name: "",
+        sub: [
           {
-            title: "",
-            price: ""
+            subName: "",
+            subPrice: ""
           }
         ]
       });
     },
     addItem(groupKey) {
-      this.groups[groupKey].items.push({
-        title: "",
-        price: ""
+      this.groups[groupKey].sub.push({
+        subName: "",
+        subPrice: ""
       });
     },
     removeItem(groupKey, itemKey) {
-      this.groups[groupKey].items.splice(itemKey, 1);
+      this.groups[groupKey].sub.splice(itemKey, 1);
     },
     removeGroup() {
       this.groups.pop();
     },
     submit() {
-      console.log("fired");
+      const data = { labId: this.labId, data: { price_list: this.groups } };
+      this.$store
+        .dispatch("labs/updateLab", data)
+        .then(result => {
+          this.$vToastify.success({
+            body: "Profile Updated Successfully",
+            title: "Success"
+          });
+          this.$router.go();
+        })
+        .catch(err => {
+          if (err.response.status < 500) {
+            for (const key in err.response.data.errors) {
+              if (Object.hasOwnProperty.call(err.response.data.errors, key)) {
+                const element = err.response.data.errors[key];
+                this.$vToastify.error({ body: element[0] });
+              }
+            }
+          } else {
+            this.$vToastify.error({
+              body: "An unknown error occured",
+              title: "Error"
+            });
+          }
+        });
     }
   }
 };

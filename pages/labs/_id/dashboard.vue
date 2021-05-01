@@ -4,14 +4,17 @@
       <div class="row">
         <div class="col-lg-3 col-md-12">
           <div class="sidebar-container">
-            <dash-side-nav
-              :list="list"
-              :settings="{'title': 'Edit Profile', 'link': {'name': 'labs-id-dashboard-edit'}}"
-            />
+              <dash-side-nav
+                :list="list"
+                :settings="{
+                  title: 'Edit Profile',
+                  link: `/labs/${$route.params.id}/dashboard/edit`
+                }"
+              />
           </div>
         </div>
         <div class="col-lg-9 col-md-12">
-          <nuxt-child keep-alive />
+          <nuxt-child />
         </div>
       </div>
     </div>
@@ -25,8 +28,8 @@ export default {
   data() {
     return {
       list: []
-    }
-  },
+    };
+  }
 };
 </script>
 <style lang="scss">
@@ -36,6 +39,6 @@ export default {
 .sidebar-container {
   height: 100%;
   @include h.appDirAuto($padding-end: 20px);
-  @include h.appDirAuto($border-end: 1px solid #eaebec)
+  @include h.appDirAuto($border-end: 1px solid #eaebec);
 }
 </style>

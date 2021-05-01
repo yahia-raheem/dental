@@ -15,7 +15,10 @@
               :title="lab.name"
               :tags="tags"
               :logoImg="lab.picture"
-              :cta="{ link: `/labs/${lab.id}/dashboard`, text: 'Dashboard' }"
+              :cta="{
+                link: `/labs/${lab.id}/dashboard/edit`,
+                text: 'Dashboard'
+              }"
               v-if="loggedIn && user.id == lab.user_id"
             />
             <profile-intro
@@ -47,6 +50,7 @@
                   class="pdf btn btn-secondary"
                   v-if="lab.lab_file != null"
                   :href="profileFile"
+                  target="_blank"
                 >
                   Download Pdf
                 </a>
@@ -56,7 +60,7 @@
                 :key="index"
                 :title="item.name"
                 :subList="item.sub"
-                :forceActive="index == lab.price_list.length - 1"
+                :forceActive="index == 0"
               />
             </div>
           </div>

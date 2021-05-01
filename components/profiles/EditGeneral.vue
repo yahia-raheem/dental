@@ -43,10 +43,14 @@
             <input
               type="text"
               class="form-control"
+              :class="{ 'is-invalid': $v.name.$error }"
               id="labName"
-              v-model.trim="labName"
+              v-model.trim="name"
               placeholder="Lab Name"
             />
+            <div class="invalid-feedback" v-if="!$v.name.required">
+              This field is Required
+            </div>
           </div>
           <div class="form-group col-lg-6 col-md-12">
             <label class="form-label">PDF Price List</label>
@@ -67,7 +71,7 @@
             <label for="profileAbout" class="form-label">About</label>
             <textarea
               class="form-control"
-              v-model.trim="labAbout"
+              v-model.trim="about"
               id="profileAbout"
               rows="5"
               placeholder="About Details"
@@ -90,44 +94,48 @@
 </template>
 
 <script>
+import { required } from "vuelidate/lib/validators";
+
 export default {
   props: {
-    image: {
-      type: String,
-      default: null
-    },
-    cover: {
-      type: String,
-      default: null
-    },
-    name: {
-      type: String,
-      default: null
-    },
-    pdf: {
-      type: String,
-      default: null
-    },
-    about: {
-      type: String,
-      default: null
-    },
+    lab: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
   },
   data() {
     return {
-      labName: "",
-      labAbout: "",
+      name: this.lab.name,
+      about: this.lab.about,
+      image: this.lab.picture,
+      cover: this.lab.cover,
+      pdf: this.lab.lab_file
     };
+  },
+  validations: {
+    name: {
+      required
+    }
+  },
+  computed: {
+    form() {
+      return new FormData();
+    }
   },
   methods: {
     profileImage(e) {
       this.changeImage(e.target.files[0].name);
+      this.form.append("picture", e.target.files[0]);
     },
     profileCover(e) {
       this.changeCover(e.target.files[0].name);
+      this.form.append("cover", e.target.files[0]);
     },
     pdfFile(e) {
       this.changePdf(e.target.files[0].name);
+      this.form.append("lab_file", e.target.files[0]);
     },
     changePdf(name) {
       this.$refs.pdf.querySelector("label").innerHTML = name;
@@ -141,21 +149,35 @@ export default {
       this.$refs.cover.querySelector("label").innerHTML = name;
       this.$refs.cover.classList.add("dirty");
     },
-    async submit() {
-      // let formData = new FormData();
-      // formData.append("file", this.photo);
-      // let url = "http://127.0.0.1:3333/upload";
-      // let config = {
-      //   headers: {
-      //     "content-type": "multipart/form-data",
-      //   },
-      // };
-      // await this.$axios({
-      //   method: "post",
-      //   url: url,
-      //   data: formData,
-      //   config: config,
-      // });
+    submit() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        if (this.name != this.lab.name) {
+          this.form.append("profile_name", this.name);
+        }
+        if (this.about != this.lab.about) {
+          this.form.append("about", this.about);
+        }
+        const data = { labId: this.lab.id, data: this.form };
+        // for (var pair of this.form.entries()) {
+        //   console.log(pair[0] + ", " + pair[1]);
+        // }
+        this.$store
+          .dispatch("labs/updateLab", data)
+          .then(result => {
+            this.$vToastify.success({
+              body: "Profile Updated Successfully",
+              title: "Success"
+            });
+            this.$router.go();
+          })
+          .catch(err => {
+            this.$vToastify.error({
+              body: "An unknown error occured",
+              title: "Sorry"
+            });
+          });
+      }
     }
   },
   mounted() {

@@ -60,9 +60,6 @@ export default {
       this.$router.go();
     }
   },
-  mounted() {
-    console.log(this.user);
-  }
 };
 </script>
 <style lang="scss" scoped>
