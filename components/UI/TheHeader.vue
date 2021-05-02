@@ -129,7 +129,7 @@ export default {
     const sideBar = document.getElementById("mySidenav");
     const togglebtn = document.querySelector(".navbar-toggler");
     const closebtn = document.querySelector(".closebtn");
-    const sidemenuItems = document.querySelectorAll(".sidenav .nav-link");
+    const sidemenuItems = document.querySelectorAll(".sidenav a");
 
     sidemenuItems.forEach(item => {
       item.addEventListener("click", e => {

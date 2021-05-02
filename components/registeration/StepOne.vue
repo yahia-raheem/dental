@@ -7,7 +7,7 @@
     </p>
     <form @submit.prevent="submitRegister">
       <div class="form-row">
-        <div class="form-group col">
+        <div class="form-group col-lg-6 col-md-12">
           <label for="firstName">First Name</label>
           <input
             type="text"
@@ -21,7 +21,7 @@
             This field is Required
           </div>
         </div>
-        <div class="form-group col">
+        <div class="form-group col-lg-6 col-md-12">
           <label for="lastName">Last Name</label>
           <input
             type="text"
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group col">
+        <div class="form-group col-lg-6 col-md-12">
           <label for="email">Email</label>
           <input
             type="email"
@@ -54,7 +54,7 @@
             This field must be a valid email
           </div>
         </div>
-        <div class="form-group col">
+        <div class="form-group col-lg-6 col-md-12">
           <label for="phoneNumber">Phone Number</label>
           <input
             type="number"
@@ -70,7 +70,7 @@
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group col">
+        <div class="form-group col-lg-6 col-md-12">
           <label for="password">Password</label>
           <input
             type="password"
@@ -91,7 +91,7 @@
             Password must be at least 6 characters
           </div>
         </div>
-        <div class="form-group col">
+        <div class="form-group col-lg-6 col-md-12">
           <label for="confirmPassword">Confirm Password</label>
           <input
             type="password"
@@ -141,38 +141,52 @@ export default {
       confirmPassword: null
     };
   },
+  async mounted() {
+    try {
+      await this.$recaptcha.init();
+    } catch (e) {
+      console.error(e);
+    }
+  },
+  beforeDestroy() {
+    this.$recaptcha.destroy();
+  },
   methods: {
-    submitRegister() {
+    async submitRegister() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        this.$axios
-          .$post(`${process.env.apiUrl}/api/register`, {
-            first_name: this.firstName,
-            last_name: this.lastName,
-            email: this.email,
-            phone_number: this.phoneNumber,
-            password: this.password,
-            password_confirmation: this.confirmPassword
-          })
-          .then(result => {
-            this.$auth
-              .setUserToken(result.token, result.refresh_token)
-              .then(res => {
-                this.$emit("done");
-              });
-          })
-          .catch(err => {
-            if (400 < err.response.status < 500) {
-              for (const key in err.response.data.errors) {
-                if (Object.hasOwnProperty.call(err.response.data.errors, key)) {
-                  const element = err.response.data.errors[key];
-                  this.$vToastify.error({ body: element[0], title: key });
-                }
-              }
-            } else {
-              this.$vToastify.error({ body: "Sorry an unknown error occured" });
-            }
-          });
+        const token = await this.$recaptcha.execute("register");
+        const captchaRes = await this.$store.dispatch("general/checkCaptcha", token);
+        console.log(captchaRes);
+        // this.$axios
+        //   .$post(`${process.env.apiUrl}/api/register`, {
+        //     first_name: this.firstName,
+        //     last_name: this.lastName,
+        //     email: this.email,
+        //     phone_number: this.phoneNumber,
+        //     password: this.password,
+        //     password_confirmation: this.confirmPassword,
+        //     recaptcha: token
+        //   })
+        //   .then(result => {
+        //     this.$auth
+        //       .setUserToken(result.token, result.refresh_token)
+        //       .then(res => {
+        //         this.$emit("done");
+        //       });
+        //   })
+        //   .catch(err => {
+        //     if (400 < err.response.status < 500) {
+        //       for (const key in err.response.data.errors) {
+        //         if (Object.hasOwnProperty.call(err.response.data.errors, key)) {
+        //           const element = err.response.data.errors[key];
+        //           this.$vToastify.error({ body: element[0], title: key });
+        //         }
+        //       }
+        //     } else {
+        //       this.$vToastify.error({ body: "Sorry an unknown error occured" });
+        //     }
+        //   });
       }
     }
   },

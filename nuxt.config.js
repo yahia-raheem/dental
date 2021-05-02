@@ -42,7 +42,10 @@ export default {
   buildModules: ["@nuxt/image"],
 
   image: {
-    domains: ["https://projects.cloudmaize.com/dentalwp/", "http://dental.al-estshary.com/storage"],
+    domains: [
+      "https://projects.cloudmaize.com/dentalwp/",
+      "http://dental.al-estshary.com/storage"
+    ],
     screens: {
       xs: 320,
       sm: 640,
@@ -59,7 +62,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
     "@nuxtjs/proxy",
-    "@nuxtjs/auth-next"
+    "@nuxtjs/auth-next",
+    "@nuxtjs/recaptcha"
   ],
 
   router: {
@@ -121,8 +125,18 @@ export default {
     baseUrl:
       process.env.BASE_URL || "https://projects.cloudmaize.com/dentalwp/",
     apiUrl: process.env.API_URL || "http://dental.al-estshary.com",
-    storageBase: process.env.STORAGE_BASE || "http://dental.al-estshary.com/storage",
-    ...WP_PAGES_IDS
+    storageBase:
+      process.env.STORAGE_BASE || "http://dental.al-estshary.com/storage",
+    ...WP_PAGES_IDS,
+    recaptchaSiteKey: process.env.RECAPTCHA_SITE_LEY || "6LcyXcMaAAAAAH6iSlD5Pw099dI1_otKC3QdN_9F",
+    recaptchaSecret: process.env.RECAPTCHA_SECRET || "6LcyXcMaAAAAANIsyIpWkSe0Z-8AtxPtUD4GZv3j"
+  },
+
+  recaptcha: {
+    // hideBadge: true,
+    siteKey: "6LcyXcMaAAAAAH6iSlD5Pw099dI1_otKC3QdN_9F",    
+    version: 3,     
+    size: 'compact'        
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

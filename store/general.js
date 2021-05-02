@@ -1,4 +1,6 @@
 import axios from "axios";
+import { $fetch } from "ohmyfetch/node";
+
 export const state = () => ({
   headerOptions: {},
   socialMedia: [],
@@ -170,6 +172,12 @@ export const actions = {
       `${process.env.baseUrl}/wp-json/generaldata/v1/getsvg/${imgId}`
     );
     return data;
+  },
+  async checkCaptcha(vcontext, token) {
+    const res = await $fetch(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.recaptchaSecret}&response=${token}`
+    );
+    return res;
   },
   addImg(vcontext, options) {
     if (!vcontext.getters.image(options.id)) {

@@ -7,7 +7,11 @@
   >
     <div class="prof-box">
       <div class="logo">
-        <get-img-by-link :imglink="profileImage" responsive="xxl:35px" classes="bg-image" />
+        <get-img-by-link
+          :imglink="profileImage"
+          responsive="xxl:35px"
+          classes="bg-image"
+        />
       </div>
       <div class="title">{{ profile.name }}</div>
     </div>
@@ -49,6 +53,8 @@ export default {
   margin: 10px 0;
   .logo {
     position: relative;
+    min-width: 25px;
+    min-height: 25px;
     @include h.circle(25px);
     @include h.appDirAuto($margin-end: 10px);
     overflow: hidden;
