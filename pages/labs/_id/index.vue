@@ -79,17 +79,19 @@
                   <div class="label">{{ item.name }}</div>
                 </div>
               </div>
-              <div class="footer">
+              <div class="footer" v-if="lab.social_profiles != null">
                 <div class="social">
-                  <div class="fb unit">
-                    <get-svg :svgid="17" width="12" />
-                  </div>
-                  <div class="ln unit">
-                    <get-svg :svgid="15" width="12" />
-                  </div>
-                  <div class="tw unit">
-                    <get-svg :svgid="106" width="12" />
-                  </div>
+                  <a
+                    :href="item.link"
+                    class="social_link"
+                    v-for="(item, index) in socialLinks"
+                    :key="index"
+                    target="_blank"
+                  >
+                    <div class="unit">
+                      <get-svg :svgid="item.icon" width="12" />
+                    </div>
+                  </a>
                 </div>
               </div>
             </div>
@@ -215,6 +217,38 @@ export default {
     profileFile() {
       if (this.lab.lab_file != null) {
         return `${process.env.storageBase}/${this.lab.lab_file}`;
+      }
+    },
+    socialLinks() {
+      if (this.lab.social_profiles != null) {
+        const socials = [];
+        for (const key in this.lab.social_profiles) {
+          if (Object.hasOwnProperty.call(this.lab.social_profiles, key)) {
+            const element = this.lab.social_profiles[key];
+            var icon;
+            switch (key) {
+              case "facebook":
+                icon = 17;
+                break;
+              case "twitter":
+                icon = 106;
+                break;
+              case "linked_in":
+                icon = 15;
+                break;
+              default:
+                icon = 17;
+                break;
+            }
+            socials.push({
+              icon: icon,
+              link: element
+            });
+          }
+        }
+        return socials;
+      } else {
+        return null;
       }
     }
   }

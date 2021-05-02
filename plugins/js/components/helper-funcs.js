@@ -37,7 +37,7 @@ export const elementObserver = (callback, options) => {
       }
     ).observe(options.element);
   }
-}
+};
 
 export const matchHeight = selector => {
   let objects = document.querySelectorAll(selector);
@@ -107,8 +107,8 @@ export const imgTosvg = options => {
       if (imgID != null) {
         svg.setAttribute("id", imgID);
       }
-      width != null ? svg.setAttribute("width", width) : null
-      height != null ? svg.setAttribute("height", height) : null
+      width != null ? svg.setAttribute("width", width) : null;
+      height != null ? svg.setAttribute("height", height) : null;
       svg.removeAttribute("xmlns:a");
       svg.setAttribute("class", imgClasses);
       img.parentNode.replaceChild(svg, img);
@@ -136,8 +136,17 @@ export const compareValues = (key, order = "asc") => {
     }
     return order === "desc" ? comparison * -1 : comparison;
   };
-}
+};
 
 export const sortArray = (arr, key, order) => {
   return [...arr].sort(compareValues(key, order));
-}
+};
+
+export const titleCase = str => {
+  var splitStr = str.toLowerCase().split(" ");
+  for (var i = 0; i < splitStr.length; i++) {
+    splitStr[i] =
+      splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+  }
+  return splitStr.join(" ");
+};

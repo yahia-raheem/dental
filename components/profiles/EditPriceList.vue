@@ -1,7 +1,7 @@
 <template>
   <div class="edit-box">
     <div class="header">
-      <h6 class="ttile">Price List</h6>
+      <h6 class="title">Price List</h6>
     </div>
     <div class="form-container">
       <form @submit.prevent="submit">
