@@ -25,7 +25,7 @@
                 <nuxt-link
                   :to="{
                     name: tags.routeName,
-                    query: { [tags.queryName]: spec.id }
+                    query: { [tags.queryName]: `${spec.id}` }
                   }"
                   class="tag btn"
                   v-for="(spec, key) in tags.tags"
