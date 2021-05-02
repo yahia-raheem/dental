@@ -173,11 +173,11 @@ export const actions = {
     );
     return data;
   },
-  async checkCaptcha(vcontext, token) {
-    const res = await $fetch(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.recaptchaSecret}&response=${token}`
-    );
-    return res;
+  async checkCaptcha(vcontext, data) {
+    return await fetch("/api/check-token", {
+      method: "POST",
+      body: JSON.stringify({...data, secret: process.env.recaptchaSecret}),
+    }).then((res) => res.json());
   },
   addImg(vcontext, options) {
     if (!vcontext.getters.image(options.id)) {

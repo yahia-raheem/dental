@@ -115,9 +115,7 @@
             type="submit"
             class="btn btn-primary submit-btn d-flex justify-content-center align-items-center"
           >
-            <span class="text">
-              Next
-            </span>
+            <span class="text"> Next </span>
             <div class="icon">
               <get-svg :svgid="108" width="15" />
             </div>
@@ -138,7 +136,7 @@ export default {
       email: null,
       phoneNumber: null,
       password: null,
-      confirmPassword: null
+      confirmPassword: null,
     };
   },
   async mounted() {
@@ -156,69 +154,85 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const token = await this.$recaptcha.execute("register");
-        const captchaRes = await this.$store.dispatch("general/checkCaptcha", token);
-        console.log(captchaRes);
-        // this.$axios
-        //   .$post(`${process.env.apiUrl}/api/register`, {
-        //     first_name: this.firstName,
-        //     last_name: this.lastName,
-        //     email: this.email,
-        //     phone_number: this.phoneNumber,
-        //     password: this.password,
-        //     password_confirmation: this.confirmPassword,
-        //     recaptcha: token
-        //   })
-        //   .then(result => {
-        //     this.$auth
-        //       .setUserToken(result.token, result.refresh_token)
-        //       .then(res => {
-        //         this.$emit("done");
-        //       });
-        //   })
-        //   .catch(err => {
-        //     if (400 < err.response.status < 500) {
-        //       for (const key in err.response.data.errors) {
-        //         if (Object.hasOwnProperty.call(err.response.data.errors, key)) {
-        //           const element = err.response.data.errors[key];
-        //           this.$vToastify.error({ body: element[0], title: key });
-        //         }
-        //       }
-        //     } else {
-        //       this.$vToastify.error({ body: "Sorry an unknown error occured" });
-        //     }
-        //   });
+        const data = { token };
+        const captchaRes = await this.$store.dispatch(
+          "general/checkCaptcha",
+          data
+        );
+        if (captchaRes.success == true) {
+          this.$axios
+            .$post(`${process.env.apiUrl}/api/register`, {
+              first_name: this.firstName,
+              last_name: this.lastName,
+              email: this.email,
+              phone_number: this.phoneNumber,
+              password: this.password,
+              password_confirmation: this.confirmPassword,
+              recaptcha: token,
+            })
+            .then((result) => {
+              this.$auth
+                .setUserToken(result.token, result.refresh_token)
+                .then((_) => {
+                  this.$emit("done");
+                  this.$router.go();
+                });
+            })
+            .catch((err) => {
+              if (400 < err.response.status < 500) {
+                for (const key in err.response.data.errors) {
+                  if (
+                    Object.hasOwnProperty.call(err.response.data.errors, key)
+                  ) {
+                    const element = err.response.data.errors[key];
+                    this.$vToastify.error({ body: element[0], title: key });
+                  }
+                }
+              } else {
+                this.$vToastify.error({
+                  body: "Sorry an unknown error occured",
+                });
+              }
+            });
+        } else {
+          this.$vToastify.error({
+            body:
+              "Sorry, this request faild the reCaptcha test. try again later",
+            title: "reCaptcha Error",
+          });
+        }
       }
-    }
+    },
   },
   validations: {
     firstName: {
-      required
+      required,
     },
     lastName: {
-      required
+      required,
     },
     email: {
       required,
-      email
+      email,
     },
     phoneNumber: {
-      required
+      required,
     },
     password: {
       required,
       minLength: minLength(6),
-      valid: function(value) {
+      valid: function (value) {
         const containsUppercase = /[A-Z]/.test(value);
         const containsLowercase = /[a-z]/.test(value);
         const containsNumber = /[0-9]/.test(value);
         return containsUppercase && containsLowercase && containsNumber;
-      }
+      },
     },
     confirmPassword: {
       required,
-      sameAs: sameAs("password")
-    }
-  }
+      sameAs: sameAs("password"),
+    },
+  },
 };
 </script>
 <style lang="scss"></style>

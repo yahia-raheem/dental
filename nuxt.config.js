@@ -72,11 +72,12 @@ export default {
 
   auth: {
     redirect: {
-      login: "/auth",
-      logout: "/",
-      callback: "/",
-      home: "/"
+      login: '/auth',
+      logout: '/',
+      callback: '/auth',
+      home: '/'
     },
+    plugins: ['~/plugins/auth.js'],
     strategies: {
       local: {
         scheme: "refresh",
@@ -121,6 +122,10 @@ export default {
     proxy: false
   },
 
+  serverMiddleware: [
+    { path: '/api/check-token', handler: '~/api/recaptcha' }
+  ],
+
   env: {
     baseUrl:
       process.env.BASE_URL || "https://projects.cloudmaize.com/dentalwp/",
@@ -134,9 +139,9 @@ export default {
 
   recaptcha: {
     // hideBadge: true,
-    siteKey: "6LcyXcMaAAAAAH6iSlD5Pw099dI1_otKC3QdN_9F",    
-    version: 3,     
-    size: 'compact'        
+    siteKey: "6LcyXcMaAAAAAH6iSlD5Pw099dI1_otKC3QdN_9F",
+    version: 3,
+    size: 'compact'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
