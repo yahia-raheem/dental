@@ -35,5 +35,12 @@ export const actions = {
       data.data
     );
     return res;
+  },
+  async sendRequest(vcontext, request) {
+    const { data } = await this.$axios.post(
+      `${process.env.apiUrl}/api/mail/lab-request`,
+      request
+    );
+    return data;
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <section class="lab-request page internal">
-    <div class="container-fluid">
+    <div class="container-fluid" v-if="verified">
       <div class="row">
         <div class="col-12">
           <form @submit.prevent="submit">
@@ -43,6 +43,7 @@
                   <date-picker
                     v-model="date"
                     placeholder="dd/mm/yy"
+                    :value-type="'timestamp'"
                     format="DD/MM/YY"
                   ></date-picker>
                 </div>
@@ -242,7 +243,7 @@
                   <v-select
                     id="gender"
                     v-model.trim="req.restoration"
-                    :options="['1', '2']"
+                    :options="parameters.restoration"
                     placeholder="Select"
                   ></v-select>
                 </div>
@@ -251,7 +252,7 @@
                   <v-select
                     id="material"
                     v-model.trim="req.material"
-                    :options="['1', '2']"
+                    :options="parameters.material"
                     placeholder="Select"
                   ></v-select>
                 </div>
@@ -270,7 +271,7 @@
                   <v-select
                     id="design"
                     v-model.trim="req.design"
-                    :options="['1', '2']"
+                    :options="parameters.design"
                     placeholder="Select"
                   ></v-select>
                 </div>
@@ -279,7 +280,7 @@
                   <v-select
                     id="implants"
                     v-model.trim="req.implants"
-                    :options="['1', '2']"
+                    :options="parameters.implants"
                     placeholder="Select"
                   ></v-select>
                 </div>
@@ -288,7 +289,7 @@
                   <v-select
                     id="smile"
                     v-model.trim="req.smileDesign"
-                    :options="['1', '2']"
+                    :options="parameters.smile_design"
                     placeholder="Select"
                   ></v-select>
                 </div>
@@ -313,8 +314,27 @@
                   />
                 </div>
               </div>
+              <div class="form-row">
+                <div class="cta-container">
+                  <button
+                    type="submit"
+                    class="btn btn-primary submit-btn d-flex justify-content-center align-items-center"
+                  >
+                    <span class="text"> Submit </span>
+                  </button>
+                </div>
+              </div>
             </div>
           </form>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" v-if="!verified">
+      <div class="row">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+          <p class="text-center">
+            you need to have a verified doctor's profile to send a request.
+          </p>
         </div>
       </div>
     </div>
@@ -323,25 +343,29 @@
 <script>
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
+import 'vue2-datepicker/locale/en';
 import TechnicalRequest from "~/models/technicalRequest";
+import { mapGetters } from "vuex";
 
 export default {
   components: { DatePicker },
+  middleware: "auth",
   data() {
     return {
       selected: 0,
-      patientName: "",
-      gender: "",
-      age: "",
-      date: "",
-      details: "",
-      di: "",
-      photos: "",
-      diacom: "",
-      video: "",
+      patientName: null,
+      gender: null,
+      age: null,
+      date: null,
+      details: null,
+      di: null,
+      photos: null,
+      diacom: null,
+      video: null,
       technicalRequests: [new TechnicalRequest()],
       tapddOptions: [{ label: "Group 1", value: 0 }],
-      tapddSelected: { label: "Group 1", value: 0 }
+      tapddSelected: { label: "Group 1", value: 0 },
+      verified: true
     };
   },
   validations: {
@@ -407,8 +431,49 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    if (
+      this.$auth.user.doctor_profile == null ||
+      this.$auth.user.doctor_profile.status == 0
+    ) {
+      this.verified = false;
+    }
+  },
+  computed: {
+    ...mapGetters({
+      parameters: "parameters/parameters"
+    })
+  },
   methods: {
+    async submit() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        const data = {
+          patient_name: this.patientName,
+          gender: this.gender,
+          age: this.age,
+          date: this.convertTZ(this.date),
+          details: this.details
+        };
+        try {
+          await this.$store.dispatch("labs/sendRequest", data);
+          this.resetForm();
+        } catch (error) {
+          console.log(error.response);
+        }
+      }
+    },
+    resetForm() {
+      this.patientName = null;
+      this.gender = null;
+      this.age = null;
+      this.date = null;
+      this.details = null;
+      this.$v.$reset();
+    },
+    convertTZ(date) {
+      return date - new Date(date).getTimezoneOffset() * 60 * 1000
+    },
     addTab() {
       this.technicalRequests.push(new TechnicalRequest());
       this.selected = this.technicalRequests.length - 1;
@@ -502,8 +567,7 @@ export default {
         this.$refs.video.querySelector("label").innerHTML = "select";
         this.$refs.video.classList.remove("dirty");
       }
-    },
-    submit() {}
+    }
   }
 };
 </script>
@@ -558,7 +622,7 @@ export default {
   .mobile-delete-btn {
     color: #d83436;
     border: 1px solid #d83436;
-    @include h.appDirAuto($margin-start: 20px)
+    @include h.appDirAuto($margin-start: 20px);
   }
 }
 .nav-btns {
