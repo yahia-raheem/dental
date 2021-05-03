@@ -231,7 +231,7 @@
                     type="text"
                     class="form-control"
                     id="Teeth"
-                    v-model.trim="req.teeth"
+                    v-model.trim="req.tooth_number"
                     placeholder="Enter Numbers"
                   />
                   <small id="locHelp" class="form-text text-muted"
@@ -288,7 +288,7 @@
                   <label for="smile">Smile Design</label>
                   <v-select
                     id="smile"
-                    v-model.trim="req.smileDesign"
+                    v-model.trim="req.smile_design"
                     :options="parameters.smile_design"
                     placeholder="Select"
                   ></v-select>
@@ -299,7 +299,7 @@
                     type="text"
                     class="form-control"
                     id="nextStep"
-                    v-model.trim="req.nextStep"
+                    v-model.trim="req.next_step"
                     placeholder="Enter Text"
                   />
                 </div>
@@ -314,8 +314,27 @@
                   />
                 </div>
               </div>
+            </div>
+            <div class="request-submit">
               <div class="form-row">
-                <div class="cta-container">
+                <div
+                  class="col-lg-6 col-md-12 d-flex justify-content-start align-items-center"
+                >
+                  <div class="form-group form-check">
+                    <input
+                      type="checkbox"
+                      v-model="sendAgent"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    <label class="form-check-label" for="exampleCheck1"
+                      >Send Agent</label
+                    >
+                  </div>
+                </div>
+                <div
+                  class="col-lg-6 col-md-12 d-flex justify-content-end align-items-center"
+                >
                   <button
                     type="submit"
                     class="btn btn-primary submit-btn d-flex justify-content-center align-items-center"
@@ -343,7 +362,7 @@
 <script>
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
-import 'vue2-datepicker/locale/en';
+import "vue2-datepicker/locale/en";
 import TechnicalRequest from "~/models/technicalRequest";
 import { mapGetters } from "vuex";
 
@@ -365,7 +384,8 @@ export default {
       technicalRequests: [new TechnicalRequest()],
       tapddOptions: [{ label: "Group 1", value: 0 }],
       tapddSelected: { label: "Group 1", value: 0 },
-      verified: true
+      verified: true,
+      sendAgent: false
     };
   },
   validations: {
@@ -453,10 +473,38 @@ export default {
           gender: this.gender,
           age: this.age,
           date: this.convertTZ(this.date),
-          details: this.details
+          details: this.details,
+          impression: this.di,
+          diacom: this.diacom,
+          video: this.video,
+          agent: this.agent == false ? 0 : 1
         };
+        console.log(this.sendAgent);
+        const formData = new FormData();
+        for (const key in data) {
+          if (Object.hasOwnProperty.call(data, key)) {
+            const element = data[key];
+            if (element != null) {
+              formData.append(key, element);
+            }
+          }
+        }
+        if (this.photos != null) {
+          this.photos.forEach((photo, index) => {
+            formData.append(`photos[${index}]`, photo);
+          });
+        }
+        this.technicalRequests.forEach((tech, index) => {
+          const techJson = tech.toJSON();
+          for (const key in techJson) {
+            if (Object.hasOwnProperty.call(techJson, key)) {
+              const element = techJson[key];
+              formData.append(`teeth[${index}][${key}]`, element);
+            }
+          }
+        });
         try {
-          await this.$store.dispatch("labs/sendRequest", data);
+          await this.$store.dispatch("labs/sendRequest", formData);
           this.resetForm();
         } catch (error) {
           console.log(error.response);
@@ -469,10 +517,14 @@ export default {
       this.age = null;
       this.date = null;
       this.details = null;
+      this.diacom = null;
+      this.video = null;
+      this.agent = false;
+      // this.technicalRequests = [new TechnicalRequest()];
       this.$v.$reset();
     },
     convertTZ(date) {
-      return date - new Date(date).getTimezoneOffset() * 60 * 1000
+      return date - new Date(date).getTimezoneOffset() * 60 * 1000;
     },
     addTab() {
       this.technicalRequests.push(new TechnicalRequest());
@@ -575,6 +627,24 @@ export default {
 @use "~/assets/scss/helpers" as h with(
   $dir: $dir
 );
+.request-submit {
+  max-width: 830px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 30px;
+  padding: 20px 40px;
+  background-color: #f0f5fa;
+  border: 1px solid #e4eff8;
+  border-radius: 5px;
+  .btn {
+    width: 160px;
+    height: 45px;
+  }
+}
+.form-group.form-check {
+  margin-bottom: 0;
+}
+
 .form-container {
   margin-left: auto;
   margin-right: auto;

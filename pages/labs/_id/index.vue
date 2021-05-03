@@ -1,6 +1,10 @@
 <template>
   <section class="lab-profile page internal">
     <div class="profile-header">
+      <div class="notice" v-if="lab.status != 1">
+        Your Lab has not been verified yet!..please wait for us to review your
+        lab
+      </div>
       <get-img-by-link
         :imglink="profileCover"
         classes="bg-image"
@@ -258,6 +262,18 @@ export default {
 @use "~/assets/scss/helpers" as h with(
   $dir: $dir
 );
+.notice {
+  background-color: red;
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 8px;
+  font-weight: 600;
+}
 .locations {
   background-color: white;
   padding: 20px;

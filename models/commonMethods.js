@@ -22,7 +22,6 @@ export default class CommonMethods {
                 if (!!jsoned[key] || key === "constructor" || key === "toJSON")
                     return;
                 if (typeof inherited[key] === "function") {
-                    jsoned[key] = inherited[key].bind(jsoned);
                     return;
                 }
                 jsoned[key] = inherited[key];
