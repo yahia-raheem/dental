@@ -505,23 +505,12 @@ export default {
         });
         try {
           await this.$store.dispatch("labs/sendRequest", formData);
-          this.resetForm();
+          this.$vToastify.success({ body: 'your request has been sent', title: 'success' });
+          this.$router.go(-1)
         } catch (error) {
-          console.log(error.response);
+          this.$vToastify.success({ body: 'something went wrong, please try again later', title: 'error' });
         }
       }
-    },
-    resetForm() {
-      this.patientName = null;
-      this.gender = null;
-      this.age = null;
-      this.date = null;
-      this.details = null;
-      this.diacom = null;
-      this.video = null;
-      this.agent = false;
-      // this.technicalRequests = [new TechnicalRequest()];
-      this.$v.$reset();
     },
     convertTZ(date) {
       return date - new Date(date).getTimezoneOffset() * 60 * 1000;
