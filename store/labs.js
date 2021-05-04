@@ -42,5 +42,13 @@ export const actions = {
       request
     );
     return data;
+  },
+  async uploadPortImage(vcontext, reqData) {
+    const { data } = await this.$axios.post(`${process.env.apiUrl}/api/lab/${reqData.labId}/edit/portfolio/upload`, reqData.data);
+    return data
+  },
+  async portfolioAction(vcontext, reqData) {
+    const { data } = await this.$axios.post(`${process.env.apiUrl}/api/lab/${reqData.labId}/edit/portfolio`, reqData.data);
+    return data
   }
 };

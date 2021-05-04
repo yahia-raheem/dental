@@ -46,28 +46,59 @@ export default {
   data() {
     return {
       albumName: null,
-      albumCover: null
+      albumCover: null,
     };
   },
   computed: {
     form() {
       return new FormData();
-    }
+    },
   },
   methods: {
     coverChange(e) {
       this.changeImage(e.target.files[0].name);
-      this.form.append("cover", e.target.files[0]);
+      this.albumCover = e.target.files[0];
     },
     changeImage(name) {
       this.$refs.cover.querySelector("label").innerHTML = name;
       this.$refs.cover.classList.add("dirty");
     },
-    submit() {
+    async submit() {
       this.form.append("title", this.albumName);
       this.form.append("action", "create");
-    }
-  }
+      const formData = new FormData();
+      formData.append("image", this.albumCover);
+      try {
+        const { path } = await this.$store.dispatch("labs/uploadPortImage", {
+          labId: this.$route.params.id,
+          data: formData,
+        });
+        this.form.append("cover", path);
+        const { portfolio } = await this.$store.dispatch(
+          "labs/portfolioAction",
+          {
+            labId: this.$route.params.id,
+            data: this.form,
+          }
+        );
+        this.$emit("syncPortfolio", portfolio);
+      } catch (error) {
+        if (error.response.status < 500) {
+          for (const key in error.response.data.errors) {
+            if (Object.hasOwnProperty.call(error.response.data.errors, key)) {
+              const element = error.response.data.errors[key];
+              this.$vToastify.error({ body: element[0], title: key });
+            }
+          }
+        } else {
+          this.$vToastify.error({
+            body: "something went wrong, please try again later",
+            title: "error",
+          });
+        }
+      }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
