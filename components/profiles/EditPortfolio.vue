@@ -49,8 +49,24 @@ export default {
       albumCover: null
     };
   },
+  computed: {
+    form() {
+      return new FormData();
+    }
+  },
   methods: {
-    coverChange() {}
+    coverChange(e) {
+      this.changeImage(e.target.files[0].name);
+      this.form.append("cover", e.target.files[0]);
+    },
+    changeImage(name) {
+      this.$refs.cover.querySelector("label").innerHTML = name;
+      this.$refs.cover.classList.add("dirty");
+    },
+    submit() {
+      this.form.append("title", this.albumName);
+      this.form.append("action", "create");
+    }
   }
 };
 </script>
