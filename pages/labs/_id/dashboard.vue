@@ -4,13 +4,13 @@
       <div class="row">
         <div class="col-lg-3 col-md-12">
           <div class="sidebar-container">
-              <dash-side-nav
-                :list="list"
-                :settings="{
-                  title: 'Edit Profile',
-                  link: `/labs/${$route.params.id}/dashboard/edit`
-                }"
-              />
+            <dash-side-nav
+              :list="list"
+              :settings="{
+                title: 'Settings',
+                link: `/labs/${$route.params.id}/dashboard/edit`
+              }"
+            />
           </div>
         </div>
         <div class="col-lg-9 col-md-12">
@@ -25,6 +25,9 @@ import DashSideNav from "~/components/profiles/DashSideNav.vue";
 
 export default {
   components: { DashSideNav },
+  async fetch(context) {
+    context.store.dispatch("pages/setTitle", "Dashboard");
+  },
   data() {
     return {
       list: []

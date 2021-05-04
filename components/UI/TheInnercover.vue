@@ -3,7 +3,7 @@
     <div class="container-fluid h-100">
       <div class="row h-100">
         <div class="col-12 d-flex justify-content-start align-items-center">
-          <h1 class="innercover-title">{{ title }}</h1>
+          <h1 class="innercover-title">{{ pageTitle }}</h1>
         </div>
       </div>
     </div>
@@ -14,11 +14,9 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     ...mapGetters({
-      currPage: "pages/currentPage"
-    }),
-    title() {
-      return this.currPage != null ? this.currPage.title : 'Dental';
-    }
+      currPage: "pages/currentPage",
+      pageTitle: "pages/currPageTitle"
+    })
   }
 };
 </script>

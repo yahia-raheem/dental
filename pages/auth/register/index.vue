@@ -34,6 +34,9 @@ import StepTwo from "~/components/registeration/StepTwo.vue";
 
 export default {
   components: { StepOne, StepTwo, RegisterSuccess },
+  async fetch(context) {
+    context.store.dispatch("pages/setTitle", "Sign Up");
+  },
   created() {
     if (this.$auth.loggedIn) {
       this.status = "profile";

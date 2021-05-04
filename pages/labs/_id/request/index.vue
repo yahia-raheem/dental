@@ -459,6 +459,9 @@ export default {
       this.verified = false;
     }
   },
+  async fetch(context) {
+    context.store.dispatch("pages/setTitle", "Request");
+  },
   computed: {
     ...mapGetters({
       parameters: "parameters/parameters"
@@ -505,10 +508,16 @@ export default {
         });
         try {
           await this.$store.dispatch("labs/sendRequest", formData);
-          this.$vToastify.success({ body: 'your request has been sent', title: 'success' });
-          this.$router.go(-1)
+          this.$vToastify.success({
+            body: "your request has been sent",
+            title: "success"
+          });
+          this.$router.go(-1);
         } catch (error) {
-          this.$vToastify.success({ body: 'something went wrong, please try again later', title: 'error' });
+          this.$vToastify.success({
+            body: "something went wrong, please try again later",
+            title: "error"
+          });
         }
       }
     },

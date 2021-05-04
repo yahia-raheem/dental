@@ -2,7 +2,8 @@ import axios from "axios";
 import Page from "~/models/page";
 export const state = () => ({
   pages: [],
-  currPage: null
+  currPage: null,
+  pageTitle: "Dental Cloud"
 });
 
 export const getters = {
@@ -14,6 +15,9 @@ export const getters = {
   },
   currentPage: state => {
     return state.currPage;
+  },
+  currPageTitle: state => {
+    return state.pageTitle;
   }
 };
 
@@ -23,6 +27,9 @@ export const mutations = {
   },
   SET_CURRENT(state, page) {
     state.currPage = page;
+  },
+  SET_TITLE(state, title) {
+    state.pageTitle = title;
   }
 };
 
@@ -47,6 +54,10 @@ export const actions = {
   async setCurrentPage(vcontext, pageId) {
     const page = await vcontext.dispatch("getPage", pageId);
     vcontext.commit("SET_CURRENT", page);
+    vcontext.commit("SET_TITLE", page.title);
     return page;
+  },
+  setTitle(vcontext, title) {
+    vcontext.commit("SET_TITLE", title);
   }
 };

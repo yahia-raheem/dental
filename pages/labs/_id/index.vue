@@ -186,6 +186,7 @@ export default {
       "labs/getLabById",
       context.params.id
     );
+    context.store.dispatch("pages/setTitle", labData.name);
     return {
       lab: labData,
       user: context.$auth.user,

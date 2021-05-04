@@ -22,6 +22,9 @@ import GeneralSettings from "~/components/my-account/GeneralSettings.vue";
 export default {
   components: { GeneralSettings, AuthorizationSettings },
   middleware: ['auth'],
+  async fetch(context) {
+    context.store.dispatch("pages/setTitle", "Account Settings");
+  },
 };
 </script>
 <style lang="scss" scoped>

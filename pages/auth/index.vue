@@ -78,6 +78,9 @@ export default {
       password: null
     };
   },
+  async fetch(context) {
+    context.store.dispatch("pages/setTitle", "Log In");
+  },
   methods: {
     submit() {
       this.$v.$touch();

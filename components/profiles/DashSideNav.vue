@@ -17,6 +17,16 @@
         <div class="title">{{ settings.title }}</div>
       </nuxt-link>
     </li>
+    <li class="list-item sub-item">
+      <nuxt-link :to="`${settings.link}`">
+        <div class="title">- Edit Profile</div>
+      </nuxt-link>
+    </li>
+    <li class="list-item sub-item">
+      <nuxt-link :to="`${settings.link}/portfolio`">
+        <div class="title">- Portfolio</div>
+      </nuxt-link>
+    </li>
   </ul>
 </template>
 <script>
@@ -36,7 +46,7 @@ export default {
       },
       required: false
     }
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -53,14 +63,18 @@ export default {
       align-items: center;
       color: #797ebd;
       padding: 7px 10px;
-      &.nuxt-link-exact-active {
-        background-color: #f2f3fe;
-      }
     }
     .icon::v-deep {
       @include h.appDirAuto($margin-end: 15px);
       svg path {
         fill: #797ebd;
+      }
+    }
+    &:not(.sub-item) {
+      a {
+        &.nuxt-link-active {
+          background-color: #f2f3fe;
+        }
       }
     }
   }
