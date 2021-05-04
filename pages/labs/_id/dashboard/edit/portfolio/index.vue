@@ -3,6 +3,8 @@
     <div class="col-12">
       <h6 class="sub-title">Portfolio</h6>
       <edit-portfolio />
+      <h6 class="sub-title">current Albums</h6>
+      
     </div>
   </div>
 </template>

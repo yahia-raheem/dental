@@ -64,7 +64,7 @@ import SidebarFilter from "~/components/UI/SidebarFilter.vue";
 
 export default {
   async asyncData(context) {
-    context.store.dispatch("pages/setTitle", 'Labs');
+    context.store.dispatch("pages/setTitle", "Labs");
     var params = {
       specialties:
         typeof context.query.specialities != "undefined"

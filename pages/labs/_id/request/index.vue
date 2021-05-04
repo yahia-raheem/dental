@@ -514,10 +514,19 @@ export default {
           });
           this.$router.go(-1);
         } catch (error) {
-          this.$vToastify.success({
-            body: "something went wrong, please try again later",
-            title: "error"
-          });
+          if (error.response.status < 500) {
+            for (const key in error.response.data.errors) {
+              if (Object.hasOwnProperty.call(error.response.data.errors, key)) {
+                const element = error.response.data.errors[key];
+                this.$vToastify.error({ body: element[0], title: key });
+              }
+            }
+          } else {
+            this.$vToastify.error({
+              body: "something went wrong, please try again later",
+              title: "error"
+            });
+          }
         }
       }
     },
