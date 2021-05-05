@@ -120,19 +120,37 @@ export default {
       return new FormData();
     }
   },
+  mounted() {
+    console.log(this.lab);
+  },
   methods: {
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        this.spec.forEach(element => {
-          this.form.append("specialties[]", element);
-        });
-        this.location.forEach(element => {
-          this.form.append("locations[]", element);
-        });
-        this.aos.forEach(element => {
-          this.form.append("areas[]", element);
-        });
+        if (this.spec != null) {
+          this.spec.forEach(element => {
+            this.form.append(
+              `specialties[]`,
+              typeof element == "object" ? element.id : element
+            );
+          });
+        }
+        if (this.location != null) {
+          this.location.forEach(element => {
+            this.form.append(
+              `locations[]`,
+              typeof element == "object" ? element.id : element
+            );
+          });
+        }
+        if (this.aos != null) {
+          this.aos.forEach(element => {
+            this.form.append(
+              `areas[]`,
+              typeof element == "object" ? element.id : element
+            );
+          });
+        }
         const data = { labId: this.lab.id, data: this.form };
         this.$store
           .dispatch("labs/updateLab", data)

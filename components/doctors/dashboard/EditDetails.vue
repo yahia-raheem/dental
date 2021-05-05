@@ -25,6 +25,24 @@
         </div>
         <div class="form-row">
           <div class="form-group col-12">
+            <label for="spec" class="form-label">Locations</label>
+            <v-select
+              id="spec"
+              v-model.trim="location"
+              :options="docLoc"
+              :class="{ 'is-invalid': $v.location.$error }"
+              :reduce="option => option.id"
+              label="name"
+              placeholder="Locations"
+              :multiple="true"
+            ></v-select>
+            <div class="invalid-feedback" v-if="!$v.location.required">
+              This field is Required
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-12">
             <label for="spec" class="form-label">Availabitiy</label>
             <v-select
               id="spec"
@@ -66,17 +84,22 @@ export default {
     return {
       spec: this.doctor.specialties,
       degree: this.doctor.degree,
-      availability: this.doctor.availability
+      availability: this.doctor.availability,
+      location: this.doctor.locations
     };
   },
   validations: {
     spec: {
+      required
+    },
+    location: {
       required
     }
   },
   computed: {
     ...mapGetters({
       docSpec: "parameters/docSpec",
+      docLoc: "parameters/docLoc",
       parameters: "parameters/parameters"
     }),
     form() {
@@ -87,12 +110,30 @@ export default {
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        this.spec.forEach(element => {
-          this.form.append("specialties[]", element);
-        });
-        this.availability.forEach(el => {
-          this.form.append("availability[]", el);
-        });
+        if (this.spec != null) {
+          this.spec.forEach(element => {
+            this.form.append(
+              "specialties[]",
+              typeof element == "object" ? element.id : element
+            );
+          });
+        }
+        if (this.availability != null) {
+          this.availability.forEach(element => {
+            this.form.append(
+              "availability[]",
+              typeof element == "object" ? element.id : element
+            );
+          });
+        }
+        if (this.location != null) {
+          this.location.forEach(element => {
+            this.form.append(
+              "locations[]",
+              typeof element == "object" ? element.id : element
+            );
+          });
+        }
         const data = { docId: this.doctor.id, data: this.form };
         this.$store
           .dispatch("doctors/updateDoc", data)
