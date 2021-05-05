@@ -2,9 +2,18 @@
   <div
     :class="{ 'nav-container': true, 'home-header': $route.fullPath == '/' }"
   >
-    <div class="notice" v-if="docProfStatus == false">
-      Please verify your profile as soon as possible to fully enjoy our
-      platform's services
+    <div
+      :class="{ notice: true, pending: docProfStatus == 'pending' }"
+      v-if="docProfStatus != null && docProfStatus != true"
+    >
+      <p v-if="docProfStatus == 'pending'">
+        you've uploaded your identification id. we will check it and get back to
+        you as soon as possible
+      </p>
+      <p v-if="docProfStatus != 'pending'">
+        Please verify your profile as soon as possible to fully enjoy our
+        platform's services
+      </p>
     </div>
     <div class="white-gradient" v-if="$route.fullPath == '/'">
       <get-img :imgid="navBgGradient" />
@@ -120,7 +129,13 @@ export default {
     }),
     docProfStatus() {
       if (this.isLoggedIn && this.$auth.user.doctor_profile != null) {
-        return this.$auth.user.doctor_profile.status == 1 ? true : false;
+        if (this.$auth.user.doctor_profile.status != 1) {
+          if (this.$auth.user.doctor_profile.identification != null) {
+            return "pending";
+          }
+          return false;
+        }
+        return true;
       } else {
         return null;
       }
@@ -215,6 +230,9 @@ export default {
     color: white;
     padding: 8px;
     font-weight: 600;
+    &.pending {
+      background-color: h.$secondary;
+    }
   }
   .social {
     padding: 0;

@@ -4,7 +4,8 @@ export const state = () => ({
   docSpec: [],
   labSpec: [],
   labLoc: [],
-  labAos: []
+  labAos: [],
+  docLoc: []
 });
 
 export const getters = {
@@ -13,6 +14,9 @@ export const getters = {
   },
   docSpec: state => {
     return state.docSpec;
+  },
+  docLoc: state => {
+    return state.docLoc;
   },
   labSpec: state => {
     return state.labSpec;
@@ -40,6 +44,9 @@ export const mutations = {
   },
   SET_LABAOS(state, labAos) {
     state.labAos = labAos;
+  },
+  SET_DOCLOC(state, docLoc) {
+    state.docLoc = docLoc;
   }
 };
 
@@ -49,10 +56,12 @@ export const actions = {
       const { data } = await axios.get(`${process.env.apiUrl}/api/categories`);
       const docData = data.doctors;
       const labData = data.labs;
+      const locations = data.locations;
       vcontext.commit("SET_DOCSPEC", docData.specialties);
       vcontext.commit("SET_LABSPEC", labData.specialties);
-      vcontext.commit("SET_LABLOC", labData.locations);
-      vcontext.commit("SET_LABAOS", labData.areas);
+      vcontext.commit("SET_LABLOC", locations);
+      vcontext.commit("SET_LABAOS", locations);
+      vcontext.commit("SET_DOCLOC", locations);
       const res = await axios.get(`${process.env.apiUrl}/api/parameters`);
       vcontext.commit("SET_PARAMETERS", res.data);
     } catch (error) {

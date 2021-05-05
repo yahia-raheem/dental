@@ -54,13 +54,29 @@
           id="speciality"
           v-model.trim="dentist.speciality"
           :options="docSpecs"
-          :reduce="(option) => option.id"
+          :reduce="option => option.id"
           label="name"
           :class="{ 'is-invalid': $v.dentist.speciality.$error }"
           placeholder="Speciality"
           multiple
         ></v-select>
         <div class="invalid-feedback" v-if="!$v.dentist.speciality.required">
+          This field is Required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="speciality">Location</label>
+        <v-select
+          id="speciality"
+          v-model.trim="dentist.location"
+          :options="docLoc"
+          :reduce="option => option.id"
+          label="name"
+          :class="{ 'is-invalid': $v.dentist.location.$error }"
+          placeholder="Location"
+          multiple
+        ></v-select>
+        <div class="invalid-feedback" v-if="!$v.dentist.location.required">
           This field is Required
         </div>
       </div>
@@ -99,7 +115,7 @@
           id="labSpec"
           v-model.trim="lab.spec"
           :options="labSpec"
-          :reduce="(option) => option.id"
+          :reduce="option => option.id"
           label="name"
           :class="{ 'is-invalid': $v.lab.spec.$error }"
           placeholder="Speciality"
@@ -115,7 +131,7 @@
           id="location"
           v-model.trim="lab.location"
           :options="labLoc"
-          :reduce="(option) => option.id"
+          :reduce="option => option.id"
           label="name"
           :class="{ 'is-invalid': $v.lab.location.$error }"
           placeholder="Location"
@@ -131,7 +147,7 @@
           id="location"
           v-model.trim="lab.aos"
           :options="labAos"
-          :reduce="(option) => option.id"
+          :reduce="option => option.id"
           label="name"
           :class="{ 'is-invalid': $v.lab.aos.$error }"
           placeholder="Area of Service"
@@ -161,15 +177,16 @@ export default {
       dentist: {
         degree: null,
         speciality: null,
-        name: null,
+        location: null,
+        name: null
       },
       lab: {
         name: null,
         spec: null,
         location: null,
-        aos: null,
+        aos: null
       },
-      type: "dentist",
+      type: "dentist"
     };
   },
   mounted() {
@@ -179,10 +196,11 @@ export default {
     ...mapGetters({
       parameters: "parameters/parameters",
       docSpecs: "parameters/docSpec",
+      docLoc: "parameters/docLoc",
       labSpec: "parameters/labSpec",
       labLoc: "parameters/labLoc",
-      labAos: "parameters/labAos",
-    }),
+      labAos: "parameters/labAos"
+    })
   },
   methods: {
     async submitDentist() {
@@ -194,6 +212,7 @@ export default {
               profile_name: this.dentist.name,
               degree: this.dentist.degree,
               specialties: this.dentist.speciality,
+              locations: this.dentist.location
             };
             await this.$axios.$post(
               `${process.env.apiUrl}/api/doctor/add`,
@@ -223,21 +242,21 @@ export default {
             profile_name: this.lab.name,
             areas: this.lab.aos,
             locations: this.lab.location,
-            specialties: this.lab.spec,
+            specialties: this.lab.spec
           };
           this.$axios
             .$post(`${process.env.apiUrl}/api/lab/add`, formBody)
-            .then((res) => {
+            .then(res => {
               this.$emit("done");
             })
-            .catch((err) => {
+            .catch(err => {
               if (400 < err.response.status < 500) {
-                err.response.data.errors.forEach((error) => {
+                err.response.data.errors.forEach(error => {
                   this.$vToastify.error({ body: error });
                 });
               } else {
                 this.$vToastify.error({
-                  body: "Sorry an unknown error occured",
+                  body: "Sorry an unknown error occured"
                 });
               }
             });
@@ -259,35 +278,38 @@ export default {
         default:
           break;
       }
-    },
+    }
   },
   validations: {
     dentist: {
       degree: {
-        required,
+        required
       },
       speciality: {
-        required,
+        required
       },
       name: {
-        required,
+        required
       },
+      location: {
+        required
+      }
     },
     lab: {
       name: {
-        required,
+        required
       },
       spec: {
-        required,
+        required
       },
       location: {
-        required,
+        required
       },
       aos: {
-        required,
-      },
-    },
-  },
+        required
+      }
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

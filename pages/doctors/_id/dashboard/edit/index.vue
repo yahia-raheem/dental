@@ -5,6 +5,7 @@
       <edit-general :doctor="doctor" />
       <edit-details :doctor="doctor" />
       <edit-qualifications :doctor="doctor" />
+      <edit-verification :doctor="doctor" />
     </div>
   </div>
 </template>
@@ -12,9 +13,15 @@
 import EditDetails from "~/components/doctors/dashboard/EditDetails.vue";
 import EditGeneral from "~/components/doctors/dashboard/EditGeneral.vue";
 import EditQualifications from "~/components/doctors/dashboard/EditQualifications.vue";
+import EditVerification from "~/components/doctors/dashboard/EditVerification.vue";
 
 export default {
-  components: { EditGeneral, EditDetails, EditQualifications },
+  components: {
+    EditGeneral,
+    EditDetails,
+    EditQualifications,
+    EditVerification
+  },
   async asyncData(context) {
     const doctor = await context.store.dispatch(
       "doctors/getDocById",
