@@ -17,7 +17,7 @@
         <div class="title">{{ settings.title }}</div>
       </nuxt-link>
     </li>
-    <li class="list-item sub-item">
+    <!-- <li class="list-item sub-item">
       <nuxt-link :to="`${settings.link}`">
         <div class="title">- Edit Profile</div>
       </nuxt-link>
@@ -26,7 +26,7 @@
       <nuxt-link :to="`${settings.link}/portfolio`">
         <div class="title">- Portfolio</div>
       </nuxt-link>
-    </li>
+    </li> -->
   </ul>
 </template>
 <script>

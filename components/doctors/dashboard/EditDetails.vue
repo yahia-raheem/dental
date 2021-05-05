@@ -11,7 +11,7 @@
             <v-select
               id="spec"
               v-model.trim="spec"
-              :options="labSpec"
+              :options="docSpec"
               :class="{ 'is-invalid': $v.spec.$error }"
               :reduce="option => option.id"
               label="name"
@@ -25,44 +25,14 @@
         </div>
         <div class="form-row">
           <div class="form-group col-12">
-            <label for="loc" class="form-label">Locations</label>
+            <label for="spec" class="form-label">Availabitiy</label>
             <v-select
-              id="loc"
-              v-model.trim="location"
-              :options="labLoc"
-              :reduce="option => option.id"
-              label="name"
-              :class="{ 'is-invalid': $v.location.$error }"
-              placeholder="Locations"
+              id="spec"
+              v-model.trim="availability"
+              :options="parameters.availability"
+              placeholder="Availability"
               :multiple="true"
             ></v-select>
-            <div class="invalid-feedback" v-if="!$v.location.required">
-              This field is Required
-            </div>
-            <small id="locHelp" class="form-text text-muted"
-              >Locations where the lab branches exist</small
-            >
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-12">
-            <label for="aos" class="form-label">Areas of Service</label>
-            <v-select
-              id="aos"
-              v-model.trim="aos"
-              :options="labAos"
-              :reduce="option => option.id"
-              label="name"
-              :class="{ 'is-invalid': $v.aos.$error }"
-              placeholder="Areas of Service"
-              :multiple="true"
-            ></v-select>
-            <div class="invalid-feedback" v-if="!$v.aos.required">
-              This field is Required
-            </div>
-            <small id="locHelp" class="form-text text-muted"
-              >Locations where your lab is able to provide it's services</small
-            >
           </div>
         </div>
         <div class="form-row">
@@ -85,7 +55,7 @@ import { mapGetters } from "vuex";
 import { required } from "vuelidate/lib/validators";
 export default {
   props: {
-    lab: {
+    doctor: {
       type: Object,
       default() {
         return {};
@@ -94,27 +64,20 @@ export default {
   },
   data() {
     return {
-      spec: this.lab.specialties,
-      location: this.lab.locations,
-      aos: this.lab.areas
+      spec: this.doctor.specialties,
+      degree: this.doctor.degree,
+      availability: this.doctor.availability
     };
   },
   validations: {
     spec: {
       required
-    },
-    location: {
-      required
-    },
-    aos: {
-      required
     }
   },
   computed: {
     ...mapGetters({
-      labSpec: "parameters/labSpec",
-      labLoc: "parameters/labLoc",
-      labAos: "parameters/labAos"
+      docSpec: "parameters/docSpec",
+      parameters: "parameters/parameters"
     }),
     form() {
       return new FormData();
@@ -127,15 +90,12 @@ export default {
         this.spec.forEach(element => {
           this.form.append("specialties[]", element);
         });
-        this.location.forEach(element => {
-          this.form.append("locations[]", element);
+        this.availability.forEach(el => {
+          this.form.append("availability[]", el);
         });
-        this.aos.forEach(element => {
-          this.form.append("areas[]", element);
-        });
-        const data = { labId: this.lab.id, data: this.form };
+        const data = { docId: this.doctor.id, data: this.form };
         this.$store
-          .dispatch("labs/updateLab", data)
+          .dispatch("doctors/updateDoc", data)
           .then(result => {
             this.$vToastify.success({
               body: "Profile Updated Successfully",
