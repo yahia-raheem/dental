@@ -218,7 +218,9 @@ export default {
               `${process.env.apiUrl}/api/doctor/add`,
               formBody
             );
-            this.$emit("done");
+            this.$auth.fetchUser().then(() => {
+              this.$emit("done");
+            });
           } catch (err) {
             if (400 < err.response.status < 500) {
               for (const key in err.response.data.errors) {

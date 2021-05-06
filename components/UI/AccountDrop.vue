@@ -12,7 +12,11 @@
         <p class="email">{{ user.email }}</p>
       </div>
       <div class="body">
-        <dropdown-profile-box :profile="user.doctor_profile" :type="'doctor'" v-if="user.doctor_profile != null" />
+        <dropdown-profile-box
+          :profile="user.doctor_profile"
+          :type="'doctor'"
+          v-if="user.doctor_profile != null"
+        />
         <dropdown-profile-box
           :profile="profile"
           v-for="(profile, key) in user.lab_profiles"
@@ -48,8 +52,12 @@ export default {
   data() {
     return {
       opened: false,
-      user: this.$auth.user
     };
+  },
+  computed: {
+    user() {
+      return this.$auth.user;
+    }
   },
   methods: {
     opendd() {

@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     :to="{
-      name: type == 'lab' ? 'labs-id' : 'doctors-id-dashboard-edit',
+      name: type == 'lab' ? 'labs-id' : 'doctors-id',
       params: { id: profile.id }
     }"
   >

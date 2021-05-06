@@ -77,7 +77,10 @@ export default {
       this.experience[i] = e.target.value;
     },
     submit() {
-      const data = { docId: this.doctor.id, data: { experience: this.experience } };
+      const data = {
+        docId: this.doctor.id,
+        data: { experience: this.experience != [null] ? this.experience : null }
+      };
       this.$store
         .dispatch("doctors/updateDoc", data)
         .then(result => {

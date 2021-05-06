@@ -1,99 +1,94 @@
 <template>
   <section class="doctor-profile page internal">
     <div class="profile-header">
-      <get-img imgid="96" classes="bg-image" responsive="xxl:100vw" />
+      <get-img-by-link
+        :imglink="profileCover"
+        classes="bg-image"
+        responsive="xxl:100vw"
+      />
     </div>
     <div class="profile-body">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
             <profile-intro
-              title="Dr. Ali El Tahan Perfection Dental Care Clinic"
-              description="Phd in medicine from stanford university Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+              :title="doctor.name"
+              :description="doctor.description"
               :tags="tags"
-              logoId="29"
-              :rating="rating"
-              views="24,500"
-              reviews="24"
-              :cta="{ link: '/', text: 'Contact Me' }"
+              :logoImg="doctor.picture"
+              :cta="{
+                link: `/doctors/${doctor.id}/dashboard/edit`,
+                text: 'Dashboard'
+              }"
             />
           </div>
         </div>
         <div class="row">
           <div class="col-lg-4 col-md-12">
-            <div class="profile-box about">
+            <div class="profile-box about" v-if="doctor.about != null">
               <div class="header">
-                <h5 class="title">About Dr. Ali</h5>
+                <h5 class="title">About {{ doctor.name }}</h5>
               </div>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                {{ doctor.about }}
               </p>
             </div>
-            <div class="profile-box experience">
+            <div
+              class="profile-box experience"
+              v-if="doctor.experience != null"
+            >
               <div class="header">
                 <h5 class="title">Experience & Qualifications</h5>
               </div>
               <ul class="enq-list">
-                <li>
+                <li v-for="(item, index) in doctor.experience" :key="index">
                   <span class="icon">
                     <get-svg :svgid="98" />
                   </span>
-                  <span class="content"
-                    >Masters of Endodontics and microsurgery (Misr International
-                    University)</span
-                  >
-                </li>
-                <li>
-                  <span class="icon">
-                    <get-svg :svgid="98" />
-                  </span>
-                  <span class="content"
-                    >Masters of Endodontics and microsurgery (Misr International
-                    University)</span
-                  >
-                </li>
-                <li>
-                  <span class="icon">
-                    <get-svg :svgid="98" />
-                  </span>
-                  <span class="content"
-                    >Masters of Endodontics and microsurgery (Misr International
-                    University)</span
-                  >
+                  <span class="content">{{ item }}</span>
                 </li>
               </ul>
             </div>
           </div>
-          <div class="col-lg-8 col-md-12">
+          <div class="col-lg-8 col-md-12" v-if="doctor.availability != null">
             <div class="profile-box availability">
               <div class="header">
                 <h5 class="title">Availability</h5>
               </div>
               <ul>
                 <li>
-                  <availability-check :active="true" :text="'Full Time'" />
+                  <availability-check
+                    :active="checkIfavailable('Full Time')"
+                    :text="'Full Time'"
+                  />
                 </li>
                 <li>
-                  <availability-check :active="false" :text="'Part Time'" />
+                  <availability-check
+                    :active="checkIfavailable('Part Time')"
+                    :text="'Part Time'"
+                  />
                 </li>
                 <li>
-                  <availability-check :active="false" :text="'Daily'" />
+                  <availability-check
+                    :active="checkIfavailable('Daily')"
+                    :text="'Daily'"
+                  />
                 </li>
                 <li>
-                  <availability-check :active="true" :text="'Freelance'" />
+                  <availability-check
+                    :active="checkIfavailable('Freelance')"
+                    :text="'Freelance'"
+                  />
                 </li>
                 <li>
-                  <availability-check :active="true" :text="'consultation'" />
+                  <availability-check
+                    :active="checkIfavailable('Consultation')"
+                    :text="'Consultation'"
+                  />
                 </li>
               </ul>
             </div>
-            <div class="profile-box portfolio">
+            <div class="profile-box portfolio" v-if="doctor.portfolio != null">
               <div
                 class="header d-flex justify-content-between align-items-start"
               >
@@ -122,7 +117,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-12">
             <div class="profile-box comments">
               <div
@@ -158,7 +153,7 @@
               <profile-comment :data="defaultComment" />
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -177,31 +172,35 @@ export default {
     ProfileIntro
   },
   async asyncData(context) {
-    const pageData = await context.store.dispatch(
-      "pages/setCurrentPage",
-      process.env.homepageId
+    const doctor = await context.store.dispatch(
+      "doctors/getDocById",
+      context.params.id
     );
+    context.store.dispatch("pages/setTitle", doctor.name);
     return {
-      page: pageData,
-      rating: 4.5,
+      doctor,
+      user: context.$auth.user,
+      loggedIn: context.$auth.loggedIn,
       settings: {
         dots: false,
         arrows: false,
         autoplay: false
       },
-      defaultComment: {
-        rating: 5,
-        title: "Highly Recommended",
-        author: "Dr. Ali El Tahan Perfection Dental Care Clinic",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, reprehint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est in culpa qui officia deserunt mollit anim id est laborum."
-      },
       tags: {
-        tags: ["Cosmetic Dentistry", "Restorative Dentist", "Implantologist"],
-        routeName: "index",
+        tags: doctor.specialties,
+        routeName: "doctors",
         queryName: "specialities"
       }
     };
+  },
+  computed: {
+    profileCover() {
+      if (this.doctor.cover != null) {
+        return `${process.env.storageBase}/${this.doctor.cover}`;
+      } else {
+        return "/images/Profilecoverplaceholder.jpg";
+      }
+    }
   },
   methods: {
     prevSlide() {
@@ -209,6 +208,9 @@ export default {
     },
     nextSlide() {
       this.$refs.portfolioSlider.next();
+    },
+    checkIfavailable(text) {
+      return this.doctor.availability.includes(text) ? true : false;
     }
   }
 };

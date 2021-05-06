@@ -25,7 +25,13 @@
 export default {
   props: {
     type: ""
-  }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.$router.go();
+    }, 3000);
+  },
+  methods: {}
 };
 </script>
 <style lang="scss" scoped>
