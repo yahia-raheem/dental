@@ -117,7 +117,8 @@ export default {
 }
 .edit-box::v-deep {
   .verification-id {
-    @include h.appDirAuto($padding-end: 10px);
+    @include h.appDirAuto($padding-end: 30px);
+    margin-bottom: 20px;
   }
 }
 </style>

@@ -9,6 +9,7 @@
           :album="item"
           v-for="(item, index) in portfolio"
           :key="index"
+          v-on:deleteAlbum="deleteAlbum"
         />
       </div>
     </div>
@@ -31,6 +32,21 @@ export default {
   methods: {
     syncPortfolio(portfolio) {
       this.portfolio = portfolio;
+    },
+    async deleteAlbum(albumId) {
+      const data = {
+        action: "delete",
+        id: albumId
+      };
+      const { portfolio } = await this.$store.dispatch("labs/portfolioAction", {
+        labId: this.$route.params.id,
+        data: data
+      });
+      this.$vToastify.success({
+        body: "Album Deleted",
+        title: "success"
+      });
+      this.syncPortfolio(portfolio);
     }
   }
 };

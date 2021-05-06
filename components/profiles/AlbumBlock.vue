@@ -29,7 +29,9 @@ export default {
     console.log(this.album);
   },
   methods: {
-    deleteAlbum() {}
+    deleteAlbum() {
+      this.$emit("deleteAlbum", this.album.id);
+    }
   }
 };
 </script>

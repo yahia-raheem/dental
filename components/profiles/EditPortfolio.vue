@@ -81,6 +81,7 @@ export default {
             data: this.form,
           }
         );
+        this.$vToastify.success({ body: 'Album added successfully', title: 'success' });
         this.$emit("syncPortfolio", portfolio);
       } catch (error) {
         if (error.response.status < 500) {
