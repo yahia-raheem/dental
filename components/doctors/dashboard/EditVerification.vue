@@ -6,7 +6,16 @@
     <div class="form-container">
       <form @submit.prevent="submit">
         <div class="form-row">
-          <div class="form-group col-12">
+          <div class="col-12 col-sm-4">
+            <get-img-by-link
+              imglink="/images/Group 570.png"
+              classes="img-fluid verification-id"
+              responsive="xxl:512px"
+            />
+          </div>
+          <div
+            class="form-group col-lg-8 col-md-12 d-flex flex-column justify-content-center align-items-start"
+          >
             <label class="form-label">Verification ID</label>
             <div class="custom-file" ref="idFile">
               <input
@@ -93,14 +102,22 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+@use "~/assets/scss/helpers" as h with(
+  $dir: $dir
+);
 .custom-file {
   &.dirty {
     label::after {
-      content: "change"!important;
+      content: "change" !important;
       background-color: #d24c35;
       color: white;
     }
+  }
+}
+.edit-box::v-deep {
+  .verification-id {
+    @include h.appDirAuto($padding-end: 10px);
   }
 }
 </style>

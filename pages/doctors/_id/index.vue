@@ -35,7 +35,7 @@
             </div>
             <div
               class="profile-box experience"
-              v-if="doctor.experience != null"
+              v-if="doctor.experience != null && doctor.experience.length > 0"
             >
               <div class="header">
                 <h5 class="title">Experience & Qualifications</h5>
@@ -198,7 +198,7 @@ export default {
       if (this.doctor.cover != null) {
         return `${process.env.storageBase}/${this.doctor.cover}`;
       } else {
-        return "/images/Profilecoverplaceholder.jpg";
+        return "/images/Group 572.png";
       }
     }
   },

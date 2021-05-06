@@ -30,7 +30,6 @@
     "vuelidate": "^0.7.6"
   },
   "devDependencies": {
-    "@nuxt/image": "^0.4.1",
     "fibers": "^5.0.0",
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1"

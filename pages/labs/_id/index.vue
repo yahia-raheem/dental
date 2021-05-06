@@ -216,7 +216,7 @@ export default {
       if (this.lab.cover != null) {
         return `${process.env.storageBase}/${this.lab.cover}`;
       } else {
-        return "/images/Profilecoverplaceholder.jpg";
+        return "/images/Group 572.png";
       }
     },
     profileFile() {

@@ -11,7 +11,7 @@
           <client-only>
             <VueSlickCarousel v-bind="settings">
               <div class="slide" v-for="(item, key) in slides" :key="key">
-                <get-img :imgid="item.ID" responsive="xxl:185px" />
+                <get-img :imgid="item.ID" />
               </div>
             </VueSlickCarousel>
           </client-only>
@@ -100,10 +100,14 @@ section.home-partners {
       background-color: h.$secondary;
     }
   }
-  .slide {
+  .slide::v-deep {
     display: flex !important;
     justify-content: center;
     align-items: center;
+    img {
+      width: 185px;
+      height: auto;
+    }
   }
 }
 </style>

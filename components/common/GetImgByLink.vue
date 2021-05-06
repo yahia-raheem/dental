@@ -1,12 +1,17 @@
 <template>
   <div>
-    <nuxt-img
+    <!-- <nuxt-img
       quality="90"
       :src="imglink"
       :class="classes"
       format="webp"
       :sizes="responsive"
       :fit="fit"
+      loading="lazy"
+    /> -->
+    <img
+      :src="imglink"
+      :class="classes"
       loading="lazy"
     />
   </div>
@@ -34,8 +39,13 @@ export default {
       type: String,
       default: null,
       required: false
-    },
-  },
+    }
+  }
 };
 </script>
-<style lang=""></style>
+<style lang="scss" scoped>
+.img-fluid {
+  width: 100%;
+  height: auto;
+}
+</style>

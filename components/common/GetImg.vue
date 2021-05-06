@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt-img
+    <!-- <nuxt-img
       quality="90"
       :src="img"
       :class="classes"
@@ -10,6 +10,12 @@
       :alt="imgAlt"
       loading="lazy"
       v-if="$fetchState.pending == false"
+    /> -->
+    <img
+      :src="img"
+      :class="classes"
+      :alt="imgAlt"
+      loading="lazy"
     />
   </div>
 </template>
@@ -58,19 +64,19 @@ export default {
       this.img = data.image;
       this.imgAlt = data.alt;
     } else {
-      this.img = this.imgobj.full_url
-      this.imgAlt = this.imgobj.alt
+      this.img = this.imgobj.full_url;
+      this.imgAlt = this.imgobj.alt;
       this.addImg({
         alt: this.imgobj.alt,
         id: this.imgobj.ID,
         image: this.imgobj.full_url
-      })
+      });
     }
   },
   methods: {
     ...mapActions({
       getImage: "general/getImage",
-      addImg: "general/addImg",
+      addImg: "general/addImg"
     })
   }
 };

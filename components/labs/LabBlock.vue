@@ -93,7 +93,7 @@ export default {
       if (this.lab.picture != null) {
         return `${process.env.storageBase}/${this.lab.picture}`;
       } else {
-        return "/images/Profile_avatar_placeholder_large.png";
+        return "/images/Group 571.png";
       }
     }
   },

@@ -61,10 +61,14 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      experience: this.doctor.experience != null ? this.doctor.experience : [""]
-    };
+  computed: {
+    experience() {
+      if (this.doctor.experience != null && this.doctor.experience.length > 0) {
+        return this.doctor.experience
+      } else {
+        return [""]
+      }
+    }
   },
   methods: {
     addItem() {
@@ -77,9 +81,16 @@ export default {
       this.experience[i] = e.target.value;
     },
     submit() {
+      this.experience = this.experience.filter(i => {
+        if (i != null) {
+          return true;
+        }
+      });
       const data = {
         docId: this.doctor.id,
-        data: { experience: this.experience != [null] ? this.experience : null }
+        data: {
+          experience: this.experience
+        }
       };
       this.$store
         .dispatch("doctors/updateDoc", data)

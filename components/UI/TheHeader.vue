@@ -65,7 +65,6 @@
               <get-img
                 :imgid="siteLogo"
                 :classes="'site-logo'"
-                responsive="xxl:130px,lg:100px"
               />
             </nuxt-link>
             <button
@@ -296,6 +295,11 @@ export default {
   }
   .site-logo {
     height: auto;
+    width: 100px;
+    height: auto;
+    @include h.media(">992px") {
+      width: 130px;
+    }
   }
   nav.navbar {
     padding-left: 0;
