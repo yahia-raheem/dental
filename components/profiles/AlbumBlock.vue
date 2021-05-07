@@ -1,7 +1,7 @@
 <template>
   <div class="album-tile">
     <div class="body">
-      <nuxt-link to="/">
+      <nuxt-link :to="`/labs/${$route.params.id}/dashboard/edit/portfolio/${album.id}`">
         <h6 class="title">{{ album.title }}</h6>
       </nuxt-link>
     </div>
