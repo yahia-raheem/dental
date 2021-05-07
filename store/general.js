@@ -1,5 +1,4 @@
 import axios from "axios";
-import { $fetch } from "ohmyfetch/node";
 
 export const state = () => ({
   headerOptions: {},
