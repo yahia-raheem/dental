@@ -1,57 +1,35 @@
 <template>
   <div class="row">
-    <div class="col-xl-4 col-sm-6 d-flex justify-content-center align-items-center">
+    <div
+      class="col-xl-4 col-sm-6 d-flex justify-content-center align-items-center"
+      v-for="(item, index) in slide"
+      :key="index"
+    >
       <div class="portfolio-box">
         <div class="img-container">
-          <get-img :imgid="92" classes="bg-image" responsive="xxl:210px" />
+          <get-img-by-link :imglink="cover(item.cover)" classes="bg-image" />
         </div>
-        <h6 class="title">Case Name</h6>
-      </div>
-    </div>
-    <div class="col-xl-4 col-sm-6 d-flex justify-content-center align-items-center">
-      <div class="portfolio-box">
-        <div class="img-container">
-          <get-img :imgid="91" classes="bg-image" responsive="xxl:210px" />
-        </div>
-        <h6 class="title">Case Name</h6>
-      </div>
-    </div>
-    <div class="col-xl-4 col-sm-6 d-flex justify-content-center align-items-center">
-      <div class="portfolio-box">
-        <div class="img-container">
-          <get-img :imgid="92" classes="bg-image" responsive="xxl:210px" />
-        </div>
-        <h6 class="title">Case Name</h6>
-      </div>
-    </div>
-    <div class="col-xl-4 col-sm-6 d-flex justify-content-center align-items-center">
-      <div class="portfolio-box">
-        <div class="img-container">
-          <get-img :imgid="91" classes="bg-image" responsive="xxl:210px" />
-        </div>
-        <h6 class="title">Case Name</h6>
-      </div>
-    </div>
-    <div class="col-xl-4 col-sm-6 d-flex justify-content-center align-items-center">
-      <div class="portfolio-box">
-        <div class="img-container">
-          <get-img :imgid="92" classes="bg-image" responsive="xxl:210px" />
-        </div>
-        <h6 class="title">Case Name</h6>
-      </div>
-    </div>
-    <div class="col-xl-4 col-sm-6 d-flex justify-content-center align-items-center">
-      <div class="portfolio-box">
-        <div class="img-container">
-          <get-img :imgid="91" classes="bg-image" responsive="xxl:210px" />
-        </div>
-        <h6 class="title">Case Name</h6>
+        <h6 class="title">{{ item.title }}</h6>
       </div>
     </div>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props: {
+    slide: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+  },
+  methods: {
+    cover(cover) {
+      return `${process.env.storageBase}/${cover}`;
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 @use "~/assets/scss/helpers" as h with(
@@ -61,7 +39,7 @@ export default {};
   width: 210px;
   position: relative;
   margin-bottom: 30px;
-  .img-container {
+  .img-container::v-deep {
     @include h.box-ratio(3, 2);
     border-radius: 10px;
     border: 1px solid #f0f0f0;

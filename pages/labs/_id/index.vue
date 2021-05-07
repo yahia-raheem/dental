@@ -21,7 +21,7 @@
               :logoImg="lab.picture"
               :cta="{
                 link: `/labs/${lab.id}/dashboard/edit`,
-                text: 'Dashboard'
+                text: 'Dashboard',
               }"
               v-if="loggedIn && user.id == lab.user_id"
             />
@@ -117,11 +117,12 @@
               </div>
               <div class="slider-container">
                 <VueSlickCarousel v-bind="settings" ref="portfolioSlider">
-                  <div class="slide">
-                    <portfolio-slide />
-                  </div>
-                  <div class="slide">
-                    <portfolio-slide />
+                  <div
+                    class="slide"
+                    v-for="(item, index) in portfolioSlides"
+                    :key="index"
+                  >
+                    <portfolio-slide :slide="item" />
                   </div>
                 </VueSlickCarousel>
               </div>
@@ -179,7 +180,7 @@ export default {
     PortfolioSlide,
     ProfileComment,
     PriceList,
-    ProfileIntro
+    ProfileIntro,
   },
   async asyncData(context) {
     const labData = await context.store.dispatch(
@@ -194,13 +195,13 @@ export default {
       settings: {
         dots: false,
         arrows: false,
-        autoplay: false
+        autoplay: false,
       },
       tags: {
         tags: labData.specialties,
         routeName: "labs",
-        queryName: "specialities"
-      }
+        queryName: "specialities",
+      },
     };
   },
   methods: {
@@ -209,7 +210,7 @@ export default {
     },
     nextSlide() {
       this.$refs.portfolioSlider.next();
-    }
+    },
   },
   computed: {
     profileCover() {
@@ -218,6 +219,12 @@ export default {
       } else {
         return "/images/Group 572.png";
       }
+    },
+    portfolioSlides() {
+      var R = [];
+      for (var i = 0; i < this.lab.portfolio.length; i += 6)
+        R.push(this.lab.portfolio.slice(i, i + 6));
+      return R;
     },
     profileFile() {
       if (this.lab.lab_file != null) {
@@ -247,7 +254,7 @@ export default {
             }
             socials.push({
               icon: icon,
-              link: element
+              link: element,
             });
           }
         }
@@ -255,8 +262,8 @@ export default {
       } else {
         return null;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

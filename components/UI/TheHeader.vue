@@ -151,7 +151,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$auth.user);
     const sideBar = document.getElementById("mySidenav");
     const togglebtn = document.querySelector(".navbar-toggler");
     const closebtn = document.querySelector(".closebtn");

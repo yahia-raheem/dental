@@ -120,9 +120,6 @@ export default {
       return new FormData();
     }
   },
-  mounted() {
-    console.log(this.lab);
-  },
   methods: {
     submit() {
       this.$v.$touch();

@@ -25,9 +25,6 @@ export default {
       }
     }
   },
-  mounted() {
-    console.log(this.album);
-  },
   methods: {
     deleteAlbum() {
       this.$emit("deleteAlbum", this.album.id);

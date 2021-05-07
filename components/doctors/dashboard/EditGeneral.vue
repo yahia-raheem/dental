@@ -182,7 +182,6 @@ export default {
         this.$store
           .dispatch("doctors/updateDoc", data)
           .then(result => {
-            console.log(result);
             this.$vToastify.success({
               body: "Profile Updated Successfully",
               title: "Success"

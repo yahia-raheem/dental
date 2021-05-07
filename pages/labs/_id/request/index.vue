@@ -482,7 +482,6 @@ export default {
           video: this.video,
           agent: this.agent == false ? 0 : 1
         };
-        console.log(this.sendAgent);
         const formData = new FormData();
         for (const key in data) {
           if (Object.hasOwnProperty.call(data, key)) {
