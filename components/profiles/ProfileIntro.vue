@@ -111,12 +111,12 @@
                     <nuxt-link
                       :to="{
                         name: tags.routeName,
-                        query: { [tags.queryName]: spec.trim().toLowerCase() }
+                        query: { [tags.queryName]: `${spec.id}` }
                       }"
                       class="tag btn"
                       v-for="(spec, key) in tags.tags"
                       :key="key"
-                      >{{ spec }}</nuxt-link
+                      >{{ spec.name }}</nuxt-link
                     >
                   </div>
                 </div>

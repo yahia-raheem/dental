@@ -8,6 +8,7 @@
     /> -->
   <div
     v-html="require(`~/static/svgs/${svg}.svg?raw`)"
+    class="svg-container"
     :style="{ width: `${width}px`, height: `${height}px` }"
   />
 </template>
@@ -32,8 +33,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-svg {
-  width: 100%;
-  height: 100%;
+.svg-container::v-deep {
+  svg {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>
