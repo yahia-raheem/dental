@@ -1,24 +1,26 @@
 <template>
-  <section class="home-wg">
+  <section class="home-wg" ref="homewg">
     <div class="container-fluid">
       <div class="row sec-header">
         <div class="col-lg-6 col-md-12">
           <h3 class="prefix">{{ secPrefix }}</h3>
           <h2 class="sec-title">{{ secTitle }}</h2>
         </div>
-        <div
-          class="col-lg-6 col-md-12 d-flex justify-content-center align-items-center justify-content-lg-end flex-wrap"
-        >
+        <div class="col-lg-6 col-md-12">
           <h2 class="bg-text">{{ secBgText }}</h2>
-          <button
-            v-for="(item, index) in secTabs"
-            :key="index"
-            :class="{ btn: true, 'tab-btn': true, active: index == 0 }"
-            :forslide="index"
-            @click="activateTab"
+          <div
+            class="btns-container d-flex justify-content-center align-items-center justify-content-lg-end flex-wrap"
           >
-            {{ item.tab_title }}
-          </button>
+            <button
+              v-for="(item, index) in secTabs"
+              :key="index"
+              :class="{ btn: true, 'tab-btn': true, active: index == 0 }"
+              :forslide="index"
+              @click="activateTab"
+            >
+              {{ item.tab_title }}
+            </button>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -84,13 +86,15 @@ export default {
       });
     },
     activateBtn(n) {
-      document.querySelector(".tab-btn").parentElement.children.forEach(btn => {
-        if (btn.attributes.forslide.value != n) {
-          btn.classList.remove("active");
-        } else {
-          btn.classList.add("active");
-        }
-      });
+      this.$refs.homewg
+        .querySelector(".tab-btn")
+        .parentElement.children.forEach(btn => {
+          if (btn.attributes.forslide.value != n) {
+            btn.classList.remove("active");
+          } else {
+            btn.classList.add("active");
+          }
+        });
     }
   }
 };
@@ -120,9 +124,11 @@ section.home-wg {
       position: absolute;
       opacity: 0.04;
       margin: 0;
-      top: 20%;
+      top: 0%;
       transform: translateY(-50%);
       font-size: 4rem;
+      width: 100%;
+      text-align: center;
     }
   }
   .sec-title {
@@ -152,6 +158,8 @@ section.home-wg {
     min-width: 170px;
     border-radius: 10px;
     margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
     &.active {
       background-color: #ffbb64;
       color: #98662b;

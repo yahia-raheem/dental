@@ -83,7 +83,7 @@ export default {
     },
     submit() {
       this.experience = this.experience.filter(i => {
-        if (i != null) {
+        if (i != null && i != "") {
           return true;
         }
       });

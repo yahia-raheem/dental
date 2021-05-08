@@ -12,6 +12,7 @@ section.lab-profile {
   .profile-body {
     position: relative;
     top: -90px;
+    z-index: 10;
   }
   .suffix {
     display: flex;
