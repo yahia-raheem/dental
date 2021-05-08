@@ -19,13 +19,17 @@
 import AlbumBlock from "~/components/profiles/AlbumBlock.vue";
 import EditPortfolio from "~/components/profiles/EditPortfolio.vue";
 export default {
+  middleware: ["auth"],
   async asyncData(context) {
-    const { portfolio } = await context.store.dispatch(
+    const lab = await context.store.dispatch(
       "labs/getLabById",
       context.params.id
     );
+    if (lab.user_id != context.$auth.user.id) {
+      context.redirect("/");
+    }
     return {
-      portfolio
+      portfolio: lab.portfolio
     };
   },
   components: { EditPortfolio, AlbumBlock },

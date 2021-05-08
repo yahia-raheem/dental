@@ -21,12 +21,16 @@ import EditPriceList from "~/components/profiles/EditPriceList.vue";
 import EditSocialMedia from "~/components/profiles/EditSocialMedia.vue";
 
 export default {
+  middleware: ["auth"],
   components: { EditGeneral, EditDetails, EditPriceList, EditSocialMedia },
   async asyncData(context) {
     const lab = await context.store.dispatch(
       "labs/getLabById",
       context.params.id
     );
+    if (lab.user_id != context.$auth.user.id) {
+      context.redirect("/");
+    }
     context.store.dispatch("pages/setTitle", lab.name);
     return {
       lab: lab

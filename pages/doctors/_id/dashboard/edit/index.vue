@@ -25,9 +25,11 @@ export default {
   async asyncData(context) {
     const doctor = await context.store.dispatch(
       "doctors/getDocById",
-      context.$auth.user.doctor_profile.id
+      context.params.id
     );
-
+    if (doctor.user_id != context.$auth.user.id) {
+      context.redirect("/");
+    }
     return {
       doctor
     };
