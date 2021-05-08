@@ -77,6 +77,12 @@ export default {
         }
       }
     }
+    &.sub-item {
+      a.nuxt-link-active {
+        font-weight: bold;
+        text-decoration: underline;
+      }
+    }
   }
 }
 </style>

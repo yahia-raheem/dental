@@ -17,11 +17,11 @@
             v-if="status == 'pending'"
           />
           <step-two
-            v-on:done="stepDone('profile')"
+            v-on:done="profDone"
             v-on:changeType="changeType"
             v-if="status == 'profile'"
           />
-          <register-success :type="type" v-if="status == 'success'" />
+          <register-success :type="type" :profId="createdId" v-if="status == 'success'" />
         </div>
       </div>
     </div>
@@ -45,7 +45,8 @@ export default {
   data() {
     return {
       status: "pending",
-      type: "dentist"
+      type: "dentist",
+      createdId: ""
     };
   },
   methods: {
@@ -58,6 +59,10 @@ export default {
           this.status = "success";
           break;
       }
+    },
+    profDone(id) {
+      this.status = 'success';
+      this.createdId = id;
     },
     changeType(type) {
       switch (type) {

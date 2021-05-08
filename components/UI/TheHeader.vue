@@ -12,7 +12,8 @@
       </p>
       <p v-if="docProfStatus != 'pending'">
         Please verify your profile as soon as possible to fully enjoy our
-        platform's services
+        platform's services.
+        <nuxt-link :to="`/doctors/${$auth.user.doctor_profile.id}/dashboard/edit#verificationBox`" class="verify-link">Click here</nuxt-link>
       </p>
     </div>
     <div class="white-gradient" v-if="$route.fullPath == '/'">
@@ -218,7 +219,7 @@ export default {
     }
   }
   .notice {
-    background-color: red;
+    background-color: #C11515;
     position: relative;
     z-index: 2;
     width: 100%;
@@ -230,6 +231,10 @@ export default {
     font-weight: 600;
     &.pending {
       background-color: h.$secondary;
+    }
+    .verify-link {
+      text-decoration: underline;
+      font-weight: bold;
     }
   }
   .social {

@@ -1,5 +1,5 @@
 <template>
-  <div class="edit-box">
+  <div class="edit-box" id="verificationBox">
     <div class="header">
       <h6 class="title">Profile Info</h6>
     </div>

@@ -5,6 +5,6 @@ export const actions = {
     await dispatch("general/getHeaderOptions");
     dispatch("general/getSocialMedia");
     dispatch("general/getHeaderMenu");
-    dispatch("parameters/getParameters");
+    await dispatch("parameters/getParameters");
   }
 };

@@ -24,7 +24,7 @@
           </div>
           <div class="row">
             <div class="col-12" v-for="(lab, index) in labs" :key="index">
-              <lab-block :lab="lab" v-on:filterSpec="specModify" />
+              <lab-block :lab="lab" v-on:filterSpec="specModify" v-on:filterLoc="locModify" />
             </div>
             <div
               class="col-12 d-flex justify-content-center align-items-center"

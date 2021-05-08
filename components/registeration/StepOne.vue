@@ -80,6 +80,13 @@
             v-model.trim="password"
             placeholder="Password"
           />
+          <small id="passHelp" class="form-text text-muted">
+            <ul>
+              <li>Password must contain at least 1 upper case character</li>
+              <li>Password must contain at least 1 number</li>
+              <li>Password must be at least 6 characters long</li>
+            </ul>
+          </small>
           <div class="invalid-feedback" v-if="!$v.password.required">
             This field is Required
           </div>
@@ -136,7 +143,7 @@ export default {
       email: null,
       phoneNumber: null,
       password: null,
-      confirmPassword: null,
+      confirmPassword: null
     };
   },
   async mounted() {
@@ -168,17 +175,17 @@ export default {
               phone_number: this.phoneNumber,
               password: this.password,
               password_confirmation: this.confirmPassword,
-              recaptcha: token,
+              recaptcha: token
             })
-            .then((result) => {
+            .then(result => {
               this.$auth
                 .setUserToken(result.token, result.refresh_token)
-                .then((_) => {
+                .then(_ => {
                   this.$emit("done");
                   this.$router.go();
                 });
             })
-            .catch((err) => {
+            .catch(err => {
               if (400 < err.response.status < 500) {
                 for (const key in err.response.data.errors) {
                   if (
@@ -190,7 +197,7 @@ export default {
                 }
               } else {
                 this.$vToastify.error({
-                  body: "Sorry an unknown error occured",
+                  body: "Sorry an unknown error occured"
                 });
               }
             });
@@ -198,41 +205,48 @@ export default {
           this.$vToastify.error({
             body:
               "Sorry, this request faild the reCaptcha test. try again later",
-            title: "reCaptcha Error",
+            title: "reCaptcha Error"
           });
         }
       }
-    },
+    }
   },
   validations: {
     firstName: {
-      required,
+      required
     },
     lastName: {
-      required,
+      required
     },
     email: {
       required,
-      email,
+      email
     },
     phoneNumber: {
-      required,
+      required
     },
     password: {
       required,
       minLength: minLength(6),
-      valid: function (value) {
+      valid: function(value) {
         const containsUppercase = /[A-Z]/.test(value);
         const containsLowercase = /[a-z]/.test(value);
         const containsNumber = /[0-9]/.test(value);
         return containsUppercase && containsLowercase && containsNumber;
-      },
+      }
     },
     confirmPassword: {
       required,
-      sameAs: sameAs("password"),
-    },
-  },
+      sameAs: sameAs("password")
+    }
+  }
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+@use "~/assets/scss/helpers" as h with(
+  $dir: $dir
+);
+#passHelp ul {
+  @include h.appDirAuto($padding-start: 15px);
+}
+</style>

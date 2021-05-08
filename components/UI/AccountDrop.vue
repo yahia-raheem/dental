@@ -1,12 +1,12 @@
 <template>
   <div class="account-dropdown">
-    <button class="cta" @click="opendd">
+    <button class="cta" @mouseover="opened = true" @mouseleave="opened = false">
       <div class="icon">
         <get-svg :svgid="114" width="20" height="20" />
       </div>
       <div class="text">My Account</div>
     </button>
-    <div :class="{ 'cta-dd': true, 'd-none': !opened, 'shadow-sm': true }">
+    <div :class="{ 'cta-dd': true, 'd-none': !opened, 'shadow-sm': true }" @mouseover="opened = true" @mouseleave="opened = false">
       <div class="header">
         <h6 class="name">{{ user.name }}</h6>
         <p class="email">{{ user.email }}</p>
@@ -51,7 +51,7 @@ export default {
   },
   data() {
     return {
-      opened: false,
+      opened: false
     };
   },
   computed: {
@@ -65,9 +65,8 @@ export default {
     },
     async logout() {
       await this.$auth.logout();
-      this.$router.go();
     }
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -86,6 +85,7 @@ button.cta {
   justify-content: center;
   align-items: center;
   position: relative;
+  padding: 20px 0;
   .icon::v-deep {
     @include h.appDirAuto($margin-end: 15px);
     svg path {
@@ -109,7 +109,7 @@ button.cta {
   position: absolute;
   z-index: 10;
   min-width: 200px;
-  bottom: -15px;
+  bottom: 0;
   @include h.appDirAuto($end: 0);
   transform: translateY(100%);
   .header {

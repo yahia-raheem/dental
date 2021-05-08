@@ -53,18 +53,27 @@
       </div>
       <div class="location">
         <get-svg :svgid="79" width="18" />
-        <span class="text">{{ lab.locations | stringify }}</span>
+
+        <span class="text" v-for="(item, index) in lab.locations" :key="index">
+          <button class="btn location-btn" @click="locFilter(item.id)">
+            {{ item.name }}
+          </button>
+          <span v-if="lab.locations.length - 1 != index">,</span>
+        </span>
       </div>
       <hr />
       <div
         class="footer d-flex justify-content-between align-items-center w-100"
       >
-        <button class="btn profile-cta">
+        <nuxt-link
+          class="btn profile-cta"
+          :to="{ name: 'labs-id', params: { id: lab.id } }"
+        >
           <span class="icon">
             <get-svg :svgid="105" width="10" />
           </span>
           <span class="text">View Profile</span>
-        </button>
+        </nuxt-link>
         <button class="btn btn-primary">Send Request</button>
       </div>
     </div>
@@ -98,43 +107,11 @@ export default {
     }
   },
   methods: {
+    locFilter(id) {
+      this.$emit("filterLoc", id);
+    },
     specFilter(id) {
       this.$emit("filterSpec", id);
-      // const value = event.target.outerText.trim().toLowerCase();
-      // var oldSpec =
-      //   typeof this.$route.query.specialities != "undefined"
-      //     ? this.$route.query.specialities
-      //     : "";
-      // const oldSpecArr = oldSpec.split(",");
-      // if (oldSpecArr.includes(value)) {
-      //   const specIndex = oldSpecArr.indexOf(value);
-      //   oldSpecArr.splice(specIndex, 1);
-      //   this.$router.push(
-      //     {
-      //       query: {
-      //         ...this.$route.query,
-      //         specialities:
-      //           oldSpecArr.length > 0 ? oldSpecArr.join(",") : undefined
-      //       }
-      //     },
-      //     () => {
-      //       this.$emit("spec-changed");
-      //     }
-      //   );
-      // } else {
-      //   oldSpec = oldSpec != "" ? oldSpec + "," : oldSpec;
-      //   this.$router.push(
-      //     {
-      //       query: {
-      //         ...this.$route.query,
-      //         specialities: oldSpec + value
-      //       }
-      //     },
-      //     () => {
-      //       this.$emit("spec-changed");
-      //     }
-      //   );
-      // }
     }
   }
 };
@@ -279,6 +256,15 @@ export default {
     .text {
       font-size: 0.8rem;
       margin-top: 4px;
+      .location-btn {
+        padding: 0;
+        margin: 0;
+      }
+      &:not(:first-of-type) {
+        .location-btn {
+          @include h.appDirAuto($padding-start: 5px);
+        }
+      }
     }
   }
   hr {

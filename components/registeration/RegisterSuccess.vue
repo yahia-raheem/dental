@@ -9,13 +9,14 @@
         </div>
         <h3 class="success-title">Congratulation!</h3>
         <p class="success-subtitle" v-if="type == 'dentist'">
-          You have just created your account and your first profile. Please
-          check your profile's dashboard to upload the required document for
-          account verification.
+          You have just created your doctor's profile. Please check your
+          profile's dashboard to upload the required document for account
+          verification .. you'll ne redirected to there shortly
         </p>
         <p class="success-subtitle" v-if="type == 'lab'">
-          You have just created your account and your first profile. Feel free
-          to check your profile for now while we verify your information.
+          You have just created a lab profile. Feel free to check your profile
+          for now while we verify your information .. you'll be redirected to
+          there shortly
         </p>
       </div>
     </div>
@@ -24,11 +25,17 @@
 <script>
 export default {
   props: {
-    type: ""
+    type: "",
+    profId: ""
   },
   mounted() {
+    if (this.type == "lab") {
+      var link = `/labs/${this.profId}`;
+    } else {
+      var link = `/doctors/${this.profId}`;
+    }
     setTimeout(() => {
-      this.$router.go();
+      this.$router.push(link);
     }, 3000);
   },
   methods: {}

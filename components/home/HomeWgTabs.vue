@@ -6,7 +6,10 @@
           <h3 class="prefix">{{ secPrefix }}</h3>
           <h2 class="sec-title">{{ secTitle }}</h2>
         </div>
-        <div class="col-lg-6 col-md-12 d-flex justify-content-center align-items-center justify-content-lg-end flex-wrap">
+        <div
+          class="col-lg-6 col-md-12 d-flex justify-content-center align-items-center justify-content-lg-end flex-wrap"
+        >
+          <h2 class="bg-text">{{ secBgText }}</h2>
           <button
             v-for="(item, index) in secTabs"
             :key="index"
@@ -61,6 +64,10 @@ export default {
       default() {
         return [];
       }
+    },
+    secBgText: {
+      type: String,
+      default: ""
     }
   },
   methods: {
@@ -102,8 +109,20 @@ section.home-wg {
     font-weight: 500;
     margin-bottom: 10px;
     font-size: 1.5rem;
-    @include h.media('>992px') {
+    @include h.media(">992px") {
       font-size: 2rem;
+    }
+  }
+  .bg-text {
+    display: none;
+    @include h.media(">992px") {
+      display: block;
+      position: absolute;
+      opacity: 0.04;
+      margin: 0;
+      top: 20%;
+      transform: translateY(-50%);
+      font-size: 4rem;
     }
   }
   .sec-title {
@@ -122,7 +141,7 @@ section.home-wg {
       background-color: h.$secondary;
       content: "";
     }
-    @include h.media('>992px') {
+    @include h.media(">992px") {
       font-size: 2.5rem;
     }
   }

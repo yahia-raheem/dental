@@ -214,12 +214,12 @@ export default {
               specialties: this.dentist.speciality,
               locations: this.dentist.location
             };
-            await this.$axios.$post(
+            const res = await this.$axios.$post(
               `${process.env.apiUrl}/api/doctor/add`,
               formBody
             );
             this.$auth.fetchUser().then(() => {
-              this.$emit("done");
+              this.$emit("done", res.profile.id);
             });
           } catch (err) {
             if (400 < err.response.status < 500) {
@@ -249,7 +249,10 @@ export default {
           this.$axios
             .$post(`${process.env.apiUrl}/api/lab/add`, formBody)
             .then(res => {
-              this.$emit("done");
+              console.log(res);
+              this.$auth.fetchUser().then(() => {
+                this.$emit("done", res.profile.id);
+              });
             })
             .catch(err => {
               if (400 < err.response.status < 500) {

@@ -13,6 +13,7 @@
     <home-wg-tabs
       :secTitle="page.custom_fields.wg_section_title"
       :secPrefix="page.custom_fields.wg_section_prefix"
+      :secBgText="page.custom_fields.sections_background_text"
       :secTabs="page.custom_fields.wg_tab"
     />
     <home-partners
@@ -44,7 +45,7 @@ export default {
     HomeSteps,
     HomeWgTabs,
     HomePartners
-  },
+  }
 };
 </script>
 

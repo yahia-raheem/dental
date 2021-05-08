@@ -61,13 +61,14 @@ export default {
       }
     }
   },
-  computed: {
-    experience() {
-      if (this.doctor.experience != null && this.doctor.experience.length > 0) {
-        return this.doctor.experience
-      } else {
-        return [""]
-      }
+  data() {
+    return {
+      experience: [""]
+    };
+  },
+  created() {
+    if (this.doctor.experience != null && this.doctor.experience.length > 0) {
+      this.experience =  this.doctor.experience;
     }
   },
   methods: {

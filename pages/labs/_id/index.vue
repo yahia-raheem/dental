@@ -1,6 +1,7 @@
 <template>
   <section class="lab-profile page internal">
     <div class="profile-header">
+      <nuxt-link to="dashboard/edit" class="clickable-image" append></nuxt-link>
       <div class="notice" v-if="lab.status != 1">
         Your Lab has not been verified yet!..please wait for us to review your
         lab

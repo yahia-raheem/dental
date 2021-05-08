@@ -7,6 +7,11 @@
       >
         <div class="profile-image">
           <div class="img-container">
+            <nuxt-link
+              to="dashboard/edit"
+              class="clickable-image"
+              append
+            ></nuxt-link>
             <get-img-by-link
               :imglink="profilePicture"
               classes="bg-image"

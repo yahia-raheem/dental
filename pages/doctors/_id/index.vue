@@ -1,6 +1,7 @@
 <template>
   <section class="doctor-profile page internal">
     <div class="profile-header">
+      <nuxt-link to="dashboard/edit" class="clickable-image" append></nuxt-link>
       <get-img-by-link
         :imglink="profileCover"
         classes="bg-image"

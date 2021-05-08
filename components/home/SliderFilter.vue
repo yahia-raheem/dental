@@ -78,7 +78,8 @@
               />
             </div>
             <button type="submit" class="btn btn-primary submit-btn">
-              submit
+              <div class="icon"><get-svg :svgid="102" width="20" /></div>
+              <div class="text">submit</div>
             </button>
           </div>
         </form>
@@ -261,6 +262,15 @@ export default {
     align-items: center;
     border-radius: 10px;
     border: none;
+    width: 15%;
+    .icon {
+      svg {
+        @include h.appDirAuto($margin-end: 15px);
+        path {
+          fill: white;
+        }
+      }
+    }
   }
 }
 </style>

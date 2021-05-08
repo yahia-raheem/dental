@@ -128,4 +128,8 @@ export default {
   }
 };
 </script>
-<style lang=""></style>
+<style lang="scss" scoped>
+.text-primary {
+  text-decoration: underline;
+}
+</style>
