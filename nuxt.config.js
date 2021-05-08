@@ -44,7 +44,7 @@ export default {
   // image: {
   //   domains: [
   //     "https://projects.cloudmaize.com/dentalwp/",
-  //     "http://dental.al-estshary.com/storage"
+  //     "https://dental.al-estshary.com/storage"
   //   ],
   //   screens: {
   //     xs: 320,
@@ -97,19 +97,19 @@ export default {
         },
         endpoints: {
           login: {
-            url: `http://dental.al-estshary.com/api/login`,
+            url: `https://dental.al-estshary.com/api/login`,
             method: "post"
           },
           logout: {
-            url: `http://dental.al-estshary.com/api/logout`,
+            url: `https://dental.al-estshary.com/api/logout`,
             method: "post"
           },
           refresh: {
-            url: `http://dental.al-estshary.com/api/refresh-token`,
+            url: `https://dental.al-estshary.com/api/refresh-token`,
             method: "post"
           },
           user: {
-            url: `http://dental.al-estshary.com/api/loggeduser`,
+            url: `https://dental.al-estshary.com/api/loggeduser`,
             method: "get"
           }
         }
@@ -129,9 +129,9 @@ export default {
   env: {
     baseUrl:
       process.env.BASE_URL || "https://projects.cloudmaize.com/dentalwp/",
-    apiUrl: process.env.API_URL || "http://dental.al-estshary.com",
+    apiUrl: process.env.API_URL || "https://dental.al-estshary.com",
     storageBase:
-      process.env.STORAGE_BASE || "http://dental.al-estshary.com/storage",
+      process.env.STORAGE_BASE || "https://dental.al-estshary.com/storage",
     ...WP_PAGES_IDS,
     recaptchaSiteKey: process.env.RECAPTCHA_SITE_LEY || "6LcyXcMaAAAAAH6iSlD5Pw099dI1_otKC3QdN_9F",
     recaptchaSecret: process.env.RECAPTCHA_SECRET || "6LcyXcMaAAAAANIsyIpWkSe0Z-8AtxPtUD4GZv3j"
