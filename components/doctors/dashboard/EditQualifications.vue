@@ -24,7 +24,8 @@
               @click.prevent="addItem()"
               :key="index"
             >
-              <get-svg :svgid="111" width="11" height="11" />
+              <!-- <get-svg :svgid="111" width="11" height="11" /> -->
+              <get-svg-2 svg="plus" width="11" height="11" />
             </button>
             <button
               class="btn remove-item"
@@ -32,7 +33,8 @@
               @click.prevent="removeItem(index)"
               :key="index + 1"
             >
-              <get-svg :svgid="112" width="12" height="12" />
+              <!-- <get-svg :svgid="112" width="12" height="12" /> -->
+              <get-svg-2 svg="delete" width="12" height="12" />
             </button>
           </div>
         </div>
@@ -68,7 +70,7 @@ export default {
   },
   created() {
     if (this.doctor.experience != null && this.doctor.experience.length > 0) {
-      this.experience =  this.doctor.experience;
+      this.experience = this.doctor.experience;
     }
   },
   methods: {

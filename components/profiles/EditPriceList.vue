@@ -59,7 +59,8 @@
                   @click.prevent="addItem(groupKey)"
                   :key="itemKey"
                 >
-                  <get-svg :svgid="111" width="11" height="11" />
+                  <!-- <get-svg :svgid="111" width="11" height="11" /> -->
+                  <get-svg-2 svg="plus" width="11" height="11" />
                 </button>
                 <button
                   class="btn remove-item"
@@ -67,7 +68,8 @@
                   @click.prevent="removeItem(groupKey, itemKey)"
                   :key="itemKey + 1"
                 >
-                  <get-svg :svgid="112" width="12" height="12" />
+                  <!-- <get-svg :svgid="112" width="12" height="12" /> -->
+                  <get-svg-2 svg="delete" width="12" height="12" />
                 </button>
               </div>
             </div>

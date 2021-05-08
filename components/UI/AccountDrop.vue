@@ -2,7 +2,8 @@
   <div class="account-dropdown">
     <button class="cta" @mouseover="opened = true" @mouseleave="opened = false">
       <div class="icon">
-        <get-svg :svgid="114" width="20" height="20" />
+        <!-- <get-svg :svgid="114" width="20" height="20" /> -->
+        <get-svg-2 svg="bell" width="20" height="20" />
       </div>
       <div class="text">My Account</div>
     </button>

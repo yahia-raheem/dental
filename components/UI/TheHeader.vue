@@ -92,7 +92,8 @@
               v-if="!isLoggedIn && !isMobile"
             >
               <div class="icon">
-                <get-svg :svgid="116" width="18" height="18" />
+                <!-- <get-svg :svgid="116" width="18" height="18" /> -->
+                <get-svg-2 svg="padlock" width="18" height="18" />
               </div>
               <div class="text">
                 Sign in

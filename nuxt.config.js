@@ -63,7 +63,8 @@ export default {
     "@nuxtjs/axios",
     "@nuxtjs/proxy",
     "@nuxtjs/auth-next",
-    "@nuxtjs/recaptcha"
+    "@nuxtjs/recaptcha",
+    "@nuxtjs/svg"
   ],
 
   router: {
@@ -72,12 +73,12 @@ export default {
 
   auth: {
     redirect: {
-      login: '/auth',
-      logout: '/',
-      callback: '/auth',
-      home: '/'
+      login: "/auth",
+      logout: "/",
+      callback: "/auth",
+      home: "/"
     },
-    plugins: ['~/plugins/auth.js'],
+    plugins: ["~/plugins/auth.js"],
     strategies: {
       local: {
         scheme: "refresh",
@@ -122,9 +123,7 @@ export default {
     proxy: false
   },
 
-  serverMiddleware: [
-    { path: '/api/check-token', handler: '~/api/recaptcha' }
-  ],
+  serverMiddleware: [{ path: "/api/check-token", handler: "~/api/recaptcha" }],
 
   env: {
     baseUrl:
@@ -133,23 +132,24 @@ export default {
     storageBase:
       process.env.STORAGE_BASE || "https://dental.al-estshary.com/storage",
     ...WP_PAGES_IDS,
-    recaptchaSiteKey: process.env.RECAPTCHA_SITE_LEY || "6LcyXcMaAAAAAH6iSlD5Pw099dI1_otKC3QdN_9F",
-    recaptchaSecret: process.env.RECAPTCHA_SECRET || "6LcyXcMaAAAAANIsyIpWkSe0Z-8AtxPtUD4GZv3j"
+    recaptchaSiteKey:
+      process.env.RECAPTCHA_SITE_LEY ||
+      "6LcyXcMaAAAAAH6iSlD5Pw099dI1_otKC3QdN_9F",
+    recaptchaSecret:
+      process.env.RECAPTCHA_SECRET || "6LcyXcMaAAAAANIsyIpWkSe0Z-8AtxPtUD4GZv3j"
   },
 
   recaptcha: {
     // hideBadge: true,
     siteKey: "6LcyXcMaAAAAAH6iSlD5Pw099dI1_otKC3QdN_9F",
     version: 3,
-    size: 'compact'
+    size: "compact"
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    babel:{
-      plugins: [
-        ['@babel/plugin-proposal-private-methods', { loose: true }]
-      ]
+    babel: {
+      plugins: [["@babel/plugin-proposal-private-methods", { loose: true }]]
     },
     loaders: {
       scss: customSass
@@ -157,6 +157,6 @@ export default {
   },
   server: {
     port: 8080, // default: 3000
-    host: '0.0.0.0' // default: localhost
-  },
+    host: "0.0.0.0" // default: localhost
+  }
 };

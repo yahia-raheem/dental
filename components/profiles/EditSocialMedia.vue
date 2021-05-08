@@ -33,14 +33,16 @@
               :key="key"
               v-if="key == inputs.length - 1"
             >
-              <get-svg :svgid="111" width="11" height="11" />
+              <!-- <get-svg :svgid="111" width="11" height="11" /> -->
+              <get-svg-2 svg="plus" width="11" height="11" />
             </button>
             <button
               class="btn remove-item"
               @click.prevent="removeItem(key)"
               :key="key + 1"
             >
-              <get-svg :svgid="112" width="12" height="12" />
+              <!-- <get-svg :svgid="112" width="12" height="12" /> -->
+              <get-svg-2 svg="delete" width="12" height="12" />
             </button>
           </div>
         </div>
