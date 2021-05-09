@@ -5,7 +5,7 @@
       v-for="(item, index) in slide"
       :key="index"
     >
-      <div class="portfolio-box">
+      <div class="portfolio-box" @click="openSlider(item.id)">
         <div class="img-container">
           <get-img-by-link :imglink="cover(item.cover)" classes="bg-image" />
         </div>
@@ -21,14 +21,17 @@ export default {
       type: Array,
       default() {
         return [];
-      },
-    },
+      }
+    }
   },
   methods: {
+    openSlider(id) {
+      this.$emit("openSlider", id);
+    },
     cover(cover) {
       return `${process.env.storageBase}/${cover}`;
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

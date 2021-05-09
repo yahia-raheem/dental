@@ -22,7 +22,7 @@
               :logoImg="lab.picture"
               :cta="{
                 link: `/labs/${lab.id}/dashboard/edit`,
-                text: 'Dashboard',
+                text: 'Dashboard'
               }"
               ptype="lab"
               v-if="loggedIn && user.id == lab.user_id"
@@ -125,7 +125,10 @@
                     v-for="(item, index) in portfolioSlides"
                     :key="index"
                   >
-                    <portfolio-slide :slide="item" />
+                    <portfolio-slide
+                      :slide="item"
+                      v-on:openSlider="openSlider"
+                    />
                   </div>
                 </VueSlickCarousel>
               </div>
@@ -168,6 +171,24 @@
         </div> -->
       </div>
     </div>
+    <modal
+      name="portfolioSlider"
+      classes="portfolio-slider"
+      :adaptive="true"
+      :width="'90%'"
+      :height="'75%'"
+      :maxWidth="1200"
+    >
+      <VueSlickCarousel
+        v-bind="popUpSettings"
+        ref="popupSlider"
+        :key="popSliderKey"
+      >
+        <div class="slide" v-for="(item, index) in pSliderSlides" :key="index">
+          <pop-slide :slide="item" />
+        </div>
+      </VueSlickCarousel>
+    </modal>
   </section>
 </template>
 <script>
@@ -176,6 +197,8 @@ import PortfolioSlide from "~/components/doctors/PortfolioSlide.vue";
 import ProfileComment from "~/components/doctors/ProfileComment";
 import PriceList from "~/components/labs/PriceList.vue";
 import ProfileIntro from "~/components/profiles/ProfileIntro.vue";
+import PopSlide from "~/components/profiles/PopSlide.vue";
+import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
 
 export default {
   components: {
@@ -184,6 +207,7 @@ export default {
     ProfileComment,
     PriceList,
     ProfileIntro,
+    PopSlide
   },
   async asyncData(context) {
     const labData = await context.store.dispatch(
@@ -198,22 +222,45 @@ export default {
       settings: {
         dots: false,
         arrows: false,
-        autoplay: false,
+        autoplay: false
       },
+      popUpSettings: {
+        arrows: true,
+        autoplay: false,
+        dots: false,
+        centerMode: true,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1
+      },
+      pSliderOpened: false,
+      pSliderSlides: [],
       tags: {
         tags: labData.specialties,
         routeName: "labs",
-        queryName: "specialities",
+        queryName: "specialities"
       },
+      popSliderKey: 0
     };
   },
   methods: {
+    closePop() {
+      this.pSliderOpened = false;
+    },
+    openSlider(id) {
+      const album = this.lab.portfolio.find(album => album.id == id);
+      if (typeof album.album != "undefined") {
+        // this.popSliderKey = this.popSliderKey + 1;
+        this.pSliderSlides = album.album;
+        this.$modal.show("portfolioSlider");
+      }
+    },
     prevSlide() {
       this.$refs.portfolioSlider.prev();
     },
     nextSlide() {
       this.$refs.portfolioSlider.next();
-    },
+    }
   },
   computed: {
     profileCover() {
@@ -257,7 +304,7 @@ export default {
             }
             socials.push({
               icon: icon,
-              link: element,
+              link: element
             });
           }
         }
@@ -265,122 +312,153 @@ export default {
       } else {
         return null;
       }
-    },
-  },
+    }
+  }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 @use "~/assets/scss/helpers" as h with(
   $dir: $dir
 );
-.notice {
-  background-color: red;
-  position: absolute;
-  z-index: 2;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  padding: 8px;
-  font-weight: 600;
-}
-.locations {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 30px;
-  overflow: hidden;
-  position: relative;
-  .box-title {
-    font-weight: normal;
-    padding-bottom: 15px;
-    position: relative;
-    &::after {
-      @include h.center("h");
-      bottom: 0;
-      content: "";
-      width: 40px;
-      height: 3px;
-      border-radius: 5px;
-      background-color: #d5d5d5;
-    }
-  }
-  .locations-list {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 40px;
-    flex-flow: wrap;
-    .loc {
-      width: 50%;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      min-width: fit-content;
-      flex-wrap: wrap;
-      .icon::v-deep {
-        @include h.circle(20px);
-        position: relative;
-        overflow: hidden;
-        @include h.appDirAuto($margin-end: 25px);
-        &::after {
-          content: "";
-          width: 100%;
-          height: 100%;
-          background-color: #3959a8;
-          opacity: 0.2;
-          top: 0;
-          left: 0;
-          position: absolute;
-        }
-        svg {
-          @include h.center();
-          path {
-            fill: #3959a8;
-          }
-        }
-      }
-      .label {
-        color: #3959a8;
-        @include h.appDirAuto($margin-end: 30px);
-      }
-    }
-  }
-  .footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    .social {
-      position: relative;
-      z-index: 1;
+section.lab-profile {
+  .portfolio-slider {
+    .slick-track {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 10px 0;
-      .unit::v-deep {
-        @include h.circle(20px);
-        @include h.appDirAuto($margin-end: 10px);
-        background-color: #3959a8;
+    }
+    .slick-slider {
+      @include h.center();
+      height: auto;
+      width: 100%;
+      .slide {
         position: relative;
-        svg {
-          max-width: 60%;
-          max-height: 60%;
-          @include h.center();
-          path {
-            fill: white;
+        z-index: 1;
+      }
+    }
+    .slick-arrow {
+      width: 40px;
+      height: 40px;
+      &::before {
+        font-size: 40px;
+      }
+      &.slick-prev {
+        @include h.appDirAuto($start: 25px);
+      }
+      &.slick-next {
+        @include h.appDirAuto($end: 25px);
+      }
+    }
+  }
+  .notice {
+    background-color: red;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 8px;
+    font-weight: 600;
+  }
+  .locations {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    position: relative;
+    .box-title {
+      font-weight: normal;
+      padding-bottom: 15px;
+      position: relative;
+      &::after {
+        @include h.center("h");
+        bottom: 0;
+        content: "";
+        width: 40px;
+        height: 3px;
+        border-radius: 5px;
+        background-color: #d5d5d5;
+      }
+    }
+    .locations-list {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 40px;
+      flex-flow: wrap;
+      .loc {
+        width: 50%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        min-width: fit-content;
+        flex-wrap: wrap;
+        .icon {
+          @include h.circle(20px);
+          position: relative;
+          overflow: hidden;
+          @include h.appDirAuto($margin-end: 25px);
+          &::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            background-color: #3959a8;
+            opacity: 0.2;
+            top: 0;
+            left: 0;
+            position: absolute;
           }
+          svg {
+            @include h.center();
+            path {
+              fill: #3959a8;
+            }
+          }
+        }
+        .label {
+          color: #3959a8;
+          @include h.appDirAuto($margin-end: 30px);
         }
       }
     }
-    &::after {
-      @include h.center();
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
       width: 100%;
-      height: 100%;
-      content: "";
-      background-color: #f0f5fa;
-      z-index: 0;
+      .social {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 0;
+        .unit {
+          @include h.circle(20px);
+          @include h.appDirAuto($margin-end: 10px);
+          background-color: #3959a8;
+          position: relative;
+          svg {
+            max-width: 60%;
+            max-height: 60%;
+            @include h.center();
+            path {
+              fill: white;
+            }
+          }
+        }
+      }
+      &::after {
+        @include h.center();
+        width: 100%;
+        height: 100%;
+        content: "";
+        background-color: #f0f5fa;
+        z-index: 0;
+      }
     }
   }
 }
