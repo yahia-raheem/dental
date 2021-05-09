@@ -149,7 +149,8 @@ export default {
 
   cache: {
     useHostPrefix: false,
-    pages: [/^\/$/],
+    // pages: [/^\/$/],
+    pages: ['/'],
     key(route, context) {
       // custom function to return cache key, when used previous
       // properties (useHostPrefix, pages) are ignored. return
@@ -162,9 +163,9 @@ export default {
       return `page:${page}:string`;
     },
     store: {
-      type: 'redis',
-      host: 'localhost',
-      ttl: 10 * 60,
+      type: "memory",
+      max: 100,
+      ttl: 60
     }
   },
 
