@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <nuxt-img
+    <nuxt-img
       quality="90"
       :src="imglink"
       :class="classes"
@@ -8,12 +8,12 @@
       :sizes="responsive"
       :fit="fit"
       loading="lazy"
-    /> -->
-    <img
+    /> 
+    <!-- <img
       :src="imglink"
       :class="classes"
       loading="lazy"
-    />
+    /> -->
   </div>
 </template>
 <script>

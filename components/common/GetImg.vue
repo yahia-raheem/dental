@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <nuxt-img
+    <nuxt-img
       quality="90"
       :src="img"
       :class="classes"
@@ -10,13 +10,13 @@
       :alt="imgAlt"
       loading="lazy"
       v-if="$fetchState.pending == false"
-    /> -->
-    <img
+    />
+    <!-- <img
       :src="img"
       :class="classes"
       :alt="imgAlt"
       loading="lazy"
-    />
+    /> -->
   </div>
 </template>
 <script>

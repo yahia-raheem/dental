@@ -39,23 +39,24 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  // buildModules: ["@nuxt/image"],
-  buildModules: [],
-  // image: {
-  //   domains: [
-  //     "https://projects.cloudmaize.com/dentalwp/",
-  //     "https://dental.al-estshary.com/storage"
-  //   ],
-  //   screens: {
-  //     xs: 320,
-  //     sm: 640,
-  //     md: 768,
-  //     lg: 1024,
-  //     xl: 1280,
-  //     xxl: 1536
-  //   },
-  //   sizes: [320, 420, 768, 1024, 1200]
-  // },
+  // buildModules: [],
+  buildModules: ["@nuxt/image"],
+  image: {
+    domains: [
+      "https://projects.cloudmaize.com/dentalwp/",
+      "https://dental.al-estshary.com/storage",
+      "https://dental-njsk8.ondigitalocean.app/"
+    ],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536
+    },
+    sizes: [320, 420, 768, 1024, 1200]
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -85,7 +86,7 @@ export default {
         token: {
           property: "token",
           type: "Bearer",
-          maxAge: 1
+          maxAge: 60 * 60
         },
         refreshToken: {
           property: "refresh_token",
