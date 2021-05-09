@@ -166,6 +166,21 @@ export const actions = {
       new Error(error.response.data.message);
     }
   },
+  // async getImage(vcontext, options) {
+  //   try {
+  //     const { data } = await axios.get(
+  //       `${process.env.baseUrl}/wp-json/generaldata/v1/getimage/${options.id}`,
+  //       {
+  //         params: {
+  //           size: options.size ? options.size : false
+  //         }
+  //       }
+  //     );
+  //     return data;
+  //   } catch (error) {
+  //     new Error(error.response.data.message);
+  //   }
+  // },
   async getSvg(vcontext, imgId) {
     const { data } = await axios.get(
       `${process.env.baseUrl}/wp-json/generaldata/v1/getsvg/${imgId}`
@@ -175,8 +190,8 @@ export const actions = {
   async checkCaptcha(vcontext, data) {
     return await fetch("/api/check-token", {
       method: "POST",
-      body: JSON.stringify({...data, secret: process.env.recaptchaSecret}),
-    }).then((res) => res.json());
+      body: JSON.stringify({ ...data, secret: process.env.recaptchaSecret })
+    }).then(res => res.json());
   },
   addImg(vcontext, options) {
     if (!vcontext.getters.image(options.id)) {

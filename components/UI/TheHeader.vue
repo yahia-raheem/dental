@@ -13,7 +13,13 @@
       <p v-if="docProfStatus != 'pending'">
         Please verify your profile as soon as possible to fully enjoy our
         platform's services.
-        <nuxt-link :to="`/doctors/${$auth.user.doctor_profile.id}/dashboard/edit#verificationBox`" class="verify-link">Click here</nuxt-link>
+        <nuxt-link
+          :to="
+            `/doctors/${$auth.user.doctor_profile.id}/dashboard/edit#verificationBox`
+          "
+          class="verify-link"
+          >Click here</nuxt-link
+        >
       </p>
     </div>
     <div class="white-gradient" v-if="$route.fullPath == '/'">
@@ -63,10 +69,7 @@
         <div class="col-12">
           <nav class="navbar navbar-expand-lg">
             <nuxt-link class="navbar-brand" to="/">
-              <get-img
-                :imgid="siteLogo"
-                :classes="'site-logo'"
-              />
+              <get-img :imgid="siteLogo" :classes="'site-logo'" />
             </nuxt-link>
             <button
               class="navbar-toggler"
@@ -220,7 +223,7 @@ export default {
     }
   }
   .notice {
-    background-color: #C11515;
+    background-color: #c11515;
     position: relative;
     z-index: 2;
     width: 100%;

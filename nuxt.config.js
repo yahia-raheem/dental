@@ -64,7 +64,8 @@ export default {
     "@nuxtjs/proxy",
     "@nuxtjs/auth-next",
     "@nuxtjs/recaptcha",
-    "@nuxtjs/svg"
+    "@nuxtjs/svg",
+    "nuxt-ssr-cache"
   ],
 
   router: {
@@ -144,6 +145,27 @@ export default {
     siteKey: "6LcyXcMaAAAAAH6iSlD5Pw099dI1_otKC3QdN_9F",
     version: 3,
     size: "compact"
+  },
+
+  cache: {
+    useHostPrefix: false,
+    pages: [/^\/$/],
+    key(route, context) {
+      // custom function to return cache key, when used previous
+      // properties (useHostPrefix, pages) are ignored. return
+      // falsy value to bypass the cache
+      if (route === "/") {
+        return "page:home:string";
+      }
+      let page = route.substr(1).split("/");
+      page = page.join(".");
+      return `page:${page}:string`;
+    },
+    store: {
+      type: 'redis',
+      host: 'localhost',
+      ttl: 10 * 60,
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

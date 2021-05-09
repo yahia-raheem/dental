@@ -4,7 +4,7 @@
       <div class="filter-buttons">
         <button :class="{ lab: true, active: labActive }" @click="activateTab">
           <span class="icon">
-            <get-svg :svgid="labsvgId" />
+            <get-svg-2 svg="lab" />
           </span>
           <span class="title">Laboratory</span>
         </button>
@@ -13,7 +13,7 @@
           @click="activateTab"
         >
           <span class="icon">
-            <get-svg :svgid="docsvgId" />
+            <get-svg-2 svg="dentist" />
           </span>
           <span class="title">Dentist</span>
         </button> -->
@@ -90,7 +90,7 @@
     >
       <nuxt-link to="/labs" class="btn btn-primary home-mobile-cta">
         <span class="icon">
-          <get-svg :svgid="labsvgId" width="15" height="15" />
+          <get-svg-2 svg="lab" width="15" height="15" />
         </span>
         Search for Laboratory
       </nuxt-link>
@@ -119,12 +119,6 @@ export default {
       labLoc: "parameters/labLoc",
       labAos: "parameters/labAos"
     }),
-    labsvgId() {
-      return this.pageById(process.env.homepageId).custom_fields.lab_svg.ID;
-    },
-    docsvgId() {
-      return this.pageById(process.env.homepageId).custom_fields.doctor_svg.ID;
-    }
   },
   methods: {
     activateTab(e) {

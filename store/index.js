@@ -2,9 +2,13 @@ export const state = () => ({});
 
 export const actions = {
   async nuxtServerInit({ dispatch }) {
-    await dispatch("general/getHeaderOptions");
-    dispatch("general/getSocialMedia");
-    dispatch("general/getHeaderMenu");
-    await dispatch("parameters/getParameters");
+    try {
+      await dispatch("general/getHeaderOptions");
+      await dispatch("parameters/getParameters");
+      dispatch("general/getSocialMedia");
+      dispatch("general/getHeaderMenu");
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
