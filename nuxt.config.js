@@ -65,7 +65,7 @@ export default {
     "@nuxtjs/auth-next",
     "@nuxtjs/recaptcha",
     "@nuxtjs/svg",
-    "nuxt-ssr-cache"
+    // "nuxt-ssr-cache"
   ],
 
   router: {
@@ -147,25 +147,25 @@ export default {
     size: "compact"
   },
 
-  cache: {
-    useHostPrefix: false,
-    // pages: [/^\/$/],
-    pages: ["/"],
-    key(route, context) {
-      if (route === "/") {
-        return "page:home:string";
-      }
-      // let page = route.substr(1).split("/");
-      // page = page.join(".");
-      // return `page:${page}:string`;
-      return false;
-    },
-    store: {
-      type: "memory",
-      max: 100,
-      ttl: 60
-    }
-  },
+  // cache: {
+  //   useHostPrefix: false,
+  //   // pages: [/^\/$/],
+  //   pages: ["/"],
+  //   key(route, context) {
+  //     if (route === "/") {
+  //       return "page:home:string";
+  //     }
+  //     // let page = route.substr(1).split("/");
+  //     // page = page.join(".");
+  //     // return `page:${page}:string`;
+  //     return false;
+  //   },
+  //   store: {
+  //     type: "memory",
+  //     max: 100,
+  //     ttl: 60
+  //   }
+  // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
