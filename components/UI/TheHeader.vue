@@ -69,7 +69,7 @@
         <div class="col-12">
           <nav class="navbar navbar-expand-lg">
             <nuxt-link class="navbar-brand" to="/">
-              <get-img :imgid="siteLogo" :classes="'site-logo'" />
+              <get-img :imgid="siteLogo" :classes="'site-logo'" responsive="xxl:130px,md:100" />
             </nuxt-link>
             <button
               class="navbar-toggler"

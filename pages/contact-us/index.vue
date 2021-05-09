@@ -4,7 +4,7 @@
       <div class="row mb-5">
         <div class="col-12">
           <div class="img-container banner">
-            <get-img :imgobj="page.custom_fields.cta_banner" />
+            <get-img :imgobj="page.custom_fields.cta_banner" classes="bg-image" />
           </div>
           <div class="banner-title">
             <h1 class="text title">

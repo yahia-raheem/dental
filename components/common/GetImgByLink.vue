@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt-img
+    <nuxt-picture
       quality="90"
       :src="imglink"
       :class="classes"
@@ -8,7 +8,7 @@
       :sizes="responsive"
       :fit="fit"
       loading="lazy"
-    /> 
+    />
     <!-- <img
       :src="imglink"
       :class="classes"
@@ -47,5 +47,16 @@ export default {
 .img-fluid {
   width: 100%;
   height: auto;
+}
+picture.bg-image::v-deep {
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
 }
 </style>
