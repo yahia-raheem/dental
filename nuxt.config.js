@@ -150,17 +150,15 @@ export default {
   cache: {
     useHostPrefix: false,
     // pages: [/^\/$/],
-    pages: ['/'],
+    pages: ["/"],
     key(route, context) {
-      // custom function to return cache key, when used previous
-      // properties (useHostPrefix, pages) are ignored. return
-      // falsy value to bypass the cache
       if (route === "/") {
         return "page:home:string";
       }
-      let page = route.substr(1).split("/");
-      page = page.join(".");
-      return `page:${page}:string`;
+      // let page = route.substr(1).split("/");
+      // page = page.join(".");
+      // return `page:${page}:string`;
+      return false;
     },
     store: {
       type: "memory",
