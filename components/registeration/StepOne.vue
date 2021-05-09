@@ -1,10 +1,5 @@
 <template>
   <div class="form-container pending">
-    <p class="text-center mb-3">
-      already have an account ? click
-      <nuxt-link to="/auth" class="text-primary">here</nuxt-link> to sign in
-      instead.
-    </p>
     <form @submit.prevent="submitRegister">
       <div class="form-row">
         <div class="form-group col-lg-6 col-md-12">
@@ -118,6 +113,11 @@
       </div>
       <div class="form-row">
         <div class="cta-container">
+          <p class="text-center mb-3">
+            already have an account ? click
+            <nuxt-link to="/auth" class="text-primary">here</nuxt-link> to sign
+            in instead.
+          </p>
           <button
             type="submit"
             class="btn btn-primary submit-btn d-flex justify-content-center align-items-center"

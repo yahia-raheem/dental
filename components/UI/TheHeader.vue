@@ -33,7 +33,7 @@
         >
           <ul class="social">
             <li v-for="(item, key) in socialMedia" :key="key">
-              <a :href="item.link">
+              <a :href="item.link" target="_blank">
                 <get-svg :svgid="item.image" />
               </a>
             </li>
@@ -51,7 +51,7 @@
               <div class="tel" v-if="!isMobile">{{ headerPhone }}</div></a
             >
           </div>
-          <div class="header-cta header-signin-cta" v-if="!isLoggedIn">
+          <div class="header-cta header-signin-cta" v-show="!isLoggedIn">
             <div class="img-container">
               <get-svg :svgid="signinImage" />
             </div>
@@ -92,7 +92,7 @@
             <nuxt-link
               class="btn login-btn"
               to="/auth"
-              v-if="!isLoggedIn && !isMobile"
+              v-show="!isLoggedIn && !isMobile"
             >
               <div class="icon">
                 <!-- <get-svg :svgid="116" width="18" height="18" /> -->
@@ -102,7 +102,7 @@
                 Sign in
               </div>
             </nuxt-link>
-            <account-drop v-if="isLoggedIn && !isMobile" />
+            <account-drop v-show="isLoggedIn && !isMobile" />
           </nav>
         </div>
       </div>

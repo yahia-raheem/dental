@@ -2,7 +2,7 @@
   height: 100%;
   width: 0;
   position: fixed;
-  z-index: 5;
+  z-index: 11;
   top: 0;
   @include h.appDirAuto($start: 0);
   background-color: #3c4b54;

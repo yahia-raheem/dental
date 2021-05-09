@@ -24,12 +24,14 @@
                 link: `/labs/${lab.id}/dashboard/edit`,
                 text: 'Dashboard',
               }"
+              ptype="lab"
               v-if="loggedIn && user.id == lab.user_id"
             />
             <profile-intro
               :title="lab.name"
               :tags="tags"
               :logoImg="lab.picture"
+              ptype="lab"
               :cta="{ link: `/labs/${lab.id}/request`, text: 'Send a Request' }"
               v-if="!loggedIn || user.id != lab.user_id"
             />

@@ -65,7 +65,6 @@ export default {
     "@nuxtjs/auth-next",
     "@nuxtjs/recaptcha",
     "@nuxtjs/svg",
-    // "nuxt-ssr-cache"
   ],
 
   router: {
@@ -86,7 +85,7 @@ export default {
         token: {
           property: "token",
           type: "Bearer",
-          maxAge: 60 * 60
+          maxAge: 1
         },
         refreshToken: {
           property: "refresh_token",
@@ -146,26 +145,6 @@ export default {
     version: 3,
     size: "compact"
   },
-
-  // cache: {
-  //   useHostPrefix: false,
-  //   // pages: [/^\/$/],
-  //   pages: ["/"],
-  //   key(route, context) {
-  //     if (route === "/") {
-  //       return "page:home:string";
-  //     }
-  //     // let page = route.substr(1).split("/");
-  //     // page = page.join(".");
-  //     // return `page:${page}:string`;
-  //     return false;
-  //   },
-  //   store: {
-  //     type: "memory",
-  //     max: 100,
-  //     ttl: 60
-  //   }
-  // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

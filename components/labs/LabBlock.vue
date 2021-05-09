@@ -74,7 +74,7 @@
           </span>
           <span class="text">View Profile</span>
         </nuxt-link>
-        <button class="btn btn-primary">Send Request</button>
+        <nuxt-link class="btn btn-primary" :to="`/labs/${lab.id}/request`">Send Request</nuxt-link>
       </div>
     </div>
   </div>

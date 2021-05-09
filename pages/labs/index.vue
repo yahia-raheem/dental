@@ -6,9 +6,9 @@
           <div class="archive-sidebar">
             <sidebar-filter
               v-on:nameFilter="nameModify"
-              v-on:specFilter="specPreModify"
-              v-on:locFilter="locPreModify"
-              v-on:aosFilter="aosPreModify"
+              v-on:specFilter="specModify"
+              v-on:locFilter="locModify"
+              v-on:aosFilter="aosModify"
             />
           </div>
         </div>
@@ -24,7 +24,11 @@
           </div>
           <div class="row">
             <div class="col-12" v-for="(lab, index) in labs" :key="index">
-              <lab-block :lab="lab" v-on:filterSpec="specModify" v-on:filterLoc="locModify" />
+              <lab-block
+                :lab="lab"
+                v-on:filterSpec="specModify"
+                v-on:filterLoc="locModify"
+              />
             </div>
             <div
               class="col-12 d-flex justify-content-center align-items-center"
@@ -214,8 +218,8 @@ export default {
     async aosModify(value) {
       if (value != null) {
         var oldSpec =
-          typeof this.$route.query.locations != "undefined"
-            ? this.$route.query.locations
+          typeof this.$route.query.aos != "undefined"
+            ? this.$route.query.aos
             : "";
         const oldSpecArr = oldSpec.split(",");
         if (oldSpecArr.includes(`${value}`)) {

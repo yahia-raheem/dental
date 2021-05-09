@@ -65,7 +65,8 @@
         :reduce="option => option.id"
         label="name"
         placeholder="Filter Specialities"
-        @input="specFilter"
+        v-on:option:deselecting="specFilter"
+        v-on:option:selecting="specFilter"
         multiple
       ></v-select>
     </div>
@@ -85,7 +86,8 @@
         :reduce="option => option.id"
         label="name"
         placeholder="Filter Lab Locations"
-        @input="locationFilter"
+        v-on:option:selecting="locationFilter"
+        v-on:option:deselecting="locationFilter"
         multiple
       ></v-select>
     </div>
@@ -105,7 +107,8 @@
         :reduce="option => option.id"
         label="name"
         placeholder="Filter Areas of Service"
-        @input="aosFilter"
+        v-on:option:selecting="aosFilter"
+        v-on:option:deselecting="aosFilter"
         multiple
       ></v-select>
     </div>
@@ -130,6 +133,9 @@ export default {
     })
   },
   methods: {
+    checkoptions(v) {
+      console.log(v);
+    },
     filterPrep() {
       const specQuery = this.$route.query.specialities;
       const locQuery = this.$route.query.locations;
@@ -166,13 +172,13 @@ export default {
       this.$emit("nameFilter", event.target.value);
     },
     specFilter(value) {
-      this.$emit("specFilter", value);
+      this.$emit("specFilter", value.id);
     },
     locationFilter(value) {
-      this.$emit("locFilter", value);
+      this.$emit("locFilter", value.id);
     },
     aosFilter(value) {
-      this.$emit("aosFilter", value);
+      this.$emit("aosFilter", value.id);
     }
   },
   mounted() {

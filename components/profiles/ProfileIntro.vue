@@ -46,6 +46,9 @@
               <nuxt-link :to="cta.link" class="btn btn-primary">{{
                 cta.text
               }}</nuxt-link>
+              <span v-if="ptype == 'lab'"
+                >you need to have a verified account to send a request</span
+              >
             </div>
           </div>
           <hr />
@@ -98,6 +101,9 @@
                 <nuxt-link :to="cta.link" class="btn btn-primary">{{
                   cta.text
                 }}</nuxt-link>
+                <span v-if="ptype == 'lab'"
+                  >you need to have a verified account to send a request</span
+                >
               </div>
             </div>
           </div>
@@ -160,8 +166,12 @@ export default {
     tags: {},
     // rating: 0,
     // views: "",
-    cta: {}
-    // reviews: 0
+    cta: {},
+    // reviews: 0,
+    ptype: {
+      type: String,
+      default: "doctor"
+    }
   },
   data() {
     return {
@@ -221,6 +231,12 @@ export default {
       .data {
         @include h.appDirAuto($margin-end: 50px);
       }
+      .cta {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-end;
+      }
     }
     .tags {
       display: flex;
@@ -272,8 +288,10 @@ export default {
     }
     .cta {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      text-align: center;
     }
     .btn-primary {
       margin-top: 10px;

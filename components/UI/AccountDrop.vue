@@ -7,7 +7,11 @@
       </div>
       <div class="text">My Account</div>
     </button>
-    <div :class="{ 'cta-dd': true, 'd-none': !opened, 'shadow-sm': true }" @mouseover="opened = true" @mouseleave="opened = false">
+    <div
+      :class="{ 'cta-dd': true, 'd-none': !opened, 'shadow-sm': true }"
+      @mouseover="opened = true"
+      @mouseleave="opened = false"
+    >
       <div class="header">
         <h6 class="name">{{ user.name }}</h6>
         <p class="email">{{ user.email }}</p>
@@ -57,7 +61,7 @@ export default {
   },
   computed: {
     user() {
-      return this.$auth.user;
+      return this.$auth.user ? this.$auth.user : {};
     }
   },
   methods: {
@@ -108,7 +112,7 @@ button.cta {
   border-radius: 5px;
   background-color: white;
   position: absolute;
-  z-index: 10;
+  z-index: 11;
   min-width: 200px;
   bottom: 0;
   @include h.appDirAuto($end: 0);
