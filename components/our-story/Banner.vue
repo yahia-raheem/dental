@@ -10,8 +10,7 @@
       <h5 class="title">{{ bannerTitle }}</h5>
       <p class="subtitle">{{ bannerSubtitle }}</p>
       <div class="buttons-container">
-        <nuxt-link to="/" class="btn btn-doctor">Doctor</nuxt-link>
-        <nuxt-link to="/" class="btn btn-lab">Laboratory</nuxt-link>
+        <nuxt-link to="/auth/register" class="btn btn-doctor">Create Your Account</nuxt-link>
       </div>
     </div>
   </div>
@@ -73,7 +72,6 @@ export default {
       justify-content: center;
       align-items: center;
       .btn {
-        width: 160px;
         height: 45px;
         display: flex;
         justify-content: center;

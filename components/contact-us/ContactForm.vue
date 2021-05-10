@@ -63,9 +63,9 @@
       </div>
     </div>
     <button class="btn btn-primary" type="submit">Send Request</button>
-    <div class="success" v-if="submitionStatus == 'SUCCESS'"
-      >Your Request is Successfully Submited, Thank you for your time!</div
-    >
+    <div class="success" v-if="submitionStatus == 'SUCCESS'">
+      Your Request is Successfully Submited, Thank you for your time!
+    </div>
   </form>
 </template>
 <script>
@@ -101,8 +101,18 @@ export default {
       minLength: minLength(4)
     }
   },
+  async mounted() {
+    try {
+      await this.$recaptcha.init();
+    } catch (e) {
+      console.error(e);
+    }
+  },
+  beforeDestroy() {
+    this.$recaptcha.destroy();
+  },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
         this.submitionStatus = "ERROR";
@@ -121,16 +131,34 @@ export default {
             form.append(field, element);
           }
         }
-        this.$axios
-          .$post(
+        const token = await this.$recaptcha.execute("register");
+        const data = { token };
+        const captchaRes = await this.$store.dispatch(
+          "general/checkCaptcha",
+          data
+        );
+        if (captchaRes.success == true) {
+          this.$axios
+          .post(
             `${process.env.baseUrl}/wp-json/contact-form-7/v1/contact-forms/5/feedback`,
             form
           )
           .then(res => {
-            if (res.status == "mail_sent") {
+            console.log(res);
+            if (res.data.status == "mail_sent") {
+              this.$vToastify.success({
+                body: "your request has been sent",
+                title: "success"
+              });
               this.submitionStatus = "SUCCESS";
+            } else {
+              this.$vToastify.error({
+                body: res.data.message,
+                title: "Error"
+              });
             }
           });
+        }
       }
     }
   }
@@ -166,13 +194,13 @@ button[type="submit"] {
   padding-bottom: 10px;
 }
 .success {
-    border: 1px solid #28A745;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #28A745;
-    padding: 10px;
-    margin-top: 15px;
+  border: 1px solid #28a745;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #28a745;
+  padding: 10px;
+  margin-top: 15px;
 }
 </style>

@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group col">
+        <div class="form-group col-lg-6 col-md-12">
           <label for="email">Email</label>
           <input
             type="email"
@@ -38,7 +38,7 @@
             This field must be a valid email
           </div>
         </div>
-        <div class="form-group col">
+        <div class="form-group col-lg-6 col-md-12">
           <label for="phoneNumber">Phone Number</label>
           <input
             type="number"

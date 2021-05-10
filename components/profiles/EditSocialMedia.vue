@@ -6,7 +6,7 @@
     <div class="form-container">
       <form @submit.prevent="submit">
         <div class="form-row" v-for="(item, key) in inputs" :key="key">
-          <div class="form-group col-3">
+          <div class="form-group col-lg-3 col-md-12">
             <v-select
               id="smp"
               v-model.trim="item.label"
@@ -15,7 +15,7 @@
               :multiple="false"
             ></v-select>
           </div>
-          <div class="form-group col-6">
+          <div class="form-group col-lg-6 col-md-12">
             <input
               type="url"
               class="form-control"

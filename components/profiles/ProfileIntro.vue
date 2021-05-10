@@ -46,7 +46,7 @@
               <nuxt-link :to="cta.link" class="btn btn-primary">{{
                 cta.text
               }}</nuxt-link>
-              <span v-if="ptype == 'lab'"
+              <span v-if="ptype == 'lab' && $auth.user == null" class="note"
                 >you need to have a verified account to send a request</span
               >
             </div>
@@ -101,8 +101,8 @@
                 <nuxt-link :to="cta.link" class="btn btn-primary">{{
                   cta.text
                 }}</nuxt-link>
-                <span v-if="ptype == 'lab'"
-                  >you need to have a verified account to send a request</span
+                <span v-if="ptype == 'lab' && $auth.user == null" class="note"
+                  >you need to a verified account to send a request</span
                 >
               </div>
             </div>
@@ -180,6 +180,9 @@ export default {
     };
   },
   computed: {
+    currUser() {
+      return this.$auth.user;
+    },
     profilePicture() {
       if (this.logoImg != null) {
         return `${process.env.storageBase}/${this.logoImg}`;
@@ -194,6 +197,16 @@ export default {
 @use "~/assets/scss/helpers" as h with(
   $dir: $dir
 );
+.note {
+  display: flex;
+  width: 250px;
+  padding: 10px;
+  text-align: center;
+  border: 2px solid #d0d0d0;
+  border-radius: 10px;
+  color: #999999;
+  margin-top: 10px;
+}
 .intro {
   padding: 30px;
   background-color: white;

@@ -5,7 +5,7 @@
     </div>
     <form @submit.prevent="submit">
       <div class="form-row">
-        <div class="form-group col">
+        <div class="form-group col-lg-6 col-md-12">
           <label for="password">Current Password</label>
           <input
             type="password"
@@ -19,7 +19,7 @@
             This field is Required
           </div>
         </div>
-        <div class="form-group col">
+        <div class="form-group col-lg-6 col-md-12">
           <label for="password">New Password</label>
           <input
             type="password"

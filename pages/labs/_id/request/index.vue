@@ -318,7 +318,7 @@
             <div class="request-submit">
               <div class="form-row">
                 <div
-                  class="col-lg-6 col-md-12 d-flex justify-content-start align-items-center"
+                  class="col-lg-6 col-md-12 d-flex justify-content-lg-start justify-content-center align-items-center"
                 >
                   <div class="form-group form-check">
                     <input
@@ -333,7 +333,7 @@
                   </div>
                 </div>
                 <div
-                  class="col-lg-6 col-md-12 d-flex justify-content-end align-items-center"
+                  class="col-lg-6 col-md-12 d-flex justify-content-lg-end justify-content-center align-items-center mt-3 mt-lg-0"
                 >
                   <button
                     type="submit"

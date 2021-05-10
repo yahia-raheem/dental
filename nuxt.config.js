@@ -130,7 +130,7 @@ export default {
 
   env: {
     baseUrl:
-      process.env.BASE_URL || "https://projects.cloudmaize.com/dentalwp/",
+      process.env.BASE_URL || "https://projects.cloudmaize.com/dentalwp",
     apiUrl: process.env.API_URL || "https://dental.al-estshary.com",
     storageBase:
       process.env.STORAGE_BASE || "https://dental.al-estshary.com/storage",

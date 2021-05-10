@@ -7,11 +7,13 @@
       <form @submit.prevent="submit">
         <div class="form-row">
           <div class="col-12 col-sm-4">
-            <get-img-by-link
-              imglink="/images/Group 570.png"
-              classes="img-fluid verification-id"
-              responsive="xxl:512px"
-            />
+            <div class="img-container">
+              <get-img-by-link
+                imglink="/images/Group 570.png"
+                classes="bg-image verification-id"
+                responsive="xxl:512px"
+              />
+            </div>
           </div>
           <div
             class="form-group col-lg-8 col-md-12 d-flex flex-column justify-content-center align-items-start"
@@ -115,8 +117,8 @@ export default {
   }
 }
 .edit-box::v-deep {
-  .verification-id {
-    @include h.appDirAuto($padding-end: 30px);
+  .img-container {
+    @include h.box-ratio(16,10);
     margin-bottom: 20px;
   }
 }

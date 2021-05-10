@@ -36,7 +36,7 @@ export default {
   margin-right: auto;
   width: 85%;
   max-height: 70vh;
-  overflow: scroll;
+  overflow: auto;
   .img-container {
     @include h.box-ratio(16, 9);
     border-radius: 5px;
