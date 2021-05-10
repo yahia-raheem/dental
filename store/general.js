@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export const state = () => ({
   headerOptions: {},
   socialMedia: [],
@@ -73,8 +71,11 @@ export const actions = {
   },
   async getHeaderMenu(vcontext) {
     try {
-      const { data } = await axios.get(
-        `${process.env.baseUrl}/wp-json/wp/v2/menus`
+      const { data } = await this.$axios.get(
+        `${process.env.baseUrl}/wp-json/wp/v2/menus`,
+        {
+          useCache: true
+        }
       );
       vcontext.commit("SET_HEADERMENU", data["header-menu"]);
     } catch (e) {
@@ -86,8 +87,11 @@ export const actions = {
       if (Object.keys(vcontext.getters.footerMenus).length !== 0) {
         return vcontext.getters.footerMenus;
       } else {
-        const { data } = await axios.get(
-          `${process.env.baseUrl}/wp-json/wp/v2/widgets`
+        const { data } = await this.$axios.get(
+          `${process.env.baseUrl}/wp-json/wp/v2/widgets`,
+          {
+            useCache: true
+          }
         );
         vcontext.commit("SET_FOOTERMENUS", data);
         return data;
@@ -101,7 +105,7 @@ export const actions = {
       if (vcontext.getters.getMetabox(options.key)) {
         return vcontext.getters.getMetabox(options.key);
       } else {
-        const { data } = await axios.get(
+        const { data } = await this.$axios.get(
           `${process.env.baseUrl}/wp-json/generaldata/v1/custom_fields/get_item`,
           {
             params: {
@@ -118,8 +122,11 @@ export const actions = {
   },
   async getHeaderOptions(vcontext) {
     try {
-      const { data } = await axios.get(
-        `${process.env.baseUrl}/wp-json/generaldata/v1/settings_page/header_data`
+      const { data } = await this.$axios.get(
+        `${process.env.baseUrl}/wp-json/generaldata/v1/settings_page/header_data`,
+        {
+          useCache: true
+        }
       );
       vcontext.commit("SET_HEADER_OPTIONS", data);
     } catch (error) {
@@ -128,8 +135,11 @@ export const actions = {
   },
   async getSocialMedia(vcontext) {
     try {
-      const { data } = await axios.get(
-        `${process.env.baseUrl}/wp-json/generaldata/v1/social`
+      const { data } = await this.$axios.get(
+        `${process.env.baseUrl}/wp-json/generaldata/v1/social`,
+        {
+          useCache: true
+        }
       );
       for (const key in data) {
         if (Object.hasOwnProperty.call(data, key)) {
@@ -151,12 +161,13 @@ export const actions = {
       if (typeof vcontext.getters.image(options.id) != "undefined") {
         return vcontext.getters.image(options.id);
       } else {
-        const { data } = await axios.get(
+        const { data } = await this.$axios.get(
           `${process.env.baseUrl}/wp-json/generaldata/v1/getimage/${options.id}`,
           {
             params: {
               size: options.size ? options.size : false
-            }
+            },
+            useCache: true
           }
         );
         vcontext.commit("ADD_IMAGE", data);
@@ -182,8 +193,11 @@ export const actions = {
   //   }
   // },
   async getSvg(vcontext, imgId) {
-    const { data } = await axios.get(
-      `${process.env.baseUrl}/wp-json/generaldata/v1/getsvg/${imgId}`
+    const { data } = await this.$axios.get(
+      `${process.env.baseUrl}/wp-json/generaldata/v1/getsvg/${imgId}`,
+      {
+        useCache: true
+      }
     );
     return data;
   },

@@ -1,4 +1,3 @@
-import axios from "axios";
 export const state = () => ({
   parameters: [],
   docSpec: [],
@@ -53,7 +52,12 @@ export const mutations = {
 export const actions = {
   async getParameters(vcontext) {
     try {
-      const { data } = await axios.get(`${process.env.apiUrl}/api/categories`);
+      const { data } = await this.$axios.get(
+        `${process.env.apiUrl}/api/categories`,
+        {
+          useCache: true
+        }
+      );
       const docData = data.doctors;
       const labData = data.labs;
       const locations = data.locations;
@@ -62,7 +66,12 @@ export const actions = {
       vcontext.commit("SET_LABLOC", locations);
       vcontext.commit("SET_LABAOS", locations);
       vcontext.commit("SET_DOCLOC", locations);
-      const res = await axios.get(`${process.env.apiUrl}/api/parameters`);
+      const res = await this.$axios.get(
+        `${process.env.apiUrl}/api/parameters`,
+        {
+          useCache: true
+        }
+      );
       vcontext.commit("SET_PARAMETERS", res.data);
     } catch (error) {
       new Error(error.response.data.message);

@@ -1,4 +1,3 @@
-import axios from "axios";
 import Page from "~/models/page";
 export const state = () => ({
   pages: [],
@@ -39,8 +38,11 @@ export const actions = {
       if (vcontext.getters.pageById(pageId)) {
         return vcontext.getters.pageById(pageId);
       } else {
-        const { data } = await axios.get(
-          `${process.env.baseUrl}/wp-json/wp/v2/pages/${pageId}`
+        const { data } = await this.$axios.get(
+          `${process.env.baseUrl}/wp-json/wp/v2/pages/${pageId}`,
+          {
+            useCache: true
+          }
         );
         const page = Page.fromwpRes(data);
         const pageData = page.toJSON();

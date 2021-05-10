@@ -33,7 +33,8 @@ export default {
     { src: "~/plugins/vue-simple-accordion.js", mode: "client" },
     { src: "~/plugins/vue-bottom-sheet.js", mode: "client" },
     { src: "~/plugins/vue-toastify", mode: "client" },
-    { src: "~plugins/vue-modal.js" }
+    { src: "~plugins/vue-modal.js" },
+    { src: "~/plugins/axios" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -65,7 +66,8 @@ export default {
     "@nuxtjs/proxy",
     "@nuxtjs/auth-next",
     "@nuxtjs/recaptcha",
-    "@nuxtjs/svg"
+    "@nuxtjs/svg",
+    "@/modules/axCache"
   ],
 
   router: {
