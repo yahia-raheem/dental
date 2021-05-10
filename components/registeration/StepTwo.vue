@@ -249,7 +249,6 @@ export default {
           this.$axios
             .$post(`${process.env.apiUrl}/api/lab/add`, formBody)
             .then(res => {
-              console.log(res);
               this.$auth.fetchUser().then(() => {
                 this.$emit("done", res.profile.id);
               });

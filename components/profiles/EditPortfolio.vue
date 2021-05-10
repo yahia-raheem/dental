@@ -46,18 +46,24 @@ export default {
   data() {
     return {
       albumName: null,
-      albumCover: null,
+      albumCover: null
     };
   },
   computed: {
     form() {
       return new FormData();
-    },
+    }
   },
   methods: {
     coverChange(e) {
-      this.changeImage(e.target.files[0].name);
-      this.albumCover = e.target.files[0];
+      if (e.target.files) {
+        this.changeImage(e.target.files[0].name);
+        this.albumCover = e.target.files[0];
+      }
+    },
+    clearImage() {
+      this.$refs.cover.querySelector("label").innerHTML = "Choose Image";
+      this.$refs.cover.classList.remove("dirty");
     },
     changeImage(name) {
       this.$refs.cover.querySelector("label").innerHTML = name;
@@ -71,18 +77,20 @@ export default {
       try {
         const { path } = await this.$store.dispatch("labs/uploadPortImage", {
           labId: this.$route.params.id,
-          data: formData,
+          data: formData
         });
         this.form.append("cover", path);
-        const { portfolio } = await this.$store.dispatch(
-          "labs/portfolioAction",
-          {
-            labId: this.$route.params.id,
-            data: this.form,
-          }
-        );
-        this.$vToastify.success({ body: 'Album added successfully', title: 'success' });
-        this.$emit("syncPortfolio", portfolio);
+        await this.$store.dispatch("labs/portfolioAction", {
+          labId: this.$route.params.id,
+          data: this.form
+        });
+        this.$vToastify.success({
+          body: "Album added successfully",
+          title: "success"
+        });
+        this.albumName = null;
+        this.albumCover = null;
+        this.clearImage();
       } catch (error) {
         if (error.response.status < 500) {
           for (const key in error.response.data.errors) {
@@ -94,12 +102,12 @@ export default {
         } else {
           this.$vToastify.error({
             body: "something went wrong, please try again later",
-            title: "error",
+            title: "error"
           });
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

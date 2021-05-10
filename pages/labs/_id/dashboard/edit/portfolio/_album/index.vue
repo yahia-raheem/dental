@@ -120,13 +120,6 @@ export default {
       "labs/portfolioAction",
       data
     );
-    const lab = await context.store.dispatch(
-      "labs/getLabById",
-      context.params.id
-    );
-    if (lab.user_id != context.$auth.user.id) {
-      context.redirect("/");
-    }
     if (portfolio.album) {
       if (portfolio.album.length == 0) {
         portfolio.album.push({

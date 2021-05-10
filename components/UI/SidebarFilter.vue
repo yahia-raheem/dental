@@ -133,9 +133,6 @@ export default {
     })
   },
   methods: {
-    checkoptions(v) {
-      console.log(v);
-    },
     filterPrep() {
       const specQuery = this.$route.query.specialities;
       const locQuery = this.$route.query.locations;

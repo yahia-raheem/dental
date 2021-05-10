@@ -125,25 +125,25 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         if (this.spec != null) {
-          this.spec.forEach(element => {
+          this.spec.forEach((element, index) => {
             this.form.append(
-              `specialties[]`,
+              `specialties[${index}]`,
               typeof element == "object" ? element.id : element
             );
           });
         }
         if (this.location != null) {
-          this.location.forEach(element => {
+          this.location.forEach((element, index) => {
             this.form.append(
-              `locations[]`,
+              `locations[${index}]`,
               typeof element == "object" ? element.id : element
             );
           });
         }
         if (this.aos != null) {
-          this.aos.forEach(element => {
+          this.aos.forEach((element, index) => {
             this.form.append(
-              `areas[]`,
+              `areas[${index}]`,
               typeof element == "object" ? element.id : element
             );
           });
@@ -151,12 +151,12 @@ export default {
         const data = { labId: this.lab.id, data: this.form };
         this.$store
           .dispatch("labs/updateLab", data)
-          .then(result => {
+          .then(_ => {
             this.$vToastify.success({
               body: "Profile Updated Successfully",
               title: "Success"
             });
-            this.$router.go();
+            // this.$router.go();
           })
           .catch(err => {
             this.$vToastify.error({

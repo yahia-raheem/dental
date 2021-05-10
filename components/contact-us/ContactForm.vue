@@ -144,7 +144,6 @@ export default {
             form
           )
           .then(res => {
-            console.log(res);
             if (res.data.status == "mail_sent") {
               this.$vToastify.success({
                 body: "your request has been sent",

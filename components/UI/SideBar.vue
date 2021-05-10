@@ -1,8 +1,8 @@
 <template>
   <div id="mySidenav" class="sidenav">
     <div class="sidebar-header">
-      <h3 class="title" v-if="!isLoggedIn">Main Menu</h3>
-      <div class="logged-header" v-if="isLoggedIn">
+      <h3 class="title" v-show="!isLoggedIn">Main Menu</h3>
+      <div class="logged-header" v-show="isLoggedIn">
         <h6 class="name">{{ user.name }}</h6>
         <p class="email">{{ user.email }}</p>
       </div>
@@ -10,7 +10,7 @@
     </div>
     <navigation-bar />
     <hr class="sep" />
-    <div class="account-options" v-if="isLoggedIn">
+    <div class="account-options" v-show="isLoggedIn">
       <dropdown-profile-box
         :profile="user.doctor_profile"
         :type="'doctor'"
@@ -39,7 +39,7 @@
         </button>
       </div>
     </div>
-    <div class="account-options" v-if="!isLoggedIn">
+    <div class="account-options" v-show="!isLoggedIn">
       <nuxt-link to="/auth" class="btn btn-primary d-block mb-3">
         <div class="text">Log in</div>
       </nuxt-link>
@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       isLoggedIn: this.$auth.loggedIn,
-      user: this.$auth.user
+      user: this.$auth.user != null ? this.$auth.user : {}
     };
   },
   components: {

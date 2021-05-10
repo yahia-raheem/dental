@@ -199,6 +199,7 @@ import PriceList from "~/components/labs/PriceList.vue";
 import ProfileIntro from "~/components/profiles/ProfileIntro.vue";
 import PopSlide from "~/components/profiles/PopSlide.vue";
 import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -210,13 +211,11 @@ export default {
     PopSlide
   },
   async asyncData(context) {
-    const labData = await context.store.dispatch(
+    await context.store.dispatch(
       "labs/getLabById",
       context.params.id
     );
-    context.store.dispatch("pages/setTitle", labData.name);
     return {
-      lab: labData,
       user: context.$auth.user,
       loggedIn: context.$auth.loggedIn,
       settings: {
@@ -235,13 +234,11 @@ export default {
       },
       pSliderOpened: false,
       pSliderSlides: [],
-      tags: {
-        tags: labData.specialties,
-        routeName: "labs",
-        queryName: "specialities"
-      },
       popSliderKey: 0
     };
+  },
+  mounted() {
+    this.$store.dispatch("pages/setTitle", this.lab.name)
   },
   methods: {
     closePop() {
@@ -263,6 +260,16 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      lab: "labs/currLab",
+    }),
+    tags() {
+      return {
+        tags: this.lab.specialties,
+        routeName: "labs",
+        queryName: "specialities"
+      }
+    },
     profileCover() {
       if (this.lab.cover != null) {
         return `${process.env.storageBase}/${this.lab.cover}`;

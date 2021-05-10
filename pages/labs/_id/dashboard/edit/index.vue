@@ -6,7 +6,7 @@
       <edit-details :lab="lab" />
       <edit-price-list
         :labId="lab.id"
-        :groups="lab.price_list"
+        :plist="lab.price_list"
         v-if="lab.price_list != null"
       />
       <edit-price-list :labId="lab.id" v-if="lab.price_list == null" />
@@ -19,6 +19,7 @@ import EditDetails from "~/components/profiles/EditDetails.vue";
 import EditGeneral from "~/components/profiles/EditGeneral.vue";
 import EditPriceList from "~/components/profiles/EditPriceList.vue";
 import EditSocialMedia from "~/components/profiles/EditSocialMedia.vue";
+import { mapGetters } from "vuex";
 
 export default {
   middleware: ["auth"],
@@ -32,9 +33,11 @@ export default {
       context.redirect("/");
     }
     context.store.dispatch("pages/setTitle", lab.name);
-    return {
-      lab: lab
-    };
+  },
+  computed: {
+    ...mapGetters({
+      lab: "labs/currLab"
+    })
   }
 };
 </script>

@@ -26,13 +26,20 @@ import DashSideNav from "~/components/profiles/DashSideNav.vue";
 export default {
   components: { DashSideNav },
   async fetch(context) {
+    const lab = await context.store.dispatch(
+      "labs/getLabById",
+      context.params.id
+    );
+    if (lab.user_id != context.$auth.user.id) {
+      context.redirect("/");
+    }
     context.store.dispatch("pages/setTitle", "Dashboard");
   },
   data() {
     return {
       list: []
     };
-  }
+  },
 };
 </script>
 <style lang="scss">

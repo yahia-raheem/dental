@@ -1,16 +1,27 @@
 <template>
   <div class="album-tile">
     <div class="body">
-      <nuxt-link :to="`/labs/${$route.params.id}/dashboard/edit/portfolio/${album.id}`">
+      <nuxt-link
+        :to="{
+          name: 'labs-id-dashboard-edit-portfolio-album',
+          params: { id: $route.params.id, album: album.id }
+        }"
+      >
         <h6 class="title">{{ album.title }}</h6>
       </nuxt-link>
     </div>
     <div class="trailing">
-      <button class="btn btn-primary">
-        <get-svg :svgid="119" width="15" height="15" />
-      </button>
+      <nuxt-link
+        :to="{
+          name: 'labs-id-dashboard-edit-portfolio-album',
+          params: { id: $route.params.id, album: album.id }
+        }"
+        class="btn btn-primary"
+      >
+        <get-svg-2 svg="edit" width="15" height="15" />
+      </nuxt-link>
       <button class="btn delete-btn" @click="deleteAlbum">
-        <get-svg :svgid="112" width="15" height="15" />
+        <get-svg-2 svg="delete" width="15" height="15" />
       </button>
     </div>
   </div>
@@ -52,18 +63,17 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    button::v-deep {
+    .btn::v-deep {
       padding: 5px;
       line-height: 0;
       svg path,
       svg polygon {
         fill: white;
       }
-      &:not(:last-of-type) {
-        @include h.appDirAuto($margin-end: 5px);
-      }
+
       &.delete-btn {
         background-color: #d5072a;
+        @include h.appDirAuto($margin-start: 5px);
       }
     }
   }

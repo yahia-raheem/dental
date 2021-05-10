@@ -2,12 +2,12 @@
   <div class="row">
     <div class="col-12">
       <h6 class="sub-title">Portfolio</h6>
-      <edit-portfolio v-on:syncPortfolio="syncPortfolio" />
+      <edit-portfolio />
       <h6 class="sub-title">current Albums</h6>
       <div class="current-portfolios">
         <album-block
           :album="item"
-          v-for="(item, index) in portfolio"
+          v-for="(item, index) in lab.portfolio"
           :key="index"
           v-on:deleteAlbum="deleteAlbum"
         />
@@ -18,6 +18,8 @@
 <script>
 import AlbumBlock from "~/components/profiles/AlbumBlock.vue";
 import EditPortfolio from "~/components/profiles/EditPortfolio.vue";
+import { mapGetters } from "vuex";
+
 export default {
   middleware: ["auth"],
   async asyncData(context) {
@@ -28,21 +30,21 @@ export default {
     if (lab.user_id != context.$auth.user.id) {
       context.redirect("/");
     }
-    return {
-      portfolio: lab.portfolio
-    };
+    return {};
+  },
+  computed: {
+    ...mapGetters({
+      lab: "labs/currLab"
+    })
   },
   components: { EditPortfolio, AlbumBlock },
   methods: {
-    syncPortfolio(portfolio) {
-      this.portfolio = portfolio;
-    },
     async deleteAlbum(albumId) {
       const data = {
         action: "delete",
         id: albumId
       };
-      const { portfolio } = await this.$store.dispatch("labs/portfolioAction", {
+      await this.$store.dispatch("labs/portfolioAction", {
         labId: this.$route.params.id,
         data: data
       });
@@ -50,7 +52,6 @@ export default {
         body: "Album Deleted",
         title: "success"
       });
-      this.syncPortfolio(portfolio);
     }
   }
 };

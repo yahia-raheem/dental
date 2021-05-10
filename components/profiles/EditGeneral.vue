@@ -149,6 +149,28 @@ export default {
       this.$refs.cover.querySelector("label").innerHTML = name;
       this.$refs.cover.classList.add("dirty");
     },
+    prepData() {
+      var linkArr;
+      if (this.image != null) {
+        linkArr = this.image.split("/");
+        this.changeImage(linkArr[linkArr.length - 1]);
+      }
+      if (this.cover != null) {
+        linkArr = this.cover.split("/");
+        this.changeCover(linkArr[linkArr.length - 1]);
+      }
+      if (this.pdf != null) {
+        linkArr = this.pdf.split("/");
+        this.changePdf(linkArr[linkArr.length - 1]);
+      }
+    },
+    reset() {
+      this.name = this.lab.name;
+      this.about = this.lab.about;
+      this.image = this.lab.picture;
+      this.cover = this.lab.cover;
+      this.pdf = this.lab.lab_file;
+    },
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
@@ -164,12 +186,14 @@ export default {
         // }
         this.$store
           .dispatch("labs/updateLab", data)
-          .then(result => {
+          .then(_ => {
             this.$vToastify.success({
               body: "Profile Updated Successfully",
               title: "Success"
             });
-            this.$router.go();
+            this.reset();
+            this.prepData();
+            // this.$router.go();
           })
           .catch(err => {
             this.$vToastify.error({
@@ -181,19 +205,7 @@ export default {
     }
   },
   mounted() {
-    var linkArr;
-    if (this.image != null) {
-      linkArr = this.image.split("/");
-      this.changeImage(linkArr[linkArr.length - 1]);
-    }
-    if (this.cover != null) {
-      linkArr = this.cover.split("/");
-      this.changeCover(linkArr[linkArr.length - 1]);
-    }
-    if (this.pdf != null) {
-      linkArr = this.pdf.split("/");
-      this.changePdf(linkArr[linkArr.length - 1]);
-    }
+    this.prepData();
   }
 };
 </script>

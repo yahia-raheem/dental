@@ -23,7 +23,7 @@
       <div class="filter-form-container">
         <div class="vail-white"></div>
         <form @submit.prevent="submitFilter">
-          <div class="form-row">
+          <div class="form-row flex-nowrap">
             <div class="form-group">
               <v-select
                 id="servicedd"

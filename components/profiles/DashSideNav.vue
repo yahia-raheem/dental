@@ -3,7 +3,7 @@
     <li class="list-item" v-for="(item, key) in list" :key="key">
       <nuxt-link :to="item.link">
         <div class="icon">
-          <get-svg :svgid="item.icon" width="20" height="20" />
+          <get-svg-2 :svg="item.icon" width="20" height="20" />
         </div>
         <div class="title">{{ item.title }}</div>
       </nuxt-link>
@@ -12,7 +12,7 @@
     <li class="list-item">
       <nuxt-link :to="settings.link">
         <div class="icon">
-          <get-svg :svgid="109" width="20" height="20" />
+          <get-svg-2 svg="settings" width="20" height="20" />
         </div>
         <div class="title">{{ settings.title }}</div>
       </nuxt-link>
@@ -72,13 +72,13 @@ export default {
     }
     &:not(.sub-item) {
       a {
-        &.nuxt-link-active {
+        &.nuxt-link-exact-active {
           background-color: #f2f3fe;
         }
       }
     }
     &.sub-item {
-      a.nuxt-link-active {
+      a.nuxt-link-exact-active {
         font-weight: bold;
         text-decoration: underline;
       }
