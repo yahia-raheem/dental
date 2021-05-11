@@ -98,6 +98,11 @@ export default {
       });
     }
   },
+  created() {
+    this.$parent.$on("saveAll", () => {
+      this.submit();
+    });
+  },
   methods: {
     addItem() {
       this.inputs.push({ label: null, link: null });
@@ -123,7 +128,7 @@ export default {
         .dispatch("labs/updateLab", data)
         .then(_ => {
           this.$vToastify.success({
-            body: "Profile Updated Successfully",
+            body: "Social meedia has been updated",
             title: "Success"
           });
           // this.$router.go();

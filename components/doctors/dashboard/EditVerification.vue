@@ -65,6 +65,11 @@ export default {
       return new FormData();
     }
   },
+  created() {
+    this.$parent.$on("saveAll", () => {
+      this.submit();
+    });
+  },
   methods: {
     idChanged(e) {
       this.changeId(e.target.files[0].name);
@@ -81,7 +86,7 @@ export default {
         .dispatch("doctors/updateDoc", data)
         .then(result => {
           this.$vToastify.success({
-            body: "Profile Updated Successfully",
+            body: "Verification has been updated",
             title: "Success"
           });
           this.docid = this.doctor.identification;

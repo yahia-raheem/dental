@@ -1,7 +1,7 @@
 <template>
   <div class="edit-box">
     <div class="header">
-      <h6 class="title">Profile Details</h6>
+      <h6 class="title">Profile Info</h6>
     </div>
     <div class="form-container">
       <form @submit.prevent="submit">
@@ -105,6 +105,11 @@ export default {
       }
     }
   },
+  created() {
+    this.$parent.$on("saveAll", () => {
+      this.submit();
+    });
+  },
   data() {
     return {
       name: this.lab.name,
@@ -188,7 +193,7 @@ export default {
           .dispatch("labs/updateLab", data)
           .then(_ => {
             this.$vToastify.success({
-              body: "Profile Updated Successfully",
+              body: "Profile Info has been updated",
               title: "Success"
             });
             this.reset();

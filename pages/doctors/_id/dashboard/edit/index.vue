@@ -6,6 +6,17 @@
       <edit-details :doctor="doctor" />
       <edit-qualifications :doctor="doctor" />
       <edit-verification :doctor="doctor" />
+      <div class="save-all shadow">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-end align-items-center">
+              <button class="btn btn-primary" @click.prevent="saveAll">
+                Save All Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -24,11 +35,13 @@ export default {
     EditVerification
   },
   async asyncData(context) {
-    await context.store.dispatch(
-      "doctors/getDocById",
-      context.params.id
-    );
+    await context.store.dispatch("doctors/getDocById", context.params.id);
     return {};
+  },
+  methods: {
+    saveAll() {
+      this.$emit("saveAll");
+    }
   },
   computed: {
     ...mapGetters({
@@ -45,5 +58,14 @@ export default {
   color: #4b6b83;
   font-size: 1.2rem;
   font-weight: 600;
+}
+.save-all {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 5;
+  padding: 10px 0;
+  background-color: white;
 }
 </style>

@@ -46,6 +46,7 @@ export default {
     @include h.box-ratio(3, 2);
     border-radius: 10px;
     border: 1px solid #f0f0f0;
+    cursor: pointer;
   }
   .title {
     margin-bottom: 0;

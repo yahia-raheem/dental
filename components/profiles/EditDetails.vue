@@ -120,6 +120,11 @@ export default {
       return new FormData();
     }
   },
+  created() {
+    this.$parent.$on("saveAll", () => {
+      this.submit();
+    });
+  },
   methods: {
     submit() {
       this.$v.$touch();
@@ -153,7 +158,7 @@ export default {
           .dispatch("labs/updateLab", data)
           .then(_ => {
             this.$vToastify.success({
-              body: "Profile Updated Successfully",
+              body: "Profile Details has been updated",
               title: "Success"
             });
             // this.$router.go();

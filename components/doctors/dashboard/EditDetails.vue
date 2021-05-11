@@ -96,6 +96,11 @@ export default {
       required
     }
   },
+  created() {
+    this.$parent.$on("saveAll", () => {
+      this.submit();
+    });
+  },
   computed: {
     ...mapGetters({
       docSpec: "parameters/docSpec",
@@ -139,7 +144,7 @@ export default {
           .dispatch("doctors/updateDoc", data)
           .then(result => {
             this.$vToastify.success({
-              body: "Profile Updated Successfully",
+              body: "Profile Details has been updated",
               title: "Success"
             });
             // this.$router.go();

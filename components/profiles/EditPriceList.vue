@@ -128,6 +128,11 @@ export default {
       groups: JSON.parse(JSON.stringify(this.plist))
     };
   },
+  created() {
+    this.$parent.$on("saveAll", () => {
+      this.submit();
+    });
+  },
   methods: {
     addGroup() {
       this.groups.push({
@@ -158,7 +163,7 @@ export default {
         .dispatch("labs/updateLab", data)
         .then(result => {
           this.$vToastify.success({
-            body: "Profile Updated Successfully",
+            body: "Price list has been updated",
             title: "Success"
           });
           // this.$router.go();

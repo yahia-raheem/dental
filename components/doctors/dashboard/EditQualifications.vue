@@ -72,6 +72,9 @@ export default {
     if (this.doctor.experience != null && this.doctor.experience.length > 0) {
       this.experience = JSON.parse(JSON.stringify(this.doctor.experience));
     }
+    this.$parent.$on("saveAll", () => {
+      this.submit();
+    });
   },
   methods: {
     addItem() {
@@ -99,7 +102,7 @@ export default {
         .dispatch("doctors/updateDoc", data)
         .then(result => {
           this.$vToastify.success({
-            body: "Profile Updated Successfully",
+            body: "Qualifications has been updated",
             title: "Success"
           });
           // this.$router.go();

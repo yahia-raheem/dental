@@ -11,6 +11,17 @@
       />
       <edit-price-list :labId="lab.id" v-if="lab.price_list == null" />
       <edit-social-media :labSocial="lab.social_profiles" :labId="lab.id" />
+      <div class="save-all shadow">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-end align-items-center">
+              <button class="btn btn-primary" @click.prevent="saveAll">
+                Save All Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +45,11 @@ export default {
     }
     context.store.dispatch("pages/setTitle", lab.name);
   },
+  methods: {
+    saveAll() {
+      this.$emit('saveAll');
+    }
+  },
   computed: {
     ...mapGetters({
       lab: "labs/currLab"
@@ -49,5 +65,14 @@ export default {
   color: #4b6b83;
   font-size: 1.2rem;
   font-weight: 600;
+}
+.save-all {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 5;
+  padding: 10px 0;
+  background-color: white;
 }
 </style>
