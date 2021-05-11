@@ -82,6 +82,9 @@ section.home-steps {
   }
   .curve {
     top: -258px;
+    picture {
+      width: 100%;
+    }
   }
   .shapes {
     position: absolute;

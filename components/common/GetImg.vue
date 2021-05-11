@@ -1,11 +1,10 @@
 <template>
-  <div>
-    <nuxt-img
+    <nuxt-picture
       quality="80"
       :src="img"
       :class="classes"
       format="webp"
-      :sizes="sizes"
+      :sizes="responsive"
       :fit="fit"
       :alt="imgAlt"
       loading="lazy"
@@ -17,7 +16,6 @@
       :alt="imgAlt"
       loading="lazy"
     /> -->
-  </div>
 </template>
 <script>
 import { mapActions } from "vuex";
@@ -27,13 +25,6 @@ export default {
       img: "",
       imgAlt: "",
     };
-  },
-  computed: {
-    sizes() {
-      return this.responsive
-        ? this.responsive
-        : "sm:100vw md:100vw lg:100vw xl:100vw";
-    },
   },
   props: {
     imgid: {

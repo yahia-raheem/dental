@@ -1,11 +1,10 @@
 <template>
-  <div>
-    <nuxt-img
+    <nuxt-picture
       quality="80"
       :src="imglink"
       :class="classes"
       format="webp"
-      :sizes="sizes"
+      :sizes="responsive"
       :fit="fit"
       loading="lazy"
     />
@@ -14,7 +13,6 @@
       :class="classes"
       loading="lazy"
     /> -->
-  </div>
 </template>
 <script>
 export default {
@@ -41,13 +39,13 @@ export default {
       required: false
     }
   },
-  computed: {
-    sizes() {
-      return this.responsive
-        ? this.responsive
-        : "sm:100vw md:100vw lg:100vw xl:100vw";
-    },
-  },
+  // computed: {
+  //   sizes() {
+  //     return this.responsive
+  //       ? this.responsive
+  //       : "sm:100vw md:100vw lg:100vw xl:100vw";
+  //   },
+  // },
 };
 </script>
 <style lang="scss" scoped>
