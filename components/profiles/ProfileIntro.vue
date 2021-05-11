@@ -42,7 +42,7 @@
                 {{ description }}
               </p>
             </div>
-            <div class="cta">
+            <div class="cta" v-if="cta">
               <nuxt-link :to="cta.link" class="btn btn-primary">{{
                 cta.text
               }}</nuxt-link>
@@ -97,7 +97,7 @@
               <p class="desc">
                 {{ description }}
               </p>
-              <div class="cta">
+              <div class="cta" v-if="cta">
                 <nuxt-link :to="cta.link" class="btn btn-primary">{{
                   cta.text
                 }}</nuxt-link>

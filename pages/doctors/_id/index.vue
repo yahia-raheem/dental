@@ -21,6 +21,14 @@
                 link: `/doctors/${doctor.id}/dashboard/edit`,
                 text: 'Dashboard'
               }"
+              v-if="myProfile"
+            />
+            <profile-intro
+              :title="doctor.name"
+              :description="doctor.description"
+              :tags="tags"
+              :logoImg="doctor.picture"
+              v-if="!myProfile"
             />
           </div>
         </div>
@@ -236,6 +244,13 @@ export default {
         routeName: "doctors",
         queryName: "specialities"
       };
+    },
+    myProfile() {
+      if (this.doctor.user_id == this.$auth.user.id) {
+        return true;
+      } else {
+        return false;
+      }
     },
     portfolioSlides() {
       var R = [];
