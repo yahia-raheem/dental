@@ -11,7 +11,7 @@
           <client-only>
             <VueSlickCarousel v-bind="settings">
               <div class="slide" v-for="(item, key) in slides" :key="key">
-                <get-img :imgid="item.ID" />
+                <get-img :imgid="item.ID" responsive="sm:185px md:185px xxl:185px" />
               </div>
             </VueSlickCarousel>
           </client-only>

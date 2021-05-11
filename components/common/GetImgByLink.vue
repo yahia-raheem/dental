@@ -1,11 +1,11 @@
 <template>
   <div>
-    <nuxt-picture
-      quality="90"
+    <nuxt-img
+      quality="80"
       :src="imglink"
       :class="classes"
       format="webp"
-      :sizes="responsive"
+      :sizes="sizes"
       :fit="fit"
       loading="lazy"
     />
@@ -40,7 +40,14 @@ export default {
       default: null,
       required: false
     }
-  }
+  },
+  computed: {
+    sizes() {
+      return this.responsive
+        ? this.responsive
+        : "sm:100vw md:100vw lg:100vw xl:100vw";
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

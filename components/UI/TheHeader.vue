@@ -23,7 +23,7 @@
       </p>
     </div>
     <div class="white-gradient" v-if="$route.fullPath == '/'">
-      <get-img :imgid="navBgGradient" />
+      <get-img :imgid="navBgGradient" responsive="sm:100vw md:100vw lg:100vw xl:100vw" />
     </div>
     <div class="container-fluid">
       <div class="row py-3">

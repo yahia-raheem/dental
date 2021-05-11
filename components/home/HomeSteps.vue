@@ -1,13 +1,13 @@
 <template>
   <section class="home-steps">
     <div class="shapes bs-cloud">
-      <get-img imgid="13" fit="contain" responsive="xxl:600px" />
+      <get-img imgid="13" fit="contain" responsive="xs:200px sm:200px md:200px lg:600px xl:600px xxl:600px" />
     </div>
     <div class="shapes be-cloud">
-      <get-img imgid="12" fit="contain" responsive="xxl:300px" />
+      <get-img imgid="12" fit="contain" responsive="xs:100px sm:100px md:200px lg:300px xl:300px xxl:300px" />
     </div>
     <div class="curve">
-      <get-img imgid="37" fit="contain" responsive="xxl:100vw,md:100vw" />
+      <get-img imgid="37" fit="contain" />
     </div>
     <div class="container">
       <div class="row">

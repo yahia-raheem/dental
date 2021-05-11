@@ -1,11 +1,11 @@
 <template>
   <div>
-    <nuxt-picture
-      quality="90"
+    <nuxt-img
+      quality="80"
       :src="img"
       :class="classes"
       format="webp"
-      :sizes="responsive"
+      :sizes="sizes"
       :fit="fit"
       :alt="imgAlt"
       loading="lazy"
@@ -25,41 +25,48 @@ export default {
   data() {
     return {
       img: "",
-      imgAlt: ""
+      imgAlt: "",
     };
+  },
+  computed: {
+    sizes() {
+      return this.responsive
+        ? this.responsive
+        : "sm:100vw md:100vw lg:100vw xl:100vw";
+    },
   },
   props: {
     imgid: {
-      required: false
+      required: false,
     },
     size: {
-      required: false
+      required: false,
     },
     classes: {
       type: String,
       default: null,
-      required: false
+      required: false,
     },
     responsive: {
       type: String,
       default: null,
-      required: false
+      required: false,
     },
     fit: {
       type: String,
       default: null,
-      required: false
+      required: false,
     },
     imgobj: {
       required: false,
-      default: null
-    }
+      default: null,
+    },
   },
   async fetch() {
     if (this.imgobj == null) {
       const data = await this.getImage({
         id: this.imgid,
-        size: this.size ? this.size : null
+        size: this.size ? this.size : null,
       });
       this.img = data.image;
       this.imgAlt = data.alt;
@@ -69,16 +76,16 @@ export default {
       this.addImg({
         alt: this.imgobj.alt,
         id: this.imgobj.ID,
-        image: this.imgobj.full_url
+        image: this.imgobj.full_url,
       });
     }
   },
   methods: {
     ...mapActions({
       getImage: "general/getImage",
-      addImg: "general/addImg"
-    })
-  }
+      addImg: "general/addImg",
+    }),
+  },
 };
 </script>
 <style lang="scss" scoped>
