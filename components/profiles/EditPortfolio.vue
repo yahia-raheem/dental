@@ -43,6 +43,12 @@
 </template>
 <script>
 export default {
+  props: {
+    profileType: {
+      type: String,
+      default: "lab"
+    }
+  },
   data() {
     return {
       albumName: null,
@@ -75,15 +81,32 @@ export default {
       const formData = new FormData();
       formData.append("image", this.albumCover);
       try {
-        const { path } = await this.$store.dispatch("labs/uploadPortImage", {
-          labId: this.$route.params.id,
-          data: formData
-        });
+        var path;
+        if (this.profileType != "lab") {
+          const data = await this.$store.dispatch("doctors/uploadPortImage", {
+            docId: this.$route.params.id,
+            data: formData
+          });
+          path = data.path;
+        } else {
+          const data = await this.$store.dispatch("labs/uploadPortImage", {
+            labId: this.$route.params.id,
+            data: formData
+          });
+          path = data.path;
+        }
         this.form.append("cover", path);
-        await this.$store.dispatch("labs/portfolioAction", {
-          labId: this.$route.params.id,
-          data: this.form
-        });
+        if (this.profileType != "lab") {
+          await this.$store.dispatch("doctors/portfolioAction", {
+            docId: this.$route.params.id,
+            data: this.form
+          });
+        } else {
+          await this.$store.dispatch("labs/portfolioAction", {
+            labId: this.$route.params.id,
+            data: this.form
+          });
+        }
         this.$vToastify.success({
           body: "Album added successfully",
           title: "success"

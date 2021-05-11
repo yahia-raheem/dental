@@ -42,7 +42,7 @@
         <div
           class="col-lg-8 col-md-8 col-sm-10 col-12 d-flex justify-content-between justify-content-lg-end align-items-center"
         >
-          <div class="header-cta header-phone-cta">
+          <div class="header-cta header-phone-cta" :class="{'nolog': !isLoggedIn}">
             <div class="img-container">
               <get-svg :svgid="numberImage" />
             </div>
@@ -276,7 +276,7 @@ export default {
       }
     }
     @include h.media(">992px") {
-      &:not(:last-of-type) {
+      &.nolog {
         @include h.appDirAuto($margin-end: 15px, $padding-end: 15px);
         &::after {
           content: "";

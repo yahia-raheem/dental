@@ -328,35 +328,6 @@ export default {
   $dir: $dir
 );
 section.lab-profile {
-  .portfolio-slider {
-    .slick-track {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .slick-slider {
-      @include h.center();
-      height: auto;
-      width: 100%;
-      .slide {
-        position: relative;
-        z-index: 1;
-      }
-    }
-    .slick-arrow {
-      width: 40px;
-      height: 40px;
-      &::before {
-        font-size: 40px;
-      }
-      &.slick-prev {
-        @include h.appDirAuto($start: 25px);
-      }
-      &.slick-next {
-        @include h.appDirAuto($end: 25px);
-      }
-    }
-  }
   .notice {
     background-color: red;
     position: absolute;

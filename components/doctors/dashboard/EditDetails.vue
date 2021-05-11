@@ -142,7 +142,7 @@ export default {
               body: "Profile Updated Successfully",
               title: "Success"
             });
-            this.$router.go();
+            // this.$router.go();
           })
           .catch(err => {
             this.$vToastify.error({

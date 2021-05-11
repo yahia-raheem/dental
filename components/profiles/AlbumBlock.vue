@@ -3,7 +3,7 @@
     <div class="body">
       <nuxt-link
         :to="{
-          name: 'labs-id-dashboard-edit-portfolio-album',
+          name: routeName,
           params: { id: $route.params.id, album: album.id }
         }"
       >
@@ -13,7 +13,7 @@
     <div class="trailing">
       <nuxt-link
         :to="{
-          name: 'labs-id-dashboard-edit-portfolio-album',
+          name: routeName,
           params: { id: $route.params.id, album: album.id }
         }"
         class="btn btn-primary"
@@ -29,10 +29,23 @@
 <script>
 export default {
   props: {
+    profileType: {
+      type: String,
+      default: "lab"
+    },
     album: {
       type: Object,
       default() {
         return {};
+      }
+    }
+  },
+  computed: {
+    routeName() {
+      if(this.profileType == "lab") {
+        return 'labs-id-dashboard-edit-portfolio-album';
+      } else {
+        return 'doctors-id-dashboard-edit-portfolio-album';
       }
     }
   },

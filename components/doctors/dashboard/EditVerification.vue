@@ -84,6 +84,12 @@ export default {
             body: "Profile Updated Successfully",
             title: "Success"
           });
+          this.docid = this.doctor.identification;
+          var linkArr;
+          if (this.docid != null) {
+            linkArr = this.docid.split("/");
+            this.changeId(linkArr[linkArr.length - 1]);
+          }
           this.$router.go();
         })
         .catch(err => {
@@ -118,7 +124,7 @@ export default {
 }
 .edit-box::v-deep {
   .img-container {
-    @include h.box-ratio(16,10);
+    @include h.box-ratio(16, 10);
     margin-bottom: 20px;
   }
 }

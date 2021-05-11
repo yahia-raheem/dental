@@ -159,6 +159,21 @@ export default {
       this.$refs.cover.querySelector("label").innerHTML = name;
       this.$refs.cover.classList.add("dirty");
     },
+    reset() {
+      this.image = this.doctor.picture;
+      this.cover = this.doctor.cover;
+    },
+    prepData() {
+      var linkArr;
+      if (this.image != null) {
+        linkArr = this.image.split("/");
+        this.changeImage(linkArr[linkArr.length - 1]);
+      }
+      if (this.cover != null) {
+        linkArr = this.cover.split("/");
+        this.changeCover(linkArr[linkArr.length - 1]);
+      }
+    },
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
@@ -181,14 +196,17 @@ export default {
         // }
         this.$store
           .dispatch("doctors/updateDoc", data)
-          .then(result => {
+          .then(_ => {
             this.$vToastify.success({
               body: "Profile Updated Successfully",
               title: "Success"
             });
-            this.$router.go();
+            this.reset();
+            this.prepData();
+            // this.$router.go();
           })
           .catch(err => {
+            console.log(err);
             this.$vToastify.error({
               body: "An unknown error occured",
               title: "Sorry"
@@ -198,19 +216,7 @@ export default {
     }
   },
   mounted() {
-    var linkArr;
-    if (this.image != null) {
-      linkArr = this.image.split("/");
-      this.changeImage(linkArr[linkArr.length - 1]);
-    }
-    if (this.cover != null) {
-      linkArr = this.cover.split("/");
-      this.changeCover(linkArr[linkArr.length - 1]);
-    }
-    if (this.pdf != null) {
-      linkArr = this.pdf.split("/");
-      this.changePdf(linkArr[linkArr.length - 1]);
-    }
+    this.prepData();
   }
 };
 </script>

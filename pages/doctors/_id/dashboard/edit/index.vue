@@ -14,6 +14,7 @@ import EditDetails from "~/components/doctors/dashboard/EditDetails.vue";
 import EditGeneral from "~/components/doctors/dashboard/EditGeneral.vue";
 import EditQualifications from "~/components/doctors/dashboard/EditQualifications.vue";
 import EditVerification from "~/components/doctors/dashboard/EditVerification.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -23,16 +24,16 @@ export default {
     EditVerification
   },
   async asyncData(context) {
-    const doctor = await context.store.dispatch(
+    await context.store.dispatch(
       "doctors/getDocById",
       context.params.id
     );
-    if (doctor.user_id != context.$auth.user.id) {
-      context.redirect("/");
-    }
-    return {
-      doctor
-    };
+    return {};
+  },
+  computed: {
+    ...mapGetters({
+      doctor: "doctors/currDoc"
+    })
   }
 };
 </script>

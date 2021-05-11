@@ -70,7 +70,7 @@ export default {
   },
   created() {
     if (this.doctor.experience != null && this.doctor.experience.length > 0) {
-      this.experience = this.doctor.experience;
+      this.experience = JSON.parse(JSON.stringify(this.doctor.experience));
     }
   },
   methods: {
@@ -102,7 +102,7 @@ export default {
             body: "Profile Updated Successfully",
             title: "Success"
           });
-          this.$router.go();
+          // this.$router.go();
         })
         .catch(err => {
           if (err.response.status < 500) {

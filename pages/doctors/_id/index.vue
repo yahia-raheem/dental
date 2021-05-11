@@ -107,11 +107,15 @@
               </div>
               <div class="slider-container">
                 <VueSlickCarousel v-bind="settings" ref="portfolioSlider">
-                  <div class="slide">
-                    <portfolio-slide />
-                  </div>
-                  <div class="slide">
-                    <portfolio-slide />
+                  <div
+                    class="slide"
+                    v-for="(item, index) in portfolioSlides"
+                    :key="index"
+                  >
+                    <portfolio-slide
+                      :slide="item"
+                      v-on:openSlider="openSlider"
+                    />
                   </div>
                 </VueSlickCarousel>
               </div>
@@ -157,6 +161,24 @@
         </div> -->
       </div>
     </div>
+    <modal
+      name="portfolioSlider"
+      classes="portfolio-slider"
+      :adaptive="true"
+      :width="'90%'"
+      :height="'75%'"
+      :maxWidth="1200"
+    >
+      <VueSlickCarousel
+        v-bind="popUpSettings"
+        ref="popupSlider"
+        :key="popSliderKey"
+      >
+        <div class="slide" v-for="(item, index) in pSliderSlides" :key="index">
+          <pop-slide :slide="item" />
+        </div>
+      </VueSlickCarousel>
+    </modal>
   </section>
 </template>
 <script>
@@ -164,13 +186,17 @@ import AvailabilityCheck from "~/components/doctors/AvailabilityCheck.vue";
 import PortfolioSlide from "~/components/doctors/PortfolioSlide.vue";
 import ProfileComment from "~/components/doctors/ProfileComment";
 import ProfileIntro from "~/components/profiles/ProfileIntro.vue";
+import PopSlide from "~/components/profiles/PopSlide.vue";
+import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     AvailabilityCheck,
     PortfolioSlide,
     ProfileComment,
-    ProfileIntro
+    ProfileIntro,
+    PopSlide
   },
   async asyncData(context) {
     const doctor = await context.store.dispatch(
@@ -179,7 +205,6 @@ export default {
     );
     context.store.dispatch("pages/setTitle", doctor.name);
     return {
-      doctor,
       user: context.$auth.user,
       loggedIn: context.$auth.loggedIn,
       settings: {
@@ -187,14 +212,37 @@ export default {
         arrows: false,
         autoplay: false
       },
-      tags: {
-        tags: doctor.specialties,
-        routeName: "doctors",
-        queryName: "specialities"
-      }
+      popUpSettings: {
+        arrows: true,
+        autoplay: false,
+        dots: false,
+        centerMode: true,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1
+      },
+      pSliderOpened: false,
+      pSliderSlides: [],
+      popSliderKey: 0
     };
   },
   computed: {
+    ...mapGetters({
+      doctor: "doctors/currDoc"
+    }),
+    tags() {
+      return {
+        tags: this.doctor.specialties,
+        routeName: "doctors",
+        queryName: "specialities"
+      };
+    },
+    portfolioSlides() {
+      var R = [];
+      for (var i = 0; i < this.doctor.portfolio.length; i += 6)
+        R.push(this.doctor.portfolio.slice(i, i + 6));
+      return R;
+    },
     profileCover() {
       if (this.doctor.cover != null) {
         return `${process.env.storageBase}/${this.doctor.cover}`;
@@ -204,6 +252,17 @@ export default {
     }
   },
   methods: {
+    closePop() {
+      this.pSliderOpened = false;
+    },
+    openSlider(id) {
+      const album = this.doctor.portfolio.find(album => album.id == id);
+      if (typeof album.album != "undefined") {
+        // this.popSliderKey = this.popSliderKey + 1;
+        this.pSliderSlides = album.album;
+        this.$modal.show("portfolioSlider");
+      }
+    },
     prevSlide() {
       this.$refs.portfolioSlider.prev();
     },

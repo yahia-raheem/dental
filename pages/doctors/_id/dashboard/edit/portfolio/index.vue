@@ -2,32 +2,49 @@
   <div class="row">
     <div class="col-12">
       <h6 class="sub-title">Portfolio</h6>
-      <edit-portfolio v-on:syncPortfolio="syncPortfolio" />
+      <edit-portfolio profileType="doctor" />
       <h6 class="sub-title">current Albums</h6>
-      <div class="current-portfolios" v-for="(item, index) in portfolio" :key="index">
-        <p>{{item.title}}</p>
+      <div class="current-portfolios">
+        <album-block
+          profileType="doctor"
+          :album="item"
+          v-for="(item, index) in doctor.portfolio"
+          :key="index"
+          v-on:deleteAlbum="deleteAlbum"
+        />
       </div>
     </div>
   </div>
 </template>
 <script>
+import AlbumBlock from "~/components/profiles/AlbumBlock.vue";
 import EditPortfolio from "~/components/profiles/EditPortfolio.vue";
+import { mapGetters } from "vuex";
+
 export default {
-  async asyncData(context) {
-    const { portfolio } = await context.store.dispatch(
-      "labs/getLabById",
-      context.params.id
-    );
-    return {
-      portfolio,
-    };
+  middleware: ["auth"],
+  computed: {
+    ...mapGetters({
+      doctor: "doctors/currDoc"
+    })
   },
-  components: { EditPortfolio },
+  components: { EditPortfolio, AlbumBlock },
   methods: {
-    syncPortfolio(portfolio) {
-      this.portfolio = portfolio;
-    },
-  },
+    async deleteAlbum(albumId) {
+      const data = {
+        action: "delete",
+        id: albumId
+      };
+      await this.$store.dispatch("doctors/portfolioAction", {
+        docId: this.$route.params.id,
+        data: data
+      });
+      this.$vToastify.success({
+        body: "Album Deleted",
+        title: "success"
+      });
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

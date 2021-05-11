@@ -1,6 +1,35 @@
 section.doctor-profile,
 section.lab-profile {
   padding-top: 0;
+  .portfolio-slider {
+    .slick-track {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .slick-slider {
+      @include h.center();
+      height: auto;
+      width: 100%;
+      .slide {
+        position: relative;
+        z-index: 1;
+      }
+    }
+    .slick-arrow {
+      width: 40px;
+      height: 40px;
+      &::before {
+        font-size: 40px;
+      }
+      &.slick-prev {
+        @include h.appDirAuto($start: 25px);
+      }
+      &.slick-next {
+        @include h.appDirAuto($end: 25px);
+      }
+    }
+  }
   .profile-header {
     overflow: hidden;
     height: 325px;
