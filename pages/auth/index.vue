@@ -92,7 +92,7 @@ export default {
   async fetch(context) {
     context.store.dispatch("pages/setTitle", "Log In");
   },
-  created() {
+  mounted() {
     if (typeof this.$route.query.reset != "undefined") {
       if (this.$route.query.reset == "true") {
         this.$vToastify.success({

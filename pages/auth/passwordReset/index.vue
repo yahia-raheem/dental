@@ -71,8 +71,12 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const form = new FormData();
-        form.append("email", email);
+        form.append("email", this.email);
+        console.log(this.email);
         await this.$store.dispatch("user/resetPass", form);
+        this.$vToastify.info({
+          body: "Please check your email account"
+        });
       }
     }
   }
