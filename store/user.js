@@ -19,5 +19,11 @@ export const actions = {
       userData
     );
     return data
+  },
+  async resetPass(vcontext, userData) {
+    await this.$axios.post(
+      `${process.env.apiUrl}/api/password/email`,
+      userData
+    )
   }
 };

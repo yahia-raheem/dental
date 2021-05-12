@@ -81,6 +81,15 @@ export default {
   async fetch(context) {
     context.store.dispatch("pages/setTitle", "Log In");
   },
+  created() {
+    if (typeof this.$route.query.reset != "undefined") {
+      if (this.$route.query.reset == 'true') {
+        this.$vToastify.success({ title: 'success', body: 'password has been reset' });
+      } else {
+        this.$vToastify.error({ title: 'error', body: 'Either the link was invalid or expired. Please try again' });
+      }
+    }
+  },
   methods: {
     submit() {
       this.$v.$touch();
