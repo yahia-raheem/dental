@@ -246,7 +246,7 @@ export default {
       };
     },
     myProfile() {
-      if (this.doctor.user_id == this.$auth.user.id) {
+      if (this.$auth.user && this.doctor.user_id == this.$auth.user.id) {
         return true;
       } else {
         return false;
