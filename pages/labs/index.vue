@@ -26,8 +26,8 @@
             <div class="col-12" v-for="(lab, index) in labs" :key="index">
               <lab-block
                 :lab="lab"
-                v-on:filterSpec="specModify"
-                v-on:filterLoc="locModify"
+                v-on:filterSpec="specOverwrite"
+                v-on:filterLoc="locOverwrite"
               />
             </div>
             <div
@@ -150,6 +150,40 @@ export default {
         });
       } else {
         await this.aosModify(null);
+      }
+    },
+    async specOverwrite(value) {
+      if (value != null) {
+        await this.$router.push({
+          query: {
+            ...this.$route.query,
+            specialities: value
+          }
+        });
+      } else {
+        await this.$router.push({
+          query: {
+            ...this.$route.query,
+            specialities: undefined
+          }
+        });
+      }
+    },
+    async locOverwrite(value) {
+      if (value != null) {
+        await this.$router.push({
+          query: {
+            ...this.$route.query,
+            locations: value
+          }
+        });
+      } else {
+        await this.$router.push({
+          query: {
+            ...this.$route.query,
+            locations: undefined
+          }
+        });
       }
     },
     async specModify(value) {

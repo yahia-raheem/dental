@@ -351,8 +351,8 @@
     <div class="container-fluid" v-if="!verified">
       <div class="row">
         <div class="col-12 d-flex justify-content-center align-items-center">
-          <p class="text-center">
-            you need to have a verified doctor's profile to send a request.
+          <p class="text-center not-verified">
+            You need to have a verified doctor's profile to send a request.
           </p>
         </div>
       </div>
@@ -633,6 +633,12 @@ export default {
 @use "~/assets/scss/helpers" as h with(
   $dir: $dir
 );
+.not-verified {
+  padding: 20px 40px;
+  border-radius: 5px;
+  border: 2px solid #d70f17;
+  color: #d70f17;
+}
 .request-submit {
   max-width: 830px;
   margin-right: auto;

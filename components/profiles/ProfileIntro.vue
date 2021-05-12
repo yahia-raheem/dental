@@ -47,7 +47,7 @@
                 cta.text
               }}</nuxt-link>
               <span v-if="ptype == 'lab' && $auth.user == null" class="note"
-                >you need to have a verified account to send a request</span
+                >You need to have a verified account to send a request</span
               >
             </div>
           </div>
@@ -102,7 +102,7 @@
                   cta.text
                 }}</nuxt-link>
                 <span v-if="ptype == 'lab' && $auth.user == null" class="note"
-                  >you need to a verified account to send a request</span
+                  >You need to a verified account to send a request</span
                 >
               </div>
             </div>

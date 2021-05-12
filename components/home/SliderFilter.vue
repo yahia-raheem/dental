@@ -79,7 +79,7 @@
             </div>
             <button type="submit" class="btn btn-primary submit-btn">
               <div class="icon"><get-svg :svgid="102" width="20" /></div>
-              <div class="text">submit</div>
+              <div class="text">Submit</div>
             </button>
           </div>
         </form>

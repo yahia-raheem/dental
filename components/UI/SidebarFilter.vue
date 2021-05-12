@@ -138,6 +138,7 @@ export default {
       const locQuery = this.$route.query.locations;
       const aosQuery = this.$route.query.aos;
       if (typeof specQuery != "undefined") {
+        this.specs = [];
         const specArr = specQuery.split(",");
         specArr.forEach(element => {
           var elementInt = parseInt(element);
@@ -147,6 +148,7 @@ export default {
         });
       }
       if (typeof locQuery != "undefined") {
+        this.locations = [];
         const locArr = locQuery.split(",");
         locArr.forEach(element => {
           var elementInt = parseInt(element);
@@ -156,6 +158,7 @@ export default {
         });
       }
       if (typeof aosQuery != "undefined") {
+        this.aos = [];
         const aosArr = aosQuery.split(",");
         aosArr.forEach(element => {
           var elementInt = parseInt(element);
