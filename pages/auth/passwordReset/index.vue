@@ -50,6 +50,8 @@
   </section>
 </template>
 <script>
+import { required } from "vuelidate/lib/validators";
+
 export default {
   async fetch(context) {
     context.store.dispatch("pages/setTitle", "Reset Password");

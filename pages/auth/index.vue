@@ -45,11 +45,10 @@
               <div class="form-row">
                 <div class="cta-container">
                   <p>
-                    don't have an account ? click
-                    <nuxt-link to="/auth/register" class="text-primary"
-                      >here</nuxt-link
+                    having trouble signing in ?
+                    <nuxt-link to="/auth/passwordReset" class="text-primary"
+                      >click here</nuxt-link
                     >
-                    to sign up instead.
                   </p>
                   <button
                     type="submit"
@@ -60,6 +59,18 @@
                     </span>
                   </button>
                 </div>
+              </div>
+              <hr />
+              <div
+                class="form-row d-flex justify-content-center align-items-center"
+              >
+                <p>
+                  don't have an account ? click
+                  <nuxt-link to="/auth/register" class="text-primary"
+                    >here</nuxt-link
+                  >
+                  to sign up instead.
+                </p>
               </div>
             </form>
           </div>
@@ -83,10 +94,16 @@ export default {
   },
   created() {
     if (typeof this.$route.query.reset != "undefined") {
-      if (this.$route.query.reset == 'true') {
-        this.$vToastify.success({ title: 'success', body: 'password has been reset' });
+      if (this.$route.query.reset == "true") {
+        this.$vToastify.success({
+          title: "success",
+          body: "password has been reset"
+        });
       } else {
-        this.$vToastify.error({ title: 'error', body: 'Either the link was invalid or expired. Please try again' });
+        this.$vToastify.error({
+          title: "error",
+          body: "Either the link was invalid or expired. Please try again"
+        });
       }
     }
   },
@@ -101,8 +118,7 @@ export default {
               password: this.password
             }
           })
-          .then(_ => {
-          })
+          .then(_ => {})
           .catch(err => {
             if (400 < err.response.status < 500) {
               err.response.data.errors.forEach(error => {
