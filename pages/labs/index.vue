@@ -22,7 +22,7 @@
               Filter
             </button>
           </div>
-          <div class="row">
+          <div class="row" v-if="labs && labs.length > 0">
             <div class="col-12" v-for="(lab, index) in labs" :key="index">
               <lab-block
                 :lab="lab"
@@ -39,6 +39,11 @@
               </button>
             </div>
           </div>
+          <div class="row" v-if="!labs || labs.length == 0">
+            <div class="col-12">
+              <p>Sorry! no results match your filteration.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -51,9 +56,9 @@
       >
         <sidebar-filter
           v-on:nameFilter="nameModify"
-          v-on:specFilter="specPreModify"
-          v-on:locFilter="locPreModify"
-          v-on:aosFilter="aosPreModify"
+          v-on:specFilter="specModify"
+          v-on:locFilter="locModify"
+          v-on:aosFilter="aosModify"
         />
         <button class="btn btn-primary sheet-apply" @click="closeSheet">
           Apply
