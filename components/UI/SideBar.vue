@@ -122,6 +122,11 @@ export default {
     .settings,
     .log-out {
       width: 47%;
+      .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
   }
 }

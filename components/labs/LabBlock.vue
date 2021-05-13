@@ -52,7 +52,7 @@
         </button>
       </div>
       <div class="location">
-        <get-svg-2 svg="pin" width="18" />
+        <get-svg-2 svg="pin" width="18" height="18" />
 
         <span class="text" v-for="(item, index) in lab.locations" :key="index">
           <button class="btn location-btn" @click="locFilter(item.id)">
