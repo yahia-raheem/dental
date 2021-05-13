@@ -777,7 +777,7 @@ export default {
   .mobile-delete-btn {
     color: #d83436;
     border: 1px solid #d83436;
-    @include h.appDirAuto($margin-start: 20px);
+    margin-top: 20px;
   }
 }
 .nav-btns {
