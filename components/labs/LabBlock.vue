@@ -52,7 +52,7 @@
         </button>
       </div>
       <div class="location">
-        <get-svg :svgid="79" width="18" />
+        <get-svg-2 svg="pin" width="18" />
 
         <span class="text" v-for="(item, index) in lab.locations" :key="index">
           <button class="btn location-btn" @click="locFilter(item.id)">
@@ -70,7 +70,7 @@
           :to="{ name: 'labs-id', params: { id: lab.id } }"
         >
           <span class="icon">
-            <get-svg :svgid="105" width="10" />
+            <get-svg-2 svg="arrow" width="10" />
           </span>
           <span class="text">View Profile</span>
         </nuxt-link>

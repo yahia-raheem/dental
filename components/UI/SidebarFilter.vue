@@ -3,7 +3,7 @@
     <div class="filter-section">
       <div class="title">
         <div class="icon">
-          <get-svg :svgid="102" />
+          <get-svg-2 svg="search" />
         </div>
         <h6 class="text">
           Search by Name
@@ -53,7 +53,7 @@
       <div class="header">
         <div class="title">
           <div class="icon">
-            <get-svg :svgid="98" />
+            <get-svg-2 svg="tooth" />
           </div>
           <h6 class="text">Specialities</h6>
         </div>
@@ -74,7 +74,7 @@
       <div class="header">
         <div class="title">
           <div class="icon">
-            <get-svg :svgid="79" />
+            <get-svg-2 svg="pin" />
           </div>
           <h6 class="text">Locations</h6>
         </div>
@@ -95,7 +95,7 @@
       <div class="header">
         <div class="title">
           <div class="icon">
-            <get-svg :svgid="79" />
+            <get-svg-2 svg="tooth" />
           </div>
           <h6 class="text">Areas of Service</h6>
         </div>

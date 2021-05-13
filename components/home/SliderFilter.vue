@@ -78,7 +78,9 @@
               />
             </div>
             <button type="submit" class="btn btn-primary submit-btn">
-              <div class="icon"><get-svg :svgid="102" width="20" /></div>
+              <div class="icon">
+                <get-svg-2 svg="search" width="20" height="20" />
+              </div>
               <div class="text">Submit</div>
             </button>
           </div>
@@ -118,7 +120,7 @@ export default {
       labSpec: "parameters/labSpec",
       labLoc: "parameters/labLoc",
       labAos: "parameters/labAos"
-    }),
+    })
   },
   methods: {
     activateTab(e) {
@@ -258,8 +260,8 @@ export default {
     border: none;
     width: 15%;
     .icon {
+      @include h.appDirAuto($margin-end: 15px);
       svg {
-        @include h.appDirAuto($margin-end: 15px);
         path {
           fill: white;
         }

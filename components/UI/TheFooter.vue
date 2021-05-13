@@ -38,7 +38,7 @@
                 :key="key"
               >
                 <a :href="item.link">
-                  <get-svg :svgid="item.image" width="15" height="15" />
+                  <get-svg-2 :svg="item.image" width="15" height="15" />
                 </a>
               </li>
             </ul>

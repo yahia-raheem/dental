@@ -8,8 +8,8 @@
     /> -->
   <div
     v-html="require(`~/static/svgs/${svg}.svg?raw`)"
+    :style="cssProps"
     class="svg-container"
-    :style="{ width: `${width}px`, height: `${height}px` }"
   />
 </template>
 <script>
@@ -28,6 +28,12 @@ export default {
   computed: {
     src() {
       return `@/svgs/${this.svg}.svg`;
+    },
+    cssProps() {
+      return {
+        "--svg-width": this.width ? `${this.width}px` : "auto",
+        "--svg-height": this.height ? `${this.height}px` : "auto"
+      };
     }
   }
 };
@@ -35,8 +41,8 @@ export default {
 <style lang="scss" scoped>
 .svg-container::v-deep {
   svg {
-    width: 100%;
-    height: 100%;
+    width: var(--svg-width);
+    height: var(--svg-height);
     display: flex;
     justify-content: center;
     align-items: center;

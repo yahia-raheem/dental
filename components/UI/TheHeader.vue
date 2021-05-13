@@ -34,7 +34,7 @@
           <ul class="social">
             <li v-for="(item, key) in socialMedia" :key="key">
               <a :href="item.link" target="_blank">
-                <get-svg :svgid="item.image" />
+                <get-svg-2 :svg="item.image" />
               </a>
             </li>
           </ul>
@@ -44,7 +44,7 @@
         >
           <div class="header-cta header-phone-cta" :class="{'nolog': !isLoggedIn}">
             <div class="img-container">
-              <get-svg :svgid="numberImage" />
+              <get-svg-2 svg="phone" />
             </div>
             <a :href="`tel:${headerPhone}`"
               ><span class="text">Need help?</span>
@@ -53,7 +53,7 @@
           </div>
           <div class="header-cta header-signin-cta" v-show="!isLoggedIn">
             <div class="img-container">
-              <get-svg :svgid="signinImage" />
+              <get-svg-2 svg="user" />
             </div>
             <span class="text"></span>
             <nuxt-link to="/auth/register">Sign Up</nuxt-link>
@@ -120,7 +120,6 @@ export default {
     return {
       headerPhone: this.getOption("header_number"),
       siteLogo: this.getOption("site_logo"),
-      numberImage: this.getOption("header_number_image"),
       signinImage: this.getOption("header_signin_image"),
       navBgGradient: this.getOption("nav_bg_gradient"),
       isMobile: this.$store.getters["general/isMobile"],

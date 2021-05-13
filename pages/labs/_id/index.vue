@@ -81,7 +81,7 @@
                   :key="key"
                 >
                   <div class="icon">
-                    <get-svg :svgid="79" width="11" />
+                    <get-svg-2 svg="pin" width="11" height="11" />
                   </div>
                   <div class="label">{{ item.name }}</div>
                 </div>
@@ -96,7 +96,7 @@
                     target="_blank"
                   >
                     <div class="unit">
-                      <get-svg :svgid="item.icon" width="12" />
+                      <get-svg-2 :svg="item.icon" width="12" />
                     </div>
                   </a>
                 </div>
@@ -111,10 +111,10 @@
                   class="slider-navigation d-flex justify-content-center align-items-center"
                 >
                   <button class="prev" @click="prevSlide">
-                    <get-svg :svgid="101" />
+                    <get-svg-2 svg="left-arrow" />
                   </button>
                   <button class="next" @click="nextSlide">
-                    <get-svg :svgid="100" />
+                    <get-svg-2 svg="right-arrow" />
                   </button>
                 </div>
               </div>
@@ -297,16 +297,16 @@ export default {
             var icon;
             switch (key) {
               case "facebook":
-                icon = 17;
+                icon = 'facebook';
                 break;
               case "twitter":
-                icon = 106;
+                icon = 'twitter';
                 break;
               case "linked_in":
-                icon = 15;
+                icon = 'linkedin';
                 break;
               default:
-                icon = 17;
+                icon = 'facebook';
                 break;
             }
             socials.push({
