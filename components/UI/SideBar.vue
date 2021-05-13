@@ -27,13 +27,13 @@
       <div class="footer">
         <nuxt-link to="/my-account/settings" class="settings btn btn-primary">
           <div class="icon">
-            <get-svg :svgid="109" width="15" height="15" />
+            <get-svg-2 svg="settings" width="15" height="15" />
           </div>
           <div class="text">Settings</div>
         </nuxt-link>
         <button class="log-out btn btn-secondary" @click="logout">
           <div class="icon">
-            <get-svg :svgid="115" width="15" height="15" />
+            <get-svg-2 svg="power-button" width="15" height="15" />
           </div>
           <div class="text">Log Out</div>
         </button>
