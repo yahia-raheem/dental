@@ -350,10 +350,33 @@
     </div>
     <div class="container-fluid" v-if="!verified">
       <div class="row">
-        <div class="col-12 d-flex justify-content-center align-items-center">
+        <div class="col-12 d-flex justify-content-center align-items-center mb-5">
           <p class="text-center not-verified">
+            <get-svg-2 svg="alert" width="20" height="20" />
             You need to have a verified doctor's profile to send a request.
           </p>
+        </div>
+        <div class="col-lg-6 col-md-12 d-flex justify-content-lg-end align-items-center justify-content-center">
+          <div class="notice-option shadow-sm">
+            <div class="icon">
+              <get-svg-2 svg="user_2" width="25" height="25" />
+            </div>
+            <p class="desc">
+              If you haven't created your doctor's profile yet
+              <nuxt-link to="/auth/register">click here</nuxt-link>
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12 d-flex justify-content-lg-start align-items-center justify-content-center">
+          <div class="notice-option shadow-sm">
+            <div class="icon">
+              <get-svg-2 svg="id-card" width="25" height="25" />
+            </div>
+            <p class="desc">
+              If you haven't uploaded your verification id yet
+              <nuxt-link :to="uploadLink">click here</nuxt-link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -465,7 +488,14 @@ export default {
   computed: {
     ...mapGetters({
       parameters: "parameters/parameters"
-    })
+    }),
+    uploadLink() {
+      if (this.$auth.user.doctor_profile != null) {
+        return `/doctors/${this.$auth.user.doctor_profile.id}/dashboard/edit#verificationBox`
+      } else {
+        return `/auth/register`
+      }
+    }
   },
   methods: {
     async submit() {
@@ -633,11 +663,53 @@ export default {
 @use "~/assets/scss/helpers" as h with(
   $dir: $dir
 );
-.not-verified {
-  padding: 20px 40px;
+.not-verified::v-deep {
+  padding: 10px 50px;
+  background-color: #fff3cf;
   border-radius: 5px;
-  border: 2px solid #d70f17;
-  color: #d70f17;
+  border: 2px solid #bba56b;
+  color: #937526;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  .svg-container {
+    @include h.appDirAuto($margin-end: 10px);
+    svg path {
+      fill: #937526;
+    }
+  }
+}
+.notice-option {
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  max-width: 320px;
+  .icon::v-deep {
+    background-color: #f0f5fa;
+    width: 55px;
+    height: 45px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    svg path {
+      fill: #718ca6;
+    }
+  }
+  p {
+    text-align: center;
+    font-weight: bold;
+    a {
+      color: h.$primary;
+      text-decoration: underline;
+    }
+  }
 }
 .request-submit {
   max-width: 830px;
@@ -701,6 +773,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   .mobile-delete-btn {
     color: #d83436;
     border: 1px solid #d83436;
