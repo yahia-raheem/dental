@@ -187,7 +187,7 @@ export default {
       if (this.logoImg != null) {
         return `${process.env.storageBase}/${this.logoImg}`;
       } else {
-        return "/images/Group 571.png";
+        return "/images/Group-571.png";
       }
     }
   }

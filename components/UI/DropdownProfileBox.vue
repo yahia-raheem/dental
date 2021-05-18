@@ -52,7 +52,7 @@ export default {
       if (this.profile.picture != null) {
         return `${process.env.storageBase}/${this.profile.picture}`;
       } else {
-        return "/images/Group 571.png";
+        return "/images/Group-571.png";
       }
     }
   }

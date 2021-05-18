@@ -295,7 +295,7 @@ export default {
       if (this.doctor.cover != null) {
         return `${process.env.storageBase}/${this.doctor.cover}`;
       } else {
-        return "/images/Group 572.png";
+        return "/images/Group-572.png";
       }
     }
   },

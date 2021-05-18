@@ -9,7 +9,7 @@
           <div class="col-12 col-sm-4">
             <div class="img-container">
               <get-img-by-link
-                imglink="/images/Group 570.png"
+                imglink="/images/Group-570.png"
                 classes="bg-image verification-id"
                 responsive="xxl:512px"
               />
