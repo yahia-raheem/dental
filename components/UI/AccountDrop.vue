@@ -113,7 +113,7 @@ button.cta {
   background-color: white;
   position: absolute;
   z-index: 11;
-  min-width: 200px;
+  min-width: 270px;
   bottom: 0;
   @include h.appDirAuto($end: 0);
   transform: translateY(100%);
@@ -132,15 +132,20 @@ button.cta {
     }
   }
   .body {
-    padding: 10px 15px;
+    padding: 0 15px 10px;
     .add-profile {
       border: 1px solid #4866ad;
       color: #4866ad;
       font-size: 0.8rem;
+      margin-bottom: 5px;
+      &:hover {
+        background-color: #4866ad;
+        color: white;
+      }
     }
   }
   .footer {
-    padding: 10px 15px;
+    padding: 15px 15px;
     border-top: 1px solid #f2f2f2;
     .settings,
     .log-out {
@@ -155,7 +160,7 @@ button.cta {
     }
     .settings {
       text-decoration: none;
-      margin-bottom: 10px;
+      margin-bottom: 13px;
       .icon::v-deep {
         svg path {
           fill: #525252;

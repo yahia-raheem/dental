@@ -2,26 +2,6 @@
   <div
     :class="{ 'nav-container': true, 'home-header': $route.fullPath == '/' }"
   >
-    <div
-      :class="{ notice: true, pending: docProfStatus == 'pending' }"
-      v-if="docProfStatus != null && docProfStatus != true"
-    >
-      <p v-if="docProfStatus == 'pending'">
-        you've uploaded your identification id. we will check it and get back to
-        you as soon as possible
-      </p>
-      <p v-if="docProfStatus != 'pending'">
-        Please verify your profile as soon as possible to fully enjoy our
-        platform's services.
-        <nuxt-link
-          :to="
-            `/doctors/${$auth.user.doctor_profile.id}/dashboard/edit#verificationBox`
-          "
-          class="verify-link"
-          >Click here</nuxt-link
-        >
-      </p>
-    </div>
     <div class="white-gradient" v-if="$route.fullPath == '/'">
       <get-img :imgid="navBgGradient" responsive="sm:100vw md:100vw lg:100vw xl:100vw" />
     </div>
@@ -130,19 +110,6 @@ export default {
     ...mapGetters({
       socialMedia: "general/socialMedia"
     }),
-    docProfStatus() {
-      if (this.isLoggedIn && this.$auth.user.doctor_profile != null) {
-        if (this.$auth.user.doctor_profile.status != 1) {
-          if (this.$auth.user.doctor_profile.identification != null) {
-            return "pending";
-          }
-          return false;
-        }
-        return true;
-      } else {
-        return null;
-      }
-    }
   },
   methods: {
     getOption(optionId) {
@@ -221,25 +188,7 @@ export default {
       background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
     }
   }
-  .notice {
-    background-color: #c11515;
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    padding: 8px;
-    font-weight: 600;
-    &.pending {
-      background-color: h.$secondary;
-    }
-    .verify-link {
-      text-decoration: underline;
-      font-weight: bold;
-    }
-  }
+
   .social {
     padding: 0;
     list-style: none;

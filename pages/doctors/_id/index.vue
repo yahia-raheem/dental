@@ -2,6 +2,26 @@
   <section class="doctor-profile page internal">
     <div class="profile-header">
       <nuxt-link to="dashboard/edit" class="clickable-image" append></nuxt-link>
+      <div
+        :class="{ notice: true, pending: docProfStatus == 'pending' }"
+        v-if="docProfStatus != null && docProfStatus != true"
+      >
+        <p v-if="docProfStatus == 'pending'">
+          you've uploaded your identification id. we will check it and get back
+          to you as soon as possible
+        </p>
+        <p v-if="docProfStatus != 'pending'">
+          Please verify your profile as soon as possible to fully enjoy our
+          platform's services.
+          <nuxt-link
+            :to="
+              `/doctors/${$auth.user.doctor_profile.id}/dashboard/edit#verificationBox`
+            "
+            class="verify-link"
+            >Click here</nuxt-link
+          >
+        </p>
+      </div>
       <get-img-by-link
         :imglink="profileCover"
         classes="bg-image"
@@ -19,7 +39,7 @@
               :logoImg="doctor.picture"
               :cta="{
                 link: `/doctors/${doctor.id}/dashboard/edit`,
-                text: 'Dashboard'
+                text: 'View Dashboard'
               }"
               v-if="myProfile"
             />
@@ -252,6 +272,19 @@ export default {
         return false;
       }
     },
+    docProfStatus() {
+      if (this.loggedIn && this.myProfile) {
+        if (this.$auth.user.doctor_profile.status != 1) {
+          if (this.$auth.user.doctor_profile.identification != null) {
+            return "pending";
+          }
+          return false;
+        }
+        return true;
+      } else {
+        return null;
+      }
+    },
     portfolioSlides() {
       var R = [];
       for (var i = 0; i < this.doctor.portfolio.length; i += 6)
@@ -290,4 +323,27 @@ export default {
   }
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+@use "~/assets/scss/helpers" as h with(
+  $dir: $dir
+);
+.notice {
+  background-color: #c11515;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 8px;
+  font-weight: 600;
+  &.pending {
+    background-color: h.$secondary;
+  }
+  .verify-link {
+    text-decoration: underline;
+    font-weight: bold;
+  }
+}
+</style>

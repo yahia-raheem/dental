@@ -4,11 +4,13 @@
       <div class="row">
         <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
           <div class="img-container mb-4">
-            <get-img
-              :imgid="siteLogo"
-              :classes="'site-logo'"
-              responsive="xxl:150px"
-            />
+            <nuxt-link to="/">
+              <get-img
+                :imgid="siteLogo"
+                :classes="'site-logo'"
+                responsive="xxl:150px"
+              />
+            </nuxt-link>
           </div>
           <p class="desc">{{ footerDesc }}</p>
         </div>
@@ -37,7 +39,7 @@
                 v-for="(item, key) in socialMedia"
                 :key="key"
               >
-                <a :href="item.link">
+                <a :href="item.link" target="_blank">
                   <get-svg-2 :svg="item.image" width="15" height="15" />
                 </a>
               </li>

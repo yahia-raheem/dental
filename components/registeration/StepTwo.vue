@@ -21,6 +21,7 @@
       </button>
     </div>
     <form @submit.prevent="submitDentist" v-if="type == 'dentist'">
+      <p class="text-center mb-3">Please note that you're only allowed to create only one doctor account</p>
       <div class="form-group">
         <label for="firstName">Name</label>
         <input

@@ -22,7 +22,7 @@
               :logoImg="lab.picture"
               :cta="{
                 link: `/labs/${lab.id}/dashboard/edit`,
-                text: 'Dashboard'
+                text: 'View Dashboard'
               }"
               ptype="lab"
               v-if="loggedIn && user.id == lab.user_id"

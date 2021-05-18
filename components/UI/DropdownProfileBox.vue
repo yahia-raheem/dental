@@ -6,14 +6,23 @@
     }"
   >
     <div class="prof-box">
-      <div class="logo">
-        <get-img-by-link
-          :imglink="profileImage"
-          responsive="xxl:35px"
-          classes="bg-image"
-        />
+      <div class="leading">
+        <div class="logo">
+          <get-img-by-link
+            :imglink="profileImage"
+            responsive="xxl:35px"
+            classes="bg-image"
+          />
+        </div>
+        <div class="title">{{ profile.name }}</div>
       </div>
-      <div class="title">{{ profile.name }}</div>
+      <div class="trailing">
+        <client-only>
+          <nuxt-link :to="editLink">
+            <get-svg-2 svg="edit" width="15" height="15" />
+          </nuxt-link>
+        </client-only>
+      </div>
     </div>
   </nuxt-link>
 </template>
@@ -32,6 +41,13 @@ export default {
     }
   },
   computed: {
+    editLink() {
+      if (this.type == "lab") {
+        return `/labs/${this.profile.id}/dashboard/edit`;
+      } else {
+        return `/doctors/${this.profile.id}/dashboard/edit`;
+      }
+    },
     profileImage() {
       if (this.profile.picture != null) {
         return `${process.env.storageBase}/${this.profile.picture}`;
@@ -48,9 +64,29 @@ export default {
 );
 .prof-box {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  margin: 10px 0;
+  margin: 20px 0;
+  .trailing::v-deep {
+    display: flex;
+    min-width: 15px;
+    justify-content: center;
+    align-items: center;
+    @include h.appDirAuto($margin-start: 10px);
+    svg path {
+      fill: white;
+    }
+    @include h.media(">992px") {
+      svg path {
+        fill: h.$body-color;
+      }
+    }
+  }
+  .leading {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
   .logo {
     position: relative;
     min-width: 25px;
