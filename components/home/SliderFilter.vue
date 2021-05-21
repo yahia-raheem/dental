@@ -94,7 +94,7 @@
         <span class="icon">
           <get-svg-2 svg="lab" width="15" height="15" />
         </span>
-        Search for Laboratory
+        Search for a Dental Lab
       </nuxt-link>
     </div>
   </div>

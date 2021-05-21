@@ -21,6 +21,9 @@
             <div class="invalid-feedback" v-if="!$v.spec.required">
               This field is Required
             </div>
+            <small id="locHelp" class="form-text text-muted"
+              >You can choose more than one speciality</small
+            >
           </div>
         </div>
         <div class="form-row">
@@ -39,6 +42,9 @@
             <div class="invalid-feedback" v-if="!$v.location.required">
               This field is Required
             </div>
+            <small id="locHelp" class="form-text text-muted"
+              >You can choose more than one location</small
+            >
           </div>
         </div>
         <div class="form-row">
@@ -51,6 +57,9 @@
               placeholder="Availability"
               :multiple="true"
             ></v-select>
+            <small id="locHelp" class="form-text text-muted"
+              >You can choose more than one availability option</small
+            >
           </div>
         </div>
         <div class="form-row">
