@@ -21,7 +21,9 @@
       </button>
     </div>
     <form @submit.prevent="submitDentist" v-if="type == 'dentist'">
-      <p class="text-center mb-3">Please note that you're only allowed to create only one doctor account</p>
+      <p class="text-center mb-3">
+        Please note that you're only allowed to create only one doctor account
+      </p>
       <div class="form-group">
         <label for="firstName">Name</label>
         <input
@@ -61,6 +63,9 @@
           placeholder="Speciality"
           multiple
         ></v-select>
+        <small id="locHelp" class="form-text text-muted"
+          >You can choose more than one speciality</small
+        >
         <div class="invalid-feedback" v-if="!$v.dentist.speciality.required">
           This field is Required
         </div>
@@ -77,6 +82,9 @@
           placeholder="Location"
           multiple
         ></v-select>
+        <small id="locHelp" class="form-text text-muted"
+          >You can choose more than one location</small
+        >
         <div class="invalid-feedback" v-if="!$v.dentist.location.required">
           This field is Required
         </div>
@@ -122,6 +130,9 @@
           placeholder="Speciality"
           multiple
         ></v-select>
+        <small id="locHelp" class="form-text text-muted"
+          >You can choose more than one speciality</small
+        >
         <div class="invalid-feedback" v-if="!$v.lab.spec.required">
           This field is Required
         </div>
@@ -138,6 +149,9 @@
           placeholder="Location"
           multiple
         ></v-select>
+        <small id="locHelp" class="form-text text-muted"
+          >You can choose more than one location</small
+        >
         <div class="invalid-feedback" v-if="!$v.lab.location.required">
           This field is Required
         </div>
@@ -154,6 +168,9 @@
           placeholder="Area of Service"
           multiple
         ></v-select>
+        <small id="locHelp" class="form-text text-muted"
+          >You can choose more than one area of service</small
+        >
         <div class="invalid-feedback" v-if="!$v.lab.aos.required">
           This field is Required
         </div>
