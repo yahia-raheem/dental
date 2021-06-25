@@ -42,8 +42,22 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   // buildModules: [],
-  buildModules: ["@nuxt/image"],
+  buildModules: [],
+
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [
+    // https://go.nuxtjs.dev/axios
+    "@nuxtjs/axios",
+    "@nuxtjs/proxy",
+    "@nuxtjs/auth-next",
+    "@nuxtjs/recaptcha",
+    "@nuxtjs/svg",
+    "@/modules/axCache",
+    "@nuxt/image"
+  ],
+
   image: {
+    dir: 'static',
     domains: [
       "https://projects.cloudmaize.com/dentalwp/",
       "https://dental.al-estshary.com/storage",
@@ -58,17 +72,6 @@ export default {
       xxl: 1536
     }
   },
-
-  // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    // https://go.nuxtjs.dev/axios
-    "@nuxtjs/axios",
-    "@nuxtjs/proxy",
-    "@nuxtjs/auth-next",
-    "@nuxtjs/recaptcha",
-    "@nuxtjs/svg",
-    "@/modules/axCache"
-  ],
 
   router: {
     middleware: ["mobile"]
