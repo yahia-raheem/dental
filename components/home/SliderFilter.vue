@@ -1,5 +1,5 @@
 <template>
-  <div class="row mt-4">
+  <div class="row mt-2 mt-lg-4">
     <div class="col-12 d-none d-lg-block">
       <div class="filter-buttons">
         <button :class="{ lab: true, active: labActive }" @click="activateTab">
@@ -8,7 +8,7 @@
           </span>
           <span class="title">Laboratory</span>
         </button>
-        <!-- <button
+        <button
           :class="{ dentist: true, active: dentistActive }"
           @click="activateTab"
         >
@@ -16,7 +16,7 @@
             <get-svg-2 svg="dentist" />
           </span>
           <span class="title">Dentist</span>
-        </button> -->
+        </button>
       </div>
     </div>
     <div class="col-12 d-none d-lg-block">
@@ -28,8 +28,8 @@
               <v-select
                 id="servicedd"
                 v-model.trim="servicedd"
-                :options="labSpec"
-                :reduce="option => option.id"
+                :options="labActive ? labSpec : docSpec"
+                :reduce="(option) => option.id"
                 label="name"
                 placeholder="Service"
               >
@@ -39,19 +39,19 @@
               <v-select
                 id="locationdd"
                 v-model.trim="locationdd"
-                :options="labLoc"
-                :reduce="option => option.id"
+                :options="labActive ? labLoc : docLoc"
+                :reduce="(option) => option.id"
                 label="name"
                 placeholder="Location"
               >
               </v-select>
             </div>
-            <div class="form-group">
+            <div class="form-group" v-if="labActive">
               <v-select
                 id="aosdd"
                 v-model.trim="aosdd"
                 :options="labAos"
-                :reduce="option => option.id"
+                :reduce="(option) => option.id"
                 label="name"
                 placeholder="Area Of Service"
               >
@@ -88,8 +88,21 @@
       </div>
     </div>
     <div
-      class="col-12 d-flex d-lg-none justify-content-center align-items-center"
+      class="
+        col-12
+        d-flex
+        flex-column
+        d-lg-none
+        justify-content-center
+        align-items-center
+      "
     >
+      <nuxt-link to="/doctors" class="btn btn-secondary home-mobile-cta dentist-cta mb-3 text-white">
+        <span class="icon">
+          <get-svg-2 svg="dentist" width="15" height="15" />
+        </span>
+        Search for a Dentist
+      </nuxt-link>
       <nuxt-link to="/labs" class="btn btn-primary home-mobile-cta">
         <span class="icon">
           <get-svg-2 svg="lab" width="15" height="15" />
@@ -111,7 +124,7 @@ export default {
       locationdd: null,
       aosdd: null,
       lab: "",
-      doctor: ""
+      doctor: "",
     };
   },
   computed: {
@@ -119,8 +132,10 @@ export default {
       pageById: "pages/pageById",
       labSpec: "parameters/labSpec",
       labLoc: "parameters/labLoc",
-      labAos: "parameters/labAos"
-    })
+      labAos: "parameters/labAos",
+      docSpec: "parameters/docSpec",
+      docLoc: "parameters/docLoc",
+    }),
   },
   methods: {
     activateTab(e) {
@@ -156,9 +171,21 @@ export default {
           url["query"]["name"] = `${this.lab}`;
         }
         this.$router.push(url);
+      } else if (this.dentistActive) {
+        url = { name: "doctors", query: {} };
+        if (this.locationdd) {
+          url["query"]["locations"] = `${this.locationdd}`;
+        }
+        if (this.servicedd) {
+          url["query"]["specialities"] = `${this.servicedd}`;
+        }
+        if (this.doctor != "") {
+          url["query"]["name"] = `${this.doctor}`;
+        }
+        this.$router.push(url);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

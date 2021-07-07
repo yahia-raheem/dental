@@ -61,7 +61,7 @@
       <v-select
         v-model="specs"
         id="speciality"
-        :options="labSpec"
+        :options="docSpec"
         :reduce="option => option.id"
         label="name"
         placeholder="Filter Specialities"
@@ -82,7 +82,7 @@
       <v-select
         v-model="locations"
         id="Locations"
-        :options="labLoc"
+        :options="docLoc"
         :reduce="option => option.id"
         label="name"
         placeholder="Filter Lab Locations"
@@ -91,7 +91,7 @@
         multiple
       ></v-select>
     </div>
-    <div class="filter-section" v-if="disableAos">
+    <div class="filter-section" v-if="disableAos == false">
       <div class="header">
         <div class="title">
           <div class="icon">
@@ -119,7 +119,7 @@ import { mapGetters } from "vuex";
 
 export default {
   props: {
-    disableAos: false
+    disableAos: true
   },
   data() {
     return {
@@ -130,8 +130,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      labSpec: "parameters/labSpec",
-      labLoc: "parameters/labLoc",
+      docSpec: "parameters/docSpec",
+      docLoc: "parameters/docLoc",
       labAos: "parameters/labAos"
     })
   },

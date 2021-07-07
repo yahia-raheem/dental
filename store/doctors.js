@@ -16,19 +16,19 @@ export const mutations = {
 };
 
 export const actions = {
-  // async getDoctors(vcontext, args) {
-  //   try {
-  //     const { data } = await this.$axios.get(`${process.env.apiUrl}/api/lab`, {
-  //       params: args,
-  //       paramsSerializer: params => {
-  //         return qs.stringify(params);
-  //       }
-  //     });
-  //     return data;
-  //   } catch (error) {
-  //     new Error(error.response.data.message);
-  //   }
-  // },
+  async getDoctors(vcontext, args) {
+    try {
+      const { data } = await this.$axios.get(`${process.env.apiUrl}/api/doctor`, {
+        params: args,
+        paramsSerializer: params => {
+          return qs.stringify(params);
+        }
+      });
+      return data;
+    } catch (error) {
+      new Error(error.response.data.message);
+    }
+  },
   async getDocById(vcontext, id) {
     const currDoc = vcontext.getters.currDoc;
     if (currDoc && currDoc.id == id) {
