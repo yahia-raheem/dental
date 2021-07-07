@@ -10,6 +10,7 @@
             <nuxt-link
               to="dashboard/edit"
               class="clickable-image"
+              v-if="myprofile"
               append
             ></nuxt-link>
             <get-img-by-link
@@ -163,6 +164,7 @@ export default {
     logoImg: null,
     title: "",
     description: "",
+    myprofile: false,
     tags: {},
     // rating: 0,
     // views: "",

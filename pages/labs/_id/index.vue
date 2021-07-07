@@ -1,7 +1,7 @@
 <template>
   <section class="lab-profile page internal">
     <div class="profile-header">
-      <nuxt-link to="dashboard/edit" class="clickable-image" append></nuxt-link>
+      <nuxt-link to="dashboard/edit" class="clickable-image" v-if="loggedIn && user.id == lab.user_id" append></nuxt-link>
       <div class="notice" v-if="lab.status != 1">
         Your Lab has not been verified yet!..please wait for us to review your
         lab
@@ -25,6 +25,7 @@
                 text: 'View Dashboard'
               }"
               ptype="lab"
+              :myprofile="loggedIn && user.id == lab.user_id"
               v-if="loggedIn && user.id == lab.user_id"
             />
             <profile-intro
@@ -32,6 +33,7 @@
               :tags="tags"
               :logoImg="lab.picture"
               ptype="lab"
+              :myprofile="loggedIn && user.id == lab.user_id"
               :cta="{ link: `/labs/${lab.id}/request`, text: 'Send a Request' }"
               v-if="!loggedIn || user.id != lab.user_id"
             />
@@ -211,10 +213,7 @@ export default {
     PopSlide
   },
   async asyncData(context) {
-    await context.store.dispatch(
-      "labs/getLabById",
-      context.params.id
-    );
+    await context.store.dispatch("labs/getLabById", context.params.id);
     return {
       user: context.$auth.user,
       loggedIn: context.$auth.loggedIn,
@@ -238,7 +237,7 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("pages/setTitle", this.lab.name)
+    this.$store.dispatch("pages/setTitle", this.lab.name);
   },
   methods: {
     closePop() {
@@ -261,14 +260,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      lab: "labs/currLab",
+      lab: "labs/currLab"
     }),
     tags() {
       return {
         tags: this.lab.specialties,
         routeName: "labs",
         queryName: "specialities"
-      }
+      };
     },
     profileCover() {
       if (this.lab.cover != null) {
@@ -297,16 +296,16 @@ export default {
             var icon;
             switch (key) {
               case "facebook":
-                icon = 'facebook';
+                icon = "facebook";
                 break;
               case "twitter":
-                icon = 'twitter';
+                icon = "twitter";
                 break;
               case "linked_in":
-                icon = 'linkedin';
+                icon = "linkedin";
                 break;
               default:
-                icon = 'facebook';
+                icon = "facebook";
                 break;
             }
             socials.push({

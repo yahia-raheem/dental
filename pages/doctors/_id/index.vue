@@ -1,7 +1,12 @@
 <template>
   <section class="doctor-profile page internal">
     <div class="profile-header">
-      <nuxt-link to="dashboard/edit" class="clickable-image" append></nuxt-link>
+      <nuxt-link
+        to="dashboard/edit"
+        class="clickable-image"
+        append
+        v-if="myProfile"
+      ></nuxt-link>
       <div
         :class="{ notice: true, pending: docProfStatus == 'pending' }"
         v-if="docProfStatus != null && docProfStatus != true"
@@ -37,6 +42,7 @@
               :description="doctor.description"
               :tags="tags"
               :logoImg="doctor.picture"
+              :myprofile="myProfile"
               :cta="{
                 link: `/doctors/${doctor.id}/dashboard/edit`,
                 text: 'View Dashboard'
@@ -48,6 +54,7 @@
               :description="doctor.description"
               :tags="tags"
               :logoImg="doctor.picture"
+              :myprofile="myProfile"
               v-if="!myProfile"
             />
           </div>
