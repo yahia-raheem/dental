@@ -350,13 +350,17 @@
     </div>
     <div class="container-fluid" v-if="!verified">
       <div class="row">
-        <div class="col-12 d-flex justify-content-center align-items-center mb-5">
+        <div
+          class="col-12 d-flex justify-content-center align-items-center mb-5"
+        >
           <p class="text-center not-verified">
             <get-svg-2 svg="alert" width="20" height="20" />
             You need to have a verified doctor's profile to send a request.
           </p>
         </div>
-        <div class="col-lg-6 col-md-12 d-flex justify-content-lg-end align-items-center justify-content-center">
+        <div
+          class="col-lg-6 col-md-12 d-flex justify-content-lg-end align-items-center justify-content-center"
+        >
           <div class="notice-option shadow-sm">
             <div class="icon">
               <get-svg-2 svg="user_2" width="25" height="25" />
@@ -367,7 +371,9 @@
             </p>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12 d-flex justify-content-lg-start align-items-center justify-content-center">
+        <div
+          class="col-lg-6 col-md-12 d-flex justify-content-lg-start align-items-center justify-content-center"
+        >
           <div class="notice-option shadow-sm">
             <div class="icon">
               <get-svg-2 svg="id-card" width="25" height="25" />
@@ -491,9 +497,9 @@ export default {
     }),
     uploadLink() {
       if (this.$auth.user.doctor_profile != null) {
-        return `/doctors/${this.$auth.user.doctor_profile.id}/dashboard/edit#verificationBox`
+        return `/doctors/${this.$auth.user.doctor_profile.id}/dashboard/edit#verificationBox`;
       } else {
-        return `/auth/register`
+        return `/auth/register`;
       }
     }
   },
@@ -503,6 +509,7 @@ export default {
       if (!this.$v.$invalid) {
         const data = {
           patient_name: this.patientName,
+          labId: this.$route.params.id,
           gender: this.gender,
           age: this.age,
           date: this.convertTZ(this.date),
