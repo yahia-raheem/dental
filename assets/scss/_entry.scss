@@ -35,8 +35,12 @@ section.page.internal {
   }
 }
 .home-mobile-cta.dentist-cta {
-  background-color: #ef8037;
+  background-color: #8ac4cf;
   min-width: 225px;
+  color: darken($color: $primary, $amount: 20%) !important;
+  * {
+    fill: darken($color: $primary, $amount: 20%) !important;
+  }
 }
 
 @import "../../node_modules/vue-select/src/scss/vue-select.scss";

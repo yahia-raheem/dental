@@ -29,7 +29,7 @@
                 id="servicedd"
                 v-model.trim="servicedd"
                 :options="labActive ? labSpec : docSpec"
-                :reduce="(option) => option.id"
+                :reduce="option => option.id"
                 label="name"
                 placeholder="Service"
               >
@@ -40,7 +40,7 @@
                 id="locationdd"
                 v-model.trim="locationdd"
                 :options="labActive ? labLoc : docLoc"
-                :reduce="(option) => option.id"
+                :reduce="option => option.id"
                 label="name"
                 placeholder="Location"
               >
@@ -51,7 +51,7 @@
                 id="aosdd"
                 v-model.trim="aosdd"
                 :options="labAos"
-                :reduce="(option) => option.id"
+                :reduce="option => option.id"
                 label="name"
                 placeholder="Area Of Service"
               >
@@ -97,7 +97,10 @@
         align-items-center
       "
     >
-      <nuxt-link to="/doctors" class="btn btn-secondary home-mobile-cta dentist-cta mb-3 text-white">
+      <nuxt-link
+        to="/doctors"
+        class="btn home-mobile-cta dentist-cta mb-3 text-white"
+      >
         <span class="icon">
           <get-svg-2 svg="dentist" width="15" height="15" />
         </span>
@@ -124,7 +127,7 @@ export default {
       locationdd: null,
       aosdd: null,
       lab: "",
-      doctor: "",
+      doctor: ""
     };
   },
   computed: {
@@ -134,8 +137,8 @@ export default {
       labLoc: "parameters/labLoc",
       labAos: "parameters/labAos",
       docSpec: "parameters/docSpec",
-      docLoc: "parameters/docLoc",
-    }),
+      docLoc: "parameters/docLoc"
+    })
   },
   methods: {
     activateTab(e) {
@@ -184,8 +187,8 @@ export default {
         }
         this.$router.push(url);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">
