@@ -61,7 +61,9 @@ export default {
     domains: [
       "https://projects.cloudmaize.com/dentalwp/",
       "https://dental.al-estshary.com/storage",
-      "https://dental-njsk8.ondigitalocean.app/"
+      "https://dental-njsk8.ondigitalocean.app/",
+      "https://dentalcloud-eg.com/",
+      "https://dentalwp.dentalcloud-eg.com/"
     ],
     screens: {
       xs: 320,
