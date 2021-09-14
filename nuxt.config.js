@@ -106,19 +106,19 @@ export default {
         },
         endpoints: {
           login: {
-            url: `https://dental.al-estshary.com/api/login`,
+            url: `${process.env.API_URL}/api/login`,
             method: "post"
           },
           logout: {
-            url: `https://dental.al-estshary.com/api/logout`,
+            url: `${process.env.API_URL}/api/logout`,
             method: "post"
           },
           refresh: {
-            url: `https://dental.al-estshary.com/api/refresh-token`,
+            url: `${process.env.API_URL}/api/refresh-token`,
             method: "post"
           },
           user: {
-            url: `https://dental.al-estshary.com/api/loggeduser`,
+            url: `${process.env.API_URL}/api/loggeduser`,
             method: "get"
           }
         }
@@ -135,21 +135,20 @@ export default {
 
   env: {
     baseUrl:
-      process.env.BASE_URL || "https://projects.cloudmaize.com/dentalwp",
-    apiUrl: process.env.API_URL || "https://dental.al-estshary.com",
+      process.env.BASE_URL,
+    apiUrl: process.env.API_URL,
     storageBase:
-      process.env.STORAGE_BASE || "https://dental.al-estshary.com/storage",
+      process.env.STORAGE_BASE,
     ...WP_PAGES_IDS,
     recaptchaSiteKey:
-      process.env.RECAPTCHA_SITE_LEY ||
-      "6LcyXcMaAAAAAH6iSlD5Pw099dI1_otKC3QdN_9F",
+      process.env.RECAPTCHA_SITE_LEY,
     recaptchaSecret:
-      process.env.RECAPTCHA_SECRET || "6LcyXcMaAAAAANIsyIpWkSe0Z-8AtxPtUD4GZv3j"
+      process.env.RECAPTCHA_SECRET
   },
 
   recaptcha: {
     // hideBadge: true,
-    siteKey: "6LdiH2kcAAAAAKfcsppowop4IaE5weFThn6gidEk",
+    siteKey: process.env.RECAPTCHA_SITE_LEY,
     version: 3,
     size: "compact"
   },
