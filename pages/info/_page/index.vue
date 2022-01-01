@@ -21,4 +21,7 @@ export default {
 </script>
 
 <style>
+p {
+  margin-bottom: 16px!important;
+}
 </style>
